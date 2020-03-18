@@ -1,3 +1,6 @@
+<script>
+
+</script>
 <template>
   <div id="base_login">
     <el-form :model="loginForm"
