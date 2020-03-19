@@ -53,7 +53,7 @@ export default {
       {
         if(res.status === 200)
         {
-          this.$store.commit('login', resp.data)
+          this.$store.commit('login', res.data)
           this.$router.replace({path: '/'})
         }
         else

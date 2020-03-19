@@ -72,6 +72,7 @@ const emptyForm = {
   organization: '',
   region: ''
 }
+const requiredRule = {required: true, message: '', trigger: 'input'};
 
 export default {
   name: 'Register',
@@ -89,11 +90,11 @@ export default {
       },
       validation: Validation(emptyForm),
       rules: {
-        username: [{required: true, message: '', trigger: 'input'}],
-        password: [{required: true, message: '', trigger: 'input'}],
-        email: [{required: true, message: '', trigger: 'input'}],
-        organization: [{required: true, message: '', trigger: 'input'}],
-        region: [{required: true, message: '', trigger: 'input'}]
+        username: [requiredRule],
+        password: [requiredRule],
+        email: [requiredRule],
+        organization: [requiredRule],
+        region: [requiredRule]
       },
       loading: false
     }
