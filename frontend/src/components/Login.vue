@@ -1,31 +1,26 @@
 <template>
   <div id="base_login">
-    <el-form :model="loginForm"
-             :rules="rules"
-             class="login_container"
-             label-position="left"
-             label-width="0px"
-             v-loading="loading">
+    <el-form :model="loginForm" :rules="rules" class="login_container" label-position="left"
+              label-width="100px" v-loading="loading">
       <h3 class="login_title">Login</h3>
-      <el-form-item prop="username">
-        <el-input type="text"
-                  v-model="loginForm.username"
-                  auto-complete="off"
-                  placeholder="username"></el-input>
+      <el-form-item label="username" prop="username">
+        <el-input type="text" v-model="loginForm.username" 
+                  auto-complete="off" placeholder="username"></el-input>
       </el-form-item>
-      <el-form-item prop="password">
-        <el-input type="password"
-                  v-model="loginForm.password"
-                  auto-complete="off"
-                  placeholder="password"></el-input>
+      <el-form-item label="password" prop="password">
+        <el-input type="password" v-model="loginForm.password" 
+                  auto-complete="off" placeholder="password"></el-input>
       </el-form-item>
-      <el-form-item style="width: 100%">
-        <el-button type="primary"
-                   style="width: 40%;background: #afb4db;border: none"
-                   v-on:click="login">login</el-button>
+      <el-form-item>
+        <el-button type="primary" v-on:click="login">login</el-button>
+      </el-form-item>
+      <hr/>
+      <el-form-item>
+        <span>create a new account</span>
+      </el-form-item>
+      <el-form-item>
         <router-link to="register">
-          <el-button type="primary"
-                     style="width: 40%;background: #afb4db;border: none">register</el-button>
+          <el-button type="round">register</el-button>
         </router-link>
       </el-form-item>
     </el-form>

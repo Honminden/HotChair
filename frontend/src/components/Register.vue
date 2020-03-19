@@ -1,64 +1,107 @@
 <template>
   <div id="base_register">
-    <el-form :model="registerForm" :rules="rules" class="register_container" label-position="left"
-             label-width="0px" v-loading="loading" :ref="registerForm">
+    <el-form :model="registerForm" class="register_container" label-position="left"
+              label-width="100px" v-loading="loading" :ref="registerForm">
       <h3 class="register_title">Register</h3>
-      <el-form-item prop="username">
-        <el-input type="text" v-model="registerForm.username"
-                  auto-complete="off" placeholder="username"></el-input>
+      <el-form-item label="username" prop="username">
+        <el-input type="text" v-model="registerForm.username" auto-complete="off" 
+                  placeholder="username" @input="validate()"></el-input>
+        <el-alert v-for="message in validation.username.messages" v-show="!validation.username.isValid" 
+                  :key="message" type="error" show-icon>
+          {{ message }}
+        </el-alert>
       </el-form-item>
-      <el-form-item prop="password">
-        <el-input type="password" v-model="registerForm.password"
-                  auto-complete="off" placeholder="password"></el-input>
+      <el-form-item label="password" prop="password">
+        <el-input type="password" v-model="registerForm.password" auto-complete="off" 
+                  placeholder="password" @input="validate()"></el-input>
+        <el-alert v-for="message in validation.password.messages" v-show="!validation.password.isValid" 
+                  :key="message" type="error" show-icon>
+          {{ message }}
+        </el-alert>
       </el-form-item>
-      <el-form-item prop="fullname">
-        <el-input type="text" v-model="registerForm.fullname"
-                  auto-complete="off" placeholder="fullname"></el-input>
+      <el-form-item label="email" prop="email">
+        <el-input type="email" v-model="registerForm.email" auto-complete="off" 
+                  placeholder="email" @input="validate()"></el-input>
+        <el-alert v-for="message in validation.email.messages" v-show="!validation.email.isValid" 
+                  :key="message" type="error" show-icon>
+          {{ message }}
+        </el-alert>
       </el-form-item>
-      <el-form-item prop="usertype">
-        <el-radio-group v-model="registerForm.usertype" @change="userTypeChange">
-          <el-radio label="Admin" border>Admin</el-radio>
-          <el-radio label="Contributor" border>Contributor</el-radio>
-          <el-radio label="Reviewer" border>Reviewer</el-radio>
-        </el-radio-group>
+      <el-form-item label="organization" prop="organization">
+        <el-input type="text" v-model="registerForm.organization" auto-complete="off" 
+                  placeholder="organization" @input="validate()"></el-input>
+        <el-alert v-for="message in validation.organization.messages" v-show="!validation.organization.isValid" 
+                  :key="message" type="error" show-icon>
+          {{ message }}
+        </el-alert>
       </el-form-item>
-      <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 40%;background: #afb4db;border: none" v-on:click="register(registerForm)">register</el-button>
+      <el-form-item label="region" prop="region">
+        <el-select v-model="registerForm.region" @change="validate()">
+          <el-option v-for="option in options" :key="option" :value="option" :label="option"></el-option>
+        </el-select>
+        <el-alert v-for="message in validation.region.messages" v-show="!validation.region.isValid" 
+                  :key="message" type="error" show-icon>
+          {{ message }}
+        </el-alert>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" v-on:click="register(registerForm)">register</el-button>
+      </el-form-item>
+      <hr/>
+      <el-form-item>
+      <el-form-item>
+        <span>already have an account?</span>
+      </el-form-item>
+        <router-link to="login">
+          <el-button type="round">login</el-button>
+        </router-link>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import regionData from '../assets/data/region.json'
+import Validation from './Form/Validation'
+const regions = Object.values(regionData);
+
+const emptyForm = {
+  username: '',
+  password: '',
+  email: '',
+  organization: '',
+  region: ''
+}
+
 export default {
   name: 'Register',
-  data () {
-    const dataValid = (rule, value, callback) => {
-      if(!value || value === '') {
-        return callback(new Error('Can\'t be empty'))
-      }
-
-      return callback()
-    }
+  data ()
+  {
     return {
-      registerForm: {
-        username: '',
-        password: '',
-        fullname: '',
-        usertype: ''
+      registerForm: emptyForm,
+      options: regions,
+      canValidate: {
+        username: false,
+        password: false,
+        email: false,
+        organization: false,
+        region: false
       },
+      validation: Validation(emptyForm),
       rules: {
-        // blur 失去鼠标焦点时触发验证
-        username: [{required: true, message: '', trigger: 'blur'}, {validator: dataValid, trigger: 'blur'}],
-        password: [{required: true, message: '', trigger: 'blur'}, {validator: dataValid, trigger: 'blur'}],
-        fullname: [{required: true, message: '', trigger: 'blur'}, {validator: dataValid, trigger: 'blur'}],
-        usertype: [{required: true, message: '', trigger: 'blur'}, {validator: dataValid, trigger: 'blur'}]
+        username: [{required: true, message: '', trigger: 'input'}],
+        password: [{required: true, message: '', trigger: 'input'}],
+        email: [{required: true, message: '', trigger: 'input'}],
+        organization: [{required: true, message: '', trigger: 'input'}],
+        region: [{required: true, message: '', trigger: 'input'}]
       },
       loading: false
     }
   },
   methods: {
-    userTypeChange() {
+    validate ()
+    {
+      this.validation = Validation(this.registerForm);
     },
     register (formName) {
       this.$refs[formName].validate(valid => {
@@ -66,8 +109,9 @@ export default {
           this.$axios.post('/register', {
               username: this.registerForm.username,
               password: this.registerForm.password,
-              fullname: this.registerForm.fullname,
-              authorities: [this.registerForm.usertype]
+              email: this.registerForm.email,
+              organization: this.registerForm.organization,
+              region: this.registerForm.region
             }
           )
             .then(resp => {
@@ -97,10 +141,10 @@ export default {
   #base_register{
     background: url("../assets/background/checkerboard-cross.png") repeat;
     background-position: center;
-    height: 100%;
+    height: auto;
     width: 100%;
     background-size: cover;
-    position: fixed;
+    position: absolute;
   }
   .register_container{
     border-radius: 15px;
