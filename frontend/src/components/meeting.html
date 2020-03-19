@@ -59,13 +59,14 @@
   <h1>会议申请</h1>
 
   <!--表单部分，后端同学看这里-->
-      <form action="meeting.html" class="form-horizontal" method="post">
+  <!--注意请求地址需要修改↓改成接口路径-->
+      <form action="../api/meeting/" class="form-horizontal" method="post">
         <div class="form-group row">
           <div class="col-sm-2 col-sm-offset-3">
           <label class="control-label">会议全称</label>
           </div>
           <div class="col-sm-4 ">
-          <input type="text" class="form-control" title="请输入会议全称。" placeholder="Full Name" required>
+          <input type="text" name="fullName" class="form-control" title="请输入会议全称。" placeholder="Full Name" required>
           </div>
         </div>
 
@@ -74,7 +75,7 @@
             <label class="control-label">会议简称</label>
           </div>
           <div class="col-sm-4">
-           <input type="text" class="form-control"  title="请输入会议简称。" placeholder="Abrreviation" required>
+           <input type="text" name="abbrev" class="form-control"  title="请输入会议简称。" placeholder="Abrreviation" required>
         </div>
         </div>
 
@@ -83,7 +84,7 @@
             <label class="control-label">举办时间</label>
           </div>
           <div class="col-sm-4">
-            <input type="datetime-local" class="form-control"  placeholder="Date&Time" title="请输入会议举办时间。" required> </div>
+            <input type="datetime-local" name="time" class="form-control"  placeholder="Date&Time" title="请输入会议举办时间。" required> </div>
         </div>
 
         <div class="form-group row">
@@ -91,7 +92,7 @@
             <label class="control-label">举办地点</label>
           </div>
           <div class="col-sm-4">
-            <input type="text" class="form-control"  title="请输入会议详细地址。" placeholder="Address" required>
+            <input type="text" name="location" class="form-control"  title="请输入会议详细地址。" placeholder="Address" required>
           </div>
         </div>
 
@@ -100,7 +101,7 @@
             <label class="control-label">投稿截止日期</label>
           </div>
           <div class="col-sm-4">
-            <input type="date" class="form-control"  placeholder="Date&Time" title="请选择投稿截止日期。" required>
+            <input type="date" name="submissionDDL" class="form-control"  placeholder="Date&Time" title="请选择投稿截止日期。" required>
           </div>
         </div>
 
@@ -109,12 +110,12 @@
             <label class="control-label">评审发布日期</label>
           </div>
           <div class="col-sm-4">
-            <input type="date" class="form-control" title="请输入会议全称。" placeholder="Date&Time" title="请选择评审发布日期。" required>
+            <input type="date" name="reviewReleaseDate" class="form-control" title="请输入会议全称。" placeholder="Date&Time" title="请选择评审发布日期。" required>
           </div>
         </div>
 
         <div class="form-group row ">
-        <button type="button" class="btn btn-success col-md-1 col-sm-offset-8" style="margin-bottom:20px">申请</button>
+          <input class="button btn btn-success col-md-1 col-sm-offset-8" name="login" style="margin-bottom:20px" type="submit" value="申请" />
         </div>
 
       </form>
