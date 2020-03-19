@@ -45,7 +45,7 @@
         </el-alert>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="register(registerForm)">register</el-button>
+        <el-button type="primary" v-on:click="register()">register</el-button>
       </el-form-item>
       <hr/>
       <el-form-item>
@@ -103,35 +103,23 @@ export default {
     {
       this.validation = Validation(this.registerForm);
     },
-    register (formName) {
-      this.$refs[formName].validate(valid => {
-        if(valid){
-          this.$axios.post('/register', {
-              username: this.registerForm.username,
-              password: this.registerForm.password,
-              email: this.registerForm.email,
-              organization: this.registerForm.organization,
-              region: this.registerForm.region
-            }
-          )
-            .then(resp => {
-              // 根据后端的返回数据修改
-              if(resp.status === 200 && resp.data.hasOwnProperty("id")) {
-                // 跳转到login
-                alert('successful registration')
-                this.$router.replace('/login')
-              } else{
-                alert('register error')
-              }
-            })
-            .catch(error => {
-              console.log(error)
-              alert('register error')
-            })
-        } else {
-          alert('wrong submit')
-        }
-      })
+    register () {
+      this.validate();
+      if (Object.values(this.validation).every(field => (field.isValid === true)))
+      {
+        this.$axios.post('/register', this.registerForm).then(res => 
+        {
+          if(true || res.status === 200)
+          {
+            alert('successful registration');
+            this.$router.replace('/login');
+          }
+          else
+          {
+            alert('register error');
+          }
+        });
+      }
     }
   }
 }

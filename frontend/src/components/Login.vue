@@ -38,30 +38,26 @@ export default {
         password: ''
       },
       rules: {
-        username: [{required: true, message: '', trigger: 'blur'}],
-        password: [{required: true, message: '', trigger: 'blur'}]
+        username: [{required: true, message: '', trigger: 'input'}],
+        password: [{required: true, message: '', trigger: 'input'}]
       },
       loading: false
     }
   },
   methods: {
     login () {
-      this.$axios.post('/login', {
-        username: this.loginForm.username,
-        password: this.loginForm.password
-      })
-        .then(resp => {
-          if (resp.status === 200 && resp.data.hasOwnProperty("token")) {
-            this.$store.commit('login', resp.data)
-            this.$router.replace({path: '/'})
-          } else{
-            alert('login error')
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          alert('login error')
-        })
+      this.$axios.post('/login', this.loginForm).then(res => 
+      {
+        if(res.status === 200)
+        {
+          this.$store.commit('login', resp.data)
+          this.$router.replace({path: '/'})
+        }
+        else
+        {
+          alert('login error');
+        }
+      });
     }
   }
 }
