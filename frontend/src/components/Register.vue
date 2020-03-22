@@ -110,7 +110,7 @@ export default {
       {
         this.$axios.post('/register', this.registerForm).then(res => 
         {
-          if(true || res.status === 200)
+          if(true || res.status === 200 && res.data.hasOwnProperty("token"))
           {
             alert('successful registration');
             this.$router.replace('/login');

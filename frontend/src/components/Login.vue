@@ -51,7 +51,7 @@ export default {
     login () {
       this.$axios.post('/login', this.loginForm).then(res => 
       {
-        if(res.status === 200)
+        if(res.status === 200 && res.data.hasOwnProperty("token"))
         {
           this.$store.commit('login', res.data)
           this.$router.replace({path: '/'})
