@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Conference from '@/components/Conference'
 import store from '../store'
 
 Vue.use(Router)
@@ -11,8 +13,8 @@ export const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Home',
+      component: Home,
       meta: {
         requireAuth: true // 需要登录权限
       }
@@ -26,6 +28,14 @@ export const router = new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/conference',
+      name: 'Conference',
+      component: Conference,
+      meta: {
+        requireAuth: true // 需要登录权限
+      }
     }
   ]
 })

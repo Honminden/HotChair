@@ -1,6 +1,3 @@
-<script>
-
-</script>
 <template>
   <div id="base_login">
     <el-form :model="loginForm" :rules="rules" class="login_container" label-position="left"
@@ -55,6 +52,14 @@ export default {
         {
           this.$store.commit('login', res.data)
           this.$router.replace({path: '/'})
+        }
+        else if (res.status === 404)
+        {
+          alert('user does not exist');
+        }
+        else if (res.status === 403)
+        {
+          alert('password incorrect');
         }
         else
         {
