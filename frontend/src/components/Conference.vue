@@ -112,9 +112,16 @@ export default {
   methods: {
     submit () {
       console.log(this.confForm)
-      this.$axios.post('/conference', this.confForm).then(res => 
+      this.$axios.post('/conference', this.confForm)
+      .catch(
+        error => 
+        {
+          alert('submit error');
+        }
+      )
+      .then(res => 
       {
-        if(res.status === 200)
+        if(res && res.status === 200)
         {
           alert('form submitted');
         }

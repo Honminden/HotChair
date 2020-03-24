@@ -108,9 +108,16 @@ export default {
       this.validate();
       if (Object.values(this.validation).every(field => (field.isValid === true)))
       {
-        this.$axios.post('/register', this.registerForm).then(res => 
+        this.$axios.post('/register', this.registerForm)
+        .catch(
+          error => 
+          {
+            alert('register error');
+          }
+        )
+        .then(res => 
         {
-          if(true || res.status === 200 && res.data.hasOwnProperty("token"))
+          if(res && res.status === 200 && res.data.hasOwnProperty("token"))
           {
             alert('successful registration');
             this.$router.replace('/login');

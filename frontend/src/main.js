@@ -34,6 +34,7 @@ axios.interceptors.request.use(
 )
 
 // http response 拦截器
+/*
 axios.interceptors.response.use(
   response => {
     return response
@@ -53,6 +54,7 @@ axios.interceptors.response.use(
     return Promise.reject(error.response.data)
   }
 )
+*/
 
 /* eslint-disable no-new */
 new Vue({

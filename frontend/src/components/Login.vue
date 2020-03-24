@@ -46,20 +46,31 @@ export default {
   },
   methods: {
     login () {
-      this.$axios.post('/login', this.loginForm).then(res => 
+      this.$axios.post('/login', this.loginForm)
+      .catch(
+        error => 
+        {
+          if (error.response.status === 404)
+          {
+
+            alert('user does not exist');
+          }
+          else if (error.response.status === 403)
+          {
+            alert('password incorrect');
+          }
+          else
+          {
+            alert('login error');
+          }
+        }
+      )
+      .then(res => 
       {
         if(res.status === 200 && res.data.hasOwnProperty("token"))
         {
           this.$store.commit('login', res.data)
           this.$router.replace({path: '/'})
-        }
-        else if (res.status === 404)
-        {
-          alert('user does not exist');
-        }
-        else if (res.status === 403)
-        {
-          alert('password incorrect');
         }
         else
         {
