@@ -11,6 +11,7 @@
             <li class="dropdown"><a href=""><router-link to="conference">Conference Submission</router-link></a></li>
             <li><a href="">Conferences</a></li>
             <li><a href="" class="signup_menu"><span class="glyphicon glyphicon glyphicon-user">User</span></a></li>
+            <li><a href=""><span class="glyphicon glyphicon glyphicon-user" @click="logOut"><router-link to="login">logout</router-link></span></a></li>
           </ul>
         </div>
       </div>
@@ -19,6 +20,9 @@
 </template>
 
 <script>
+import User from './User/User'
+const user = User();
+
 export default {
   name: 'Home',
   data () {
@@ -27,6 +31,9 @@ export default {
     }
   },
   methods: {
+    logOut () {
+      user.logOut();
+    }
   }
 }
 </script>

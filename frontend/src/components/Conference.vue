@@ -10,6 +10,7 @@
           </li>
           <li><a href="">Conferences</a></li>
           <li><a href="" class="login_menu"><span class="glyphicon glyphicon glyphicon-user"> User</span></a></li>
+          <li><a href=""><span class="glyphicon glyphicon glyphicon-user" @click="logOut"><router-link to="login">logout</router-link></span></a></li>
           <li><a href="" class="signup_menu"><span class="glyphicon glyphicon glyphicon-home"><router-link to="/">Home</router-link></span></a></li>
         </ul>
       </div>
@@ -94,6 +95,9 @@
 </template>
 
 <script>
+import User from './User/User'
+const user = User();
+
 export default {
   name: 'Conference',
   data () {
@@ -110,6 +114,9 @@ export default {
     }
   },
   methods: {
+    logOut () {
+      user.logOut();
+    },
     submit () {
       console.log(this.confForm)
       this.$axios.post('/conference', this.confForm)
