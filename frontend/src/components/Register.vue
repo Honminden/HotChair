@@ -122,7 +122,7 @@ export default {
         )
         .then(res => 
         {
-          if(res && res.status === 200 && res.data.hasOwnProperty("token"))
+          if(res && res.status === 200)
           {
             this.alert = Alert(true, 'success', 'register success');
             this.$router.replace('/login');
