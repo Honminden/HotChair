@@ -13,9 +13,6 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-on:click="login">login</el-button>
-        <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
-          {{ alert.content }}
-        </el-alert>
       </el-form-item>
       <hr/>
       <el-form-item>
@@ -32,8 +29,6 @@
 </template>
 
 <script>
-import Alert from './Message/Alert'
-
 export default {
   name: 'Login',
   data () {
@@ -46,8 +41,7 @@ export default {
         username: [{required: true, message: '', trigger: 'input'}],
         password: [{required: true, message: '', trigger: 'input'}]
       },
-      loading: false,
-      alert: Alert(false, 'error', '')
+      loading: false
     }
   },
   methods: {
@@ -58,25 +52,29 @@ export default {
         {
           if (error.response.status === 404)
           {
-            this.alert = Alert(true, 'error', 'user does not exist');
+
+            alert('user does not exist');
           }
           else if (error.response.status === 403)
           {
-            this.alert = Alert(true, 'error', 'password incorrect');
+            alert('password incorrect');
           }
           else
           {
-            this.alert = Alert(true, 'error', 'login error');
+            alert('login error');
           }
         }
       )
       .then(res => 
       {
-        if(res && res.status === 200 && res.data.hasOwnProperty("token"))
+        if(res.status === 200 && res.data.hasOwnProperty("token"))
         {
-          this.alert = Alert(true, 'success', 'login success');
           this.$store.commit('login', res.data)
           this.$router.replace({path: '/'})
+        }
+        else
+        {
+          alert('login error');
         }
       });
     }
@@ -86,7 +84,7 @@ export default {
 
 <style scoped>
   #base_login{
-    background: url("../assets/background/checkerboard-cross.png") repeat;
+    background: url("~../assets/background/checkerboard-cross.png") repeat;
     background-position: center;
     height: 100%;
     width: 100%;

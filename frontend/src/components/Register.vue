@@ -136,7 +136,7 @@ export default {
 
 <style scoped>
   #base_register{
-    background: url("../assets/background/checkerboard-cross.png") repeat;
+    background: url("~../assets/background/checkerboard-cross.png") repeat;
     background-position: center;
     height: auto;
     width: 100%;

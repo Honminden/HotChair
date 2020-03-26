@@ -42,7 +42,7 @@ export default {
   @import url("https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css");
   @import url("http://www.zaarapp.com/assets/css/style.css");
   body{
-    background: url("../assets/background/double-bubble-outline.png") repeat;
+    background: url("~../assets/background/double-bubble-outline.png") repeat;
   }
   #title{
     font-size: 30px;

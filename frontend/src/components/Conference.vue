@@ -161,7 +161,7 @@ export default {
     background-color: whitesmoke;
   }
   body{
-    background: url("../assets/background/double-bubble-outline.png") repeat;
+    background: url("~../assets/background/double-bubble-outline.png") repeat;
   }
   #title{
     font-size: 30px;
