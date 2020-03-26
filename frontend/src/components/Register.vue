@@ -46,6 +46,9 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-on:click="register()">register</el-button>
+        <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
+          {{ alert.content }}
+        </el-alert>
       </el-form-item>
       <hr/>
       <el-form-item>
@@ -63,6 +66,7 @@
 <script>
 import regionData from '../assets/data/region.json'
 import Validation from './Form/Validation'
+import Alert from './Message/Alert'
 const regions = Object.values(regionData);
 
 const emptyForm = {
@@ -96,7 +100,8 @@ export default {
         organization: [requiredRule],
         region: [requiredRule]
       },
-      loading: false
+      loading: false,
+      alert: Alert(false, 'error', '')
     }
   },
   methods: {
@@ -112,19 +117,15 @@ export default {
         .catch(
           error => 
           {
-            alert('register error');
+            this.alert = Alert(true, 'error', 'register error');
           }
         )
         .then(res => 
         {
           if(res && res.status === 200 && res.data.hasOwnProperty("token"))
           {
-            alert('successful registration');
+            this.alert = Alert(true, 'success', 'register success');
             this.$router.replace('/login');
-          }
-          else
-          {
-            alert('register error');
           }
         });
       }

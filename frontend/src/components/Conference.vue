@@ -83,9 +83,11 @@
           </div>
 
           <div class="form-group row ">
-
-          <input class="button btn btn-success col-md-1 col-sm-offset-8" name="submit" style="margin-bottom:20px" 
-              type="submit" value="submit" @click.prevent="submit"/>
+            <input class="button btn btn-success col-md-1 col-sm-offset-8" name="submit" style="margin-bottom:20px" 
+                type="submit" value="submit" @click.prevent="submit"/>
+            <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
+              {{ alert.content }}
+            </el-alert>
           </div>
 
         </form>
@@ -96,6 +98,7 @@
 
 <script>
 import User from './User/User'
+import Alert from './Message/Alert'
 const user = User();
 
 export default {
@@ -110,7 +113,8 @@ export default {
         submissionDDL: '',
         reviewReleaseDate: ''
       },
-      loading: false
+      loading: false,
+      alert: Alert(false, 'error', '')
     }
   },
   methods: {
@@ -118,23 +122,18 @@ export default {
       user.logOut();
     },
     submit () {
-      console.log(this.confForm)
       this.$axios.post('/conference', this.confForm)
       .catch(
         error => 
         {
-          alert('submit error');
+          this.alert = Alert(true, 'error', 'submit error');
         }
       )
       .then(res => 
       {
         if(res && res.status === 200)
         {
-          alert('form submitted');
-        }
-        else
-        {
-          alert('submit error');
+          this.alert = Alert(true, 'success', 'form submitted');
         }
       });
     }
