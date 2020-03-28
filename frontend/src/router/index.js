@@ -19,6 +19,14 @@ export const router = new Router({
       }
     },
     {
+      path: '/home',
+      name: 'Home',
+      component: Home,
+      meta: {
+        requireAuth: true // 需要登录权限
+      }
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
