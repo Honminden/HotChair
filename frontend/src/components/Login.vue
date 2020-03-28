@@ -1,37 +1,47 @@
 <template>
-  <div id="base_login">
-    <el-form :model="loginForm" :rules="rules" class="login_container" label-position="left"
-              label-width="100px" v-loading="loading">
-      <h3 class="login_title">Login</h3>
-      <el-form-item label="username" prop="username">
-        <el-input type="text" v-model="loginForm.username" 
-                  auto-complete="off" placeholder="username"></el-input>
-      </el-form-item>
-      <el-form-item label="password" prop="password">
-        <el-input type="password" v-model="loginForm.password" 
-                  auto-complete="off" placeholder="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" v-on:click="login">login</el-button>
-        <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
+  <div id="Login">
+    <Navbar/>
+    <div class="row">
+      <span class="col"></span>
+      <form class="col">
+        <legend class="row">
+          <span class="col"></span>
+          <h2 class="col">Login</h2>
+          <span class="col"></span>
+        </legend>
+        <hr/>
+        <div class="form-group row">
+          <label for="username" class="col-sm-3 col-form-label">Username</label>
+          <input id="username" class="col-sm-9 form-control" v-model="loginForm.username"
+                    type="text" auto-complete="off" placeholder="username">
+        </div>
+        <div class="form-group row">
+          <label for="password" class="col-sm-3 col-form-label">Password</label>
+          <input id="password" class="col-sm-9 form-control" v-model="loginForm.password"
+                    type="password" auto-complete="off" placeholder="password">
+        </div>
+        <div class="row">
+          <span class="col"></span>
+          <button class="col btn btn-info" @click="login()">login</button>
+          <span class="col"></span>
+        </div>
+        <div v-show="alert.isVisible" :class="alert.type">
           {{ alert.content }}
-        </el-alert>
-      </el-form-item>
-      <hr/>
-      <el-form-item>
+        </div>
+        <hr/>
         <span>create a new account</span>
-      </el-form-item>
-      <el-form-item>
         <router-link to="register">
-          <el-button type="round">register</el-button>
+          <button class="btn btn-outline-info">register</button>
         </router-link>
-      </el-form-item>
-    </el-form>
+      </form>
+      <span class="col"></span>
+    </div>
+    <div class="row"></div>
   </div>
-
 </template>
 
 <script>
+import Navbar from './Navbar'
 import Alert from './Message/Alert'
 
 export default {
@@ -42,13 +52,13 @@ export default {
         username: '',
         password: ''
       },
-      rules: {
-        username: [{required: true, message: '', trigger: 'input'}],
-        password: [{required: true, message: '', trigger: 'input'}]
-      },
       loading: false,
-      alert: Alert(false, 'error', '')
+      alert: new Alert()
     }
+  },
+  components:
+  {
+    'Navbar': Navbar
   },
   methods: {
     login () {
@@ -58,15 +68,15 @@ export default {
         {
           if (error.response.status === 404)
           {
-            this.alert = Alert(true, 'error', 'user does not exist');
+            this.alert.popDanger('user does not exist');
           }
           else if (error.response.status === 403)
           {
-            this.alert = Alert(true, 'error', 'password incorrect');
+            this.alert.popDanger('password incorrect');
           }
           else
           {
-            this.alert = Alert(true, 'error', 'login error');
+            this.alert.popDanger('login error');
           }
         }
       )
@@ -74,42 +84,15 @@ export default {
       {
         if(res.status === 200 && res.data.hasOwnProperty("token"))
         {
-          this.alert = Alert(true, 'success', 'login success');
-          this.$store.commit('login', res.data)
-          this.$router.replace({path: '/'})
+          this.alert.popSuccess('login success');
+          setTimeout(() => 
+          {
+            this.$store.commit('login', res.data)
+            this.$router.replace({path: '/'})
+          }, 1500);
         }
       });
     }
   }
 }
 </script>
-
-<style scoped>
-  #base_login{
-    background: url("~../assets/background/checkerboard-cross.png") repeat;
-    background-position: center;
-    height: 100%;
-    width: 100%;
-    background-size: cover;
-    position: fixed;
-  }
-  body{
-    margin: 0px;
-    padding: 0px;
-  }
-  .login_container{
-    border-radius: 15px;
-    background-clip: padding-box;
-    margin: 90px auto;
-    width: 350px;
-    padding: 35px 35px 15px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
-  }
-  .login_title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #494e8f;
-  }
-</style>
