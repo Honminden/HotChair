@@ -1,12 +1,20 @@
 import store from '../../store'
 
-export default function User()
+export default
 {
-    return {
-        logOut () {
-            if(store.state.token)
-            {
-                store.commit('logout');
-            }
+    isLogined()
+    {
+        return (store.state.token != null);
+    },
+    login(user)
+    {
+        store.commit('login', user);
+    },
+    logout ()
+    {
+        if(this.isLogined)
+        {
+            store.commit('logout');
+        }
     }
-};}
+}
