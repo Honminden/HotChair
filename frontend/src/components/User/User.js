@@ -8,7 +8,10 @@ export default
     },
     login(user)
     {
-        store.commit('login', user);
+        if(!this.isLogined)
+        {
+            store.commit('login', user);
+        }
     },
     logout ()
     {
