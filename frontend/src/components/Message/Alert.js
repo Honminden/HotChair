@@ -1,8 +1,31 @@
-export default function Alert(isVisible, type, content)
+export default class Alert
 {
-    return {
-        isVisible: isVisible,
-        type: type,
-        content: content
+    constructor()
+    {
+        this.isVisible = false;
+        this.type = '';
+        this.content = '';
+    }
+
+    pop(type, message)
+    {
+        this.isVisible = true;
+        this.type = type;
+        this.content = message;
+    }
+    
+    popSuccess(message)
+    {
+        this.pop('alert alert-success my-2', message);
+    }
+    
+    popWarning(message)
+    {
+        this.pop('alert alert-warning my-2', message);
+    }
+    
+    popDanger(message)
+    {
+        this.pop('alert alert-danger my-2', message);
     }
 }
