@@ -1,20 +1,24 @@
 <template>
   <div id="Navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link class="navbar-brand" to="home"><h1>CONFERENCE</h1></router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle" 
+      <router-link class="navbar-brand" to="home">
+        <h1>CONFERENCE</h1>
+      </router-link>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle"
                 aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="toggle">
         <ul class="mr-auto nav navbar-nav">
-          <li class="nav-item active"><router-link class="nav-link" to="home">Home</router-link></li>
+          <li class="nav-item active">
+            <router-link class="nav-link" to="home">Home</router-link>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" 
                       aria-haspopup="true" aria-expanded="false">
               Conferences
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu ">
               <router-link class="dropdown-item" to="">List of Conferences</router-link>
               <router-link class="dropdown-item" to="conference">New Conference</router-link>
             </div>

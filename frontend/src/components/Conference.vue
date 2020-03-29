@@ -2,79 +2,63 @@
   <div id="Conference">
     <Navbar/>
     <article>
-      <div class="center-block">
-        <h1>Application</h1>
+      <div class="row">
+        <span class="col"></span>
+        <form :model="confForm" class="col">
+          <legend class="row">
+            <span class="col"></span>
+            <h2>Application</h2>
+            <span class="col"></span>
+          </legend>
+          <hr/>
 
-        <form :model="confForm" class="form-horizontal">
           <div class="form-group row">
-            <div class="col-sm-2 col-sm-offset-3">
-              <label class="control-label">Full Name</label>
-            </div>
-            <div class="col-sm-4 ">
-              <input type="text" name="fullName" class="form-control" v-model="confForm.fullName" 
+              <label class="col-sm-4 col-form-label">Full Name</label>
+              <input type="text" name="fullName" class="col-sm-8 form-control" v-model="confForm.fullName"
                     auto-complete="off" placeholder="Full Name" required>
-            </div>
           </div>
 
           <div class="form-group row">
-            <div class="col-sm-2 col-sm-offset-3">
-                <label class="control-label">Abbreviation</label>
-            </div>
-            <div class="col-sm-4">
-              <input type="text"  name="abbreviation" class="form-control" v-model="confForm.abbreviation" 
+                <label class="col-sm-4 col-form-label">Abbreviation</label>
+              <input type="text"  name="abbreviation" class="col-sm-8 form-control" v-model="confForm.abbreviation"
                     auto-complete="off" placeholder="Abbreviation" required>
-            </div>
           </div>
 
           <div class="form-group row">
-            <div class="col-sm-2 col-sm-offset-3">
-              <label class="control-label">Date and Time</label>
-            </div>
-            <div class="col-sm-4">
-              <input type="datetime-local" name="time" class="form-control" v-model="confForm.time" 
+              <label class="col-sm-4 col-form-label">Date and Time</label>
+              <input type="datetime-local" name="time" class="col-sm-8 form-control" v-model="confForm.time"
                 auto-complete="off" placeholder="Date and Time" required>
-            </div>
           </div>
 
           <div class="form-group row">
-            <div class="col-sm-2 col-sm-offset-3">
-              <label class="control-label">Location</label>
-            </div>
-            <div class="col-sm-4">
-              <input type="text" name="location" class="form-control" v-model="confForm.location" 
+              <label class="col-sm-4 col-form-label">Location</label>
+              <input type="text" name="location" class="col-sm-8 form-control" v-model="confForm.location"
                   auto-complete="off" placeholder="Location" required>
-            </div>
           </div>
 
           <div class="form-group row">
-          <div class="col-sm-2 col-sm-offset-3">
-            <label class="control-label">Submission Deadline</label>
-          </div>
-          <div class="col-sm-4">
-            <input type="date" name="submissionDDL" class="form-control" v-model="confForm.submissionDDL" 
+            <label class="col-sm-4 col-form-label">Submission Deadline</label>
+            <input type="date" name="submissionDDL" class="col-sm-8 form-control" v-model="confForm.submissionDDL"
                 auto-complete="off" placeholder="Submission Deadline" required>
           </div>
-          </div>
 
           <div class="form-group row ">
-          <div class="col-sm-2 col-sm-offset-3">
-            <label class="control-label">Review Release Date</label>
-          </div>
-          <div class="col-sm-4">
-            <input type="date" name="reviewReleaseDate" class="form-control" v-model="confForm.reviewReleaseDate" 
+            <label class="col-sm-4 col-form-label">Review Release Date</label>
+            <input type="date" name="reviewReleaseDate" class=" col-sm-8 form-control" v-model="confForm.reviewReleaseDate"
                 auto-complete="off" placeholder="Review Release Date" required>
           </div>
-          </div>
 
-          <div class="form-group row ">
-            <input class="button btn btn-success col-md-1 col-sm-offset-8" name="submit" style="margin-bottom:20px" 
-                type="submit" value="submit" @click.prevent="submit"/>
+          <div class="row ">
+            <span class="col-7"></span>
+            <span class="col"></span>
+            <input class="col btn btn-info" name="submit" type="submit" value="submit" @click.prevent="submit"/>
             <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
               {{ alert.content }}
             </el-alert>
           </div>
 
         </form>
+        <span class="col"></span>
       </div>
     </article>
   </div>
@@ -111,12 +95,12 @@ export default {
     submit () {
       this.$axios.post('/conference', this.confForm)
       .catch(
-        error => 
+        error =>
         {
           this.alert.popDanger('submit error');
         }
       )
-      .then(res => 
+      .then(res =>
       {
         if(res && res.status === 200)
         {
