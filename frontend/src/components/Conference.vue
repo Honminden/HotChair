@@ -52,9 +52,9 @@
             <span class="col-7"></span>
             <span class="col"></span>
             <input class="col btn btn-info" name="submit" type="submit" value="submit" @click.prevent="submit"/>
-            <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
+            <alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
               {{ alert.content }}
-            </el-alert>
+            </alert>
           </div>
 
         </form>
