@@ -58,7 +58,7 @@ export default {
   name: 'Navbar',
   data () {
     return {
-      user: User
+      user: new User()
     }
   },
   methods: {
