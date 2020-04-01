@@ -13,35 +13,36 @@ export const router = new Router({
   routes: [
     {
       path: '/',
+      alias: '/home',
       name: 'Home',
       component: Home,
       meta: {
-        requireAuth: true // 需要登录权限
-      }
-    },
-    {
-      path: '/home',
-      name: 'Home',
-      component: Home,
-      meta: {
+        title: "Home", 
         requireAuth: true // 需要登录权限
       }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        title: "Login", 
+      }
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: {
+        title: "Register", 
+      }
     },
     {
       path: '/conference',
       name: 'Conference',
       component: Conference,
       meta: {
+        title: "New Conference", 
         requireAuth: true // 需要登录权限
       }
     },
@@ -50,6 +51,7 @@ export const router = new Router({
       name: 'UserInfo',
       component: UserInfo,
       meta: {
+        title: "User Info", 
         requireAuth: true // 需要登录权限
       }
     }
@@ -58,6 +60,7 @@ export const router = new Router({
 
 // 前端登录拦截
 router.beforeEach(function (to, from ,next) {
+  document.title = to.meta.title;
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (store.state.token) {
       next()
