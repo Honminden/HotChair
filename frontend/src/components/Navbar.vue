@@ -33,7 +33,7 @@
                 <span class="dropdown-header">hello, {{ user.getUserInfo().username }}</span>
                 <router-link class="dropdown-item" to="userInfo">User Info</router-link>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/" @click="user.logout()">Logout</a>
+                <a class="dropdown-item" href="#" @click="jquery('.toast').toast('show')">Logout</a>
               </div>
               <div v-else>
               <router-link class="dropdown-item" to="login">Login</router-link>
@@ -44,17 +44,44 @@
         </ul>
       </div>
     </nav>
+    <div class="position: relative">
+      <div class="toast" role="alert" style="position: absolute; top: 40%; left: 40%; z-index:9" 
+                aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <strong class="mr-auto">Logout</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">&times;</button>
+        </div>
+        <div class="toast-body">
+          You are going to logout.
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="button" class="btn btn-warning" @click="logout()">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import User from './User/User'
+const jquery = require('jquery');
+jquery.noConflict();
 
 export default {
   name: 'Navbar',
   data () {
     return {
+      jquery: jquery,
       user: new User()
+    }
+  },
+  methods: {
+    logout () {
+      this.popConfirm = false;
+      this.user.logout();
+      this.$router.replace('/login');
     }
   }
 }
