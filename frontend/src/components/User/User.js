@@ -26,11 +26,11 @@ export default class User
     getUserInfo()
     {
         return {
-            username: state.username,
-            fullName: state.fullName,
-            email: state.email,
-            organization: state.organization,
-            region: state.region
+            username: store.state.username,
+            fullName: store.state.fullName,
+            email: store.state.email,
+            organization: store.state.organization,
+            region: store.state.region
         }
     }
 }

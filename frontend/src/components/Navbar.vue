@@ -30,6 +30,7 @@
             </a>
             <div class="dropdown-menu">
               <div v-if="user.isLogined()">
+                <span class="dropdown-header">hello, {{ user.getUserInfo().username }}</span>
                 <router-link class="dropdown-item" to="">User Info</router-link>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/" @click="user.logout()">Logout</a>
@@ -40,12 +41,7 @@
               </div>
             </div>
           </li>
-          <li class="nav-item"><router-link class="nav-link" to="">Help</router-link></li>
         </ul>
-        <form class="form-inline">
-          <input class="form-control" type="text" placeholder="any keywords...">
-          <button class="mx-2 btn btn-info" @click="search()">Search</button>
-        </form>
       </div>
     </nav>
   </div>
@@ -59,11 +55,6 @@ export default {
   data () {
     return {
       user: new User()
-    }
-  },
-  methods: {
-    search () {
-      // TODO: send a GET query to search
     }
   }
 }
