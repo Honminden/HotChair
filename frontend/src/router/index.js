@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Conference from '@/components/Conference'
+import UserInfo from '@/components/UserInfo'
 import store from '../store'
 
 Vue.use(Router)
@@ -40,6 +41,14 @@ export const router = new Router({
       path: '/conference',
       name: 'Conference',
       component: Conference,
+      meta: {
+        requireAuth: true // 需要登录权限
+      }
+    },
+    {
+      path: '/userInfo',
+      name: 'UserInfo',
+      component: UserInfo,
       meta: {
         requireAuth: true // 需要登录权限
       }

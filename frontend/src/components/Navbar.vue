@@ -31,7 +31,7 @@
             <div class="dropdown-menu">
               <div v-if="user.isLogined()">
                 <span class="dropdown-header">hello, {{ user.getUserInfo().username }}</span>
-                <router-link class="dropdown-item" to="">User Info</router-link>
+                <router-link class="dropdown-item" to="userInfo">User Info</router-link>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/" @click="user.logout()">Logout</a>
               </div>
