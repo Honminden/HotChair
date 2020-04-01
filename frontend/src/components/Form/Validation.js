@@ -109,6 +109,17 @@ export default function Validation(form)
                 }
                 return {isValid: isValid, messages: messages}
             })(form.password),
+        fullName: (field => 
+            {
+                if (isEmpty(field))
+                {
+                    return {isValid: false, messages: ['Can\'t be empty.']}
+                }
+
+                let isValid = true;
+                let messages = [];
+                return {isValid: isValid, messages: messages}
+            })(form.fullName),
         email: (field =>
             {
                 if (isEmpty(field))

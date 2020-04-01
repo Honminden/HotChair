@@ -27,6 +27,14 @@
           </div>
         </div>
         <div class="form-group row">
+          <label for="fullName" class="col-sm-3 col-form-label">Full Name</label>
+          <input id="fullName" class="col-sm-9 form-control" v-model="registerForm.fullName"
+                    type="text" auto-complete="off" placeholder="fullName" @input="validate('fullName')">
+          <div v-for="validAlert in validAlerts.fullName" :class="validAlert.type" :key="validAlert.content">
+            {{ validAlert.content }}
+          </div>
+        </div>
+        <div class="form-group row">
           <label for="email" class="col-sm-3 col-form-label">Email</label>
           <input id="email" class="col-sm-9 form-control" v-model="registerForm.email"
                     type="email" auto-complete="off" placeholder="email" @input="validate('email')">
@@ -83,6 +91,7 @@ const regions = Object.values(regionData);
 const emptyForm = {
   username: '',
   password: '',
+  fullName: '',
   email: '',
   organization: '',
   region: ''
@@ -101,6 +110,7 @@ export default {
       triggered: {
         username: false,
         password: false,
+        fullName: false,
         email: false,
         organization: false,
         region: false
@@ -108,6 +118,7 @@ export default {
       validAlerts: {
         username: [],
         password: [],
+        fullName: [],
         email: [],
         organization: [],
         region: []
