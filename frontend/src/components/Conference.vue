@@ -15,37 +15,55 @@
           <div class="form-group row">
               <label class="col-sm-4 col-form-label">Full Name</label>
               <input type="text" name="fullName" class="col-sm-8 form-control" v-model="confForm.fullName"
-                    auto-complete="off" placeholder="Full Name" required>
+                    auto-complete="off" placeholder="Full Name" @input="validate('fullName')">
+              <div v-for="validAlert in validAlerts.fullName" :class="validAlert.type" :key="validAlert.content">
+                {{ validAlert.content }}
+              </div>
           </div>
 
           <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Abbreviation</label>
               <input type="text"  name="abbreviation" class="col-sm-8 form-control" v-model="confForm.abbreviation"
-                    auto-complete="off" placeholder="Abbreviation" required>
+                    auto-complete="off" placeholder="Abbreviation" @input="validate('abbreviation')">
+              <div v-for="validAlert in validAlerts.abbreviation" :class="validAlert.type" :key="validAlert.content">
+                {{ validAlert.content }}
+              </div>
           </div>
 
           <div class="form-group row">
               <label class="col-sm-4 col-form-label">Date and Time</label>
               <input type="datetime-local" name="time" class="col-sm-8 form-control" v-model="confForm.time"
-                auto-complete="off" placeholder="Date and Time" required>
+                auto-complete="off" placeholder="Date and Time" @input="validate('time')">
+              <div v-for="validAlert in validAlerts.time" :class="validAlert.type" :key="validAlert.content">
+                {{ validAlert.content }}
+              </div>
           </div>
 
           <div class="form-group row">
               <label class="col-sm-4 col-form-label">Location</label>
               <input type="text" name="location" class="col-sm-8 form-control" v-model="confForm.location"
-                  auto-complete="off" placeholder="Location" required>
+                  auto-complete="off" placeholder="Location" @input="validate('location')">
+              <div v-for="validAlert in validAlerts.location" :class="validAlert.type" :key="validAlert.content">
+                {{ validAlert.content }}
+              </div>
           </div>
 
           <div class="form-group row">
             <label class="col-sm-4 col-form-label">Submission Deadline</label>
             <input type="date" name="submissionDDL" class="col-sm-8 form-control" v-model="confForm.submissionDDL"
-                auto-complete="off" placeholder="Submission Deadline" required>
+                auto-complete="off" placeholder="Submission Deadline" @input="validate('submissionDDL')">
+            <div v-for="validAlert in validAlerts.submissionDDL" :class="validAlert.type" :key="validAlert.content">
+              {{ validAlert.content }}
+            </div>
           </div>
 
           <div class="form-group row ">
             <label class="col-sm-4 col-form-label">Review Release Date</label>
             <input type="date" name="reviewReleaseDate" class=" col-sm-8 form-control" v-model="confForm.reviewReleaseDate"
-                auto-complete="off" placeholder="Review Release Date" required>
+                auto-complete="off" placeholder="Review Release Date" @input="validate('reviewReleaseDate')">
+            <div v-for="validAlert in validAlerts.reviewReleaseDate" :class="validAlert.type" :key="validAlert.content">
+              {{ validAlert.content }}
+            </div>
           </div>
 
           <div class="row ">
@@ -67,21 +85,41 @@
 <script>
 import Navbar from './Navbar'
 import Alert from './Message/Alert'
+import Validation from './Form/Validation'
+
+const emptyForm = {
+  fullName: '',
+  abbreviation: '',
+  time: '',
+  location: '',
+  submissionDDL: '',
+  reviewReleaseDate: ''
+}
 
 export default {
   name: 'Conference',
   data () {
     return {
-      confForm: {
-        fullName: '',
-        abbreviation: '',
-        time: '',
-        location: '',
-        submissionDDL: '',
-        reviewReleaseDate: ''
-      },
+      confForm: emptyForm,
+      validation: (new Validation).validateConference(emptyForm),
       loading: false,
-      alert: new Alert()
+      alert: new Alert(),
+      triggered: {
+        fullName: false,
+        abbreviation: false,
+        time: false,
+        location: false,
+        submissionDDL: false,
+        reviewReleaseDate: false
+      },
+      validAlerts: {
+        fullName: [],
+        abbreviation: [],
+        time: [],
+        location: [],
+        submissionDDL: [],
+        reviewReleaseDate: []
+      }
     }
   },
   components:
@@ -92,21 +130,56 @@ export default {
     logOut () {
       user.logOut();
     },
-    submit () {
-      this.$axios.post('/conference', this.confForm)
-      .catch(
-        error =>
-        {
-          this.alert.popDanger('submit error');
-        }
-      )
-      .then(res =>
+    validate (field) {
+      this.triggered[field] = true;
+      this.validation = (new Validation).validateConference(this.confForm);
+      /* update validation alerts */
+      for (let field of Object.keys(this.validAlerts))
       {
-        if(res && res.status === 200)
+        if (this.triggered[field])
         {
-          this.alert.popSuccess('form submitted');
+          this.validAlerts[field] = [];
+          if (this.validation[field].isValid)
+          {
+            let validAlert = new Alert();
+            validAlert.popSuccess("Valid input.");
+            this.validAlerts[field].push(validAlert);
+          }
+          else
+          {
+            for (let message of this.validation[field].messages)
+            {
+              let validAlert = new Alert();
+              validAlert.popWarning(message);
+              this.validAlerts[field].push(validAlert);
+            }
+          }
         }
-      });
+      }
+    },
+    submit () {
+      for (let field of Object.keys(this.triggered))
+      {
+        this.triggered[field] = true;
+      }
+      this.validate();
+      if (Object.values(this.validation).every(field => (field.isValid === true)))
+      {
+        this.$axios.post('/conference', this.confForm)
+        .catch(
+          error =>
+          {
+            this.alert.popDanger('submit error');
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.alert.popSuccess('form submitted');
+          }
+        });
+      }
     }
   }
 }

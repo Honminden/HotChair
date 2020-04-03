@@ -22,7 +22,7 @@
         </div>
         <div class="row">
           <span class="col"></span>
-          <button class="col btn btn-info" @click="login()">login</button>
+          <button class="col btn btn-info" @click.prevent="login()">login</button>
           <span class="col"></span>
         </div>
         <div v-show="alert.isVisible" :class="alert.type">

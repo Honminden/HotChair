@@ -3,7 +3,7 @@
     <Navbar/>
     <div class="row">
       <span class="col"></span>
-      <form class="col">
+      <form class="col" novalidate>
         <legend class="row">
           <span class="col"></span>
           <h2 class="col">Register</h2>
@@ -63,7 +63,7 @@
         </div>
         <div class="row">
           <span class="col"></span>
-          <button class="col btn btn-info" @click="register()">register</button>
+          <button class="col btn btn-info" @click.prevent="register()">register</button>
           <span class="col"></span>
         </div>
         <div v-show="alert.isVisible" :class="alert.type">
@@ -104,7 +104,7 @@ export default {
     return {
       registerForm: emptyForm,
       options: regions,
-      validation: Validation(emptyForm),
+      validation: (new Validation).validateRegister(emptyForm),
       loading: false,
       alert: new Alert(),
       triggered: {
@@ -133,7 +133,7 @@ export default {
     validate (field)
     {
       this.triggered[field] = true;
-      this.validation = Validation(this.registerForm);
+      this.validation = (new Validation).validateRegister(this.registerForm);
       /* update validation alerts */
       for (let field of Object.keys(this.validAlerts))
       {
@@ -159,6 +159,10 @@ export default {
       }
     },
     register () {
+      for (let field of Object.keys(this.triggered))
+      {
+        this.triggered[field] = true;
+      }
       this.validate();
       if (Object.values(this.validation).every(field => (field.isValid === true)))
       {

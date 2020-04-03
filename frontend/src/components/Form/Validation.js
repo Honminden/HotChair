@@ -38,130 +38,200 @@ const testAll = (reTable, form) =>
 
 const isEmpty = value => ((!value) || (value === ''))
 
-/**
- * Validation logic.
- * @param form an object with username, password etc.
- * @returns an object with information of validation
- */
-export default function Validation(form)
+export default class Validation
 {
-    let reTable = addReTable(form.username);
-    let reResults = testAll(reTable, form);
-    return {
-        username: (field =>
-            {
-                if (isEmpty(field))
+    validateRegister(form)
+    {
+        let reTable = addReTable(form.username);
+        let reResults = testAll(reTable, form);
+        return {
+            username: (field =>
                 {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let messages = [];
-                if (!reResults.username.char)
+                    let isValid = true;
+                    let messages = [];
+                    if (!reResults.username.char)
+                    {
+                        isValid = false;
+                        messages.push('Can only contain letters, numbers, or two special characters (-_) and can only start with a letter or -.');
+                    }
+                    if (!reResults.username.length)
+                    {
+                        isValid = false;
+                        messages.push('5-32 characters in length.');
+                    }
+                    return {isValid: isValid, messages: messages}
+                })(form.username),
+            password: (field =>
                 {
-                    isValid = false;
-                    messages.push('Can only contain letters, numbers, or two special characters (-_) and can only start with a letter or -.');
-                }
-                if (!reResults.username.length)
-                {
-                    isValid = false;
-                    messages.push('5-32 characters in length.');
-                }
-                return {isValid: isValid, messages: messages}
-            })(form.username),
-        password: (field =>
-            {
-                if (isEmpty(field))
-                {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let charValidCount = 0;
-                let messages = [];
-                if (reResults.password.letter)
-                {
-                    charValidCount++;
-                }
-                if (reResults.password.digit)
-                {
-                    charValidCount++;
-                }
-                if (reResults.password.special)
-                {
-                    charValidCount++;
-                }
+                    let isValid = true;
+                    let charValidCount = 0;
+                    let messages = [];
+                    if (reResults.password.letter)
+                    {
+                        charValidCount++;
+                    }
+                    if (reResults.password.digit)
+                    {
+                        charValidCount++;
+                    }
+                    if (reResults.password.special)
+                    {
+                        charValidCount++;
+                    }
 
-                if (charValidCount < 2)
+                    if (charValidCount < 2)
+                    {
+                        isValid = false;
+                        messages.push('Letters, numbers or special characters (-_), contain at least two kinds.');
+                    }
+                    if (!reResults.password.length)
+                    {
+                        isValid = false;
+                        messages.push('6-32 characters in length.');
+                    }
+                    if (reResults.password.containUsername)
+                    {
+                        isValid = false;
+                        messages.push('Cannot contain username.');
+                    }
+                    return {isValid: isValid, messages: messages}
+                })(form.password),
+            fullName: (field => 
                 {
-                    isValid = false;
-                    messages.push('Letters, numbers or special characters (-_), contain at least two kinds.');
-                }
-                if (!reResults.password.length)
-                {
-                    isValid = false;
-                    messages.push('6-32 characters in length.');
-                }
-                if (reResults.password.containUsername)
-                {
-                    isValid = false;
-                    messages.push('Cannot contain username.');
-                }
-                return {isValid: isValid, messages: messages}
-            })(form.password),
-        fullName: (field => 
-            {
-                if (isEmpty(field))
-                {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let messages = [];
-                return {isValid: isValid, messages: messages}
-            })(form.fullName),
-        email: (field =>
-            {
-                if (isEmpty(field))
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.fullName),
+            email: (field =>
                 {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let messages = [];
-                if (!reResults.email.format)
+                    let isValid = true;
+                    let messages = [];
+                    if (!reResults.email.format)
+                    {
+                        isValid = false;
+                        messages.push('Use a valid email address.');
+                    }
+                    return {isValid: isValid, messages: messages}
+                })(form.email),
+            organization: (field => 
                 {
-                    isValid = false;
-                    messages.push('Use a valid email address.');
-                }
-                return {isValid: isValid, messages: messages}
-            })(form.email),
-        organization: (field => 
-            {
-                if (isEmpty(field))
-                {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let messages = [];
-                return {isValid: isValid, messages: messages}
-            })(form.organization),
-        region: (field => 
-            {
-                if (isEmpty(field))
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.organization),
+            region: (field => 
                 {
-                    return {isValid: false, messages: ['Can\'t be empty.']}
-                }
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
 
-                let isValid = true;
-                let messages = [];
-                if (!regions.includes(field))
+                    let isValid = true;
+                    let messages = [];
+                    if (!regions.includes(field))
+                    {
+                        isValid = false;
+                        messages.push('Not a existing region.');
+                    }
+                    return {isValid: isValid, messages: messages}
+                })(form.region)
+        };
+    }
+
+    validateConference(form)
+    {
+        return {
+            fullName: (field => 
                 {
-                    isValid = false;
-                    messages.push('Not a existing region.');
-                }
-                return {isValid: isValid, messages: messages}
-            })(form.region)
-    };
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.fullName), 
+                abbreviation: (field => 
+                {
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.abbreviation), 
+            time: (field => 
+                {
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.time), 
+            location: (field => 
+                {
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.location), 
+            submissionDDL: (field => 
+                {
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.submissionDDL), 
+            reviewReleaseDate: (field => 
+                {
+                    if (isEmpty(field))
+                    {
+                        return {isValid: false, messages: ['Can\'t be empty.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+                    return {isValid: isValid, messages: messages}
+                })(form.reviewReleaseDate)
+        };
+    }
 }
