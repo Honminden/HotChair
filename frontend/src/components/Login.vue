@@ -1,6 +1,7 @@
 <template>
   <div id="Login">
     <Navbar/>
+    <div class="row" style="height: 35px"></div>
     <div class="row">
       <span class="col"></span>
       <form class="col">
@@ -22,8 +23,7 @@
         </div>
         <div class="row">
           <span class="col"></span>
-          <button class="col btn btn-info" @click="login()">login</button>
-          <span class="col"></span>
+          <button class="col-sm-3 btn btn-primary" @click="login()">login</button>
         </div>
         <div v-show="alert.isVisible" :class="alert.type">
           {{ alert.content }}
@@ -31,7 +31,7 @@
         <hr/>
         <span>create a new account</span>
         <router-link to="register">
-          <button class="btn btn-outline-info">register</button>
+          <button class="btn btn-outline-primary">register</button>
         </router-link>
       </form>
       <span class="col"></span>

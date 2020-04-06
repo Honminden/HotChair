@@ -1,27 +1,22 @@
 <template>
   <div id="Navbar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link class="navbar-brand" to="home">
-        <h1>CONFERENCE</h1>
-      </router-link>
+    <header class="nav navbar-expand-sm navbar-dark bg-secondary row">
+
+        <router-link class="navbar-brand bg-primary" style="width: 200px" to="home">
+          <div class="col-sm-2" >
+              <h2 >CONFERENCE</h2>
+          </div>
+         </router-link>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle"
                 aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="toggle">
         <ul class="mr-auto nav navbar-nav">
           <li class="nav-item active">
             <router-link class="nav-link" to="home">Home</router-link>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" 
-                      aria-haspopup="true" aria-expanded="false">
-              Conferences
-            </a>
-            <div class="dropdown-menu ">
-              <router-link class="dropdown-item" to="">List of Conferences</router-link>
-              <router-link class="dropdown-item" to="conference">New Conference</router-link>
-            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" 
@@ -41,9 +36,16 @@
               </div>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <router-link class="nav-link" to="conferenceList">Conferences</router-link>
+          </li>
+          <li class="divright">
+            <router-link to="notification" style="color: white;text-decoration: none">5</router-link>
+          </li>
         </ul>
       </div>
-    </nav>
+
+    </header>
   </div>
 </template>
 
@@ -56,6 +58,21 @@ export default {
     return {
       user: new User()
     }
-  }
+  },
 }
 </script>
+<style>
+  .divright{
+    font-size: 1em;
+    background-color: darkorange;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    -webkit-border-radius: 2.75em;
+    border-radius: 2.75em;
+    }
+  .divright:hover{
+    background-color: orangered;
+
+  }
+</style>

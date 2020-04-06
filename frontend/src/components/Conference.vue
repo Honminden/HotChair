@@ -2,8 +2,16 @@
   <div id="Conference">
     <Navbar/>
     <article>
+
       <div class="row">
-        <span class="col"></span>
+        <nav class="nav navbar-expand-sm flex-column bg-light navbar-light" style="height: 100vh; width: 200px;text-align: center">
+          <router-link class="nav-link"  to="userInfo">UserInfo</router-link>
+          <router-link class="nav-link"  to="conferenceList">List</router-link>
+          <router-link class="nav-link bg-white"  to="conference">Application</router-link>
+          <router-link class="nav-link"  to="notification">Notifications</router-link>
+        </nav>
+      <div class="container col-sm-5">
+        <div class ="row" style="height: 35px"></div>
         <form :model="confForm" class="col">
           <legend class="row">
             <span class="col"></span>
@@ -49,16 +57,15 @@
           </div>
 
           <div class="row ">
-            <span class="col-7"></span>
-            <span class="col"></span>
-            <input class="col btn btn-info" name="submit" type="submit" value="submit" @click.prevent="submit"/>
+           <span class="col"></span>
+            <input class="col-sm-2 btn btn-primary" name="submit" type="submit" value="submit" @click.prevent="submit"/>
             <el-alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
               {{ alert.content }}
             </el-alert>
           </div>
 
         </form>
-        <span class="col"></span>
+      </div>
       </div>
     </article>
   </div>
@@ -110,4 +117,5 @@ export default {
     }
   }
 }
+
 </script>

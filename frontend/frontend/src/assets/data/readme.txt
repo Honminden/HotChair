@@ -1,1 +1,0 @@
-region.json source: https://github.com/umpirsky/country-list/blob/master/data/en_US/country.json
