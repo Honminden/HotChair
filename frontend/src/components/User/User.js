@@ -33,4 +33,9 @@ export default class User
             region: store.state.region
         }
     }
+
+    isAdmin()
+    {
+        return (this.getUserInfo().username === "admin");
+    }
 }
