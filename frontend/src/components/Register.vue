@@ -170,7 +170,14 @@ export default {
         .catch(
           error => 
           {
-            this.alert.popDanger('register error');
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('this username has been registered');
+            }
+            else
+            {
+              this.alert.popDanger('register error');
+            }
           }
         )
         .then(res => 

@@ -178,7 +178,14 @@ export default {
         .catch(
           error =>
           {
-            this.alert.popDanger('submit error');
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('this conference already exists');
+            }
+            else
+            {
+              this.alert.popDanger('submission error');
+            }
           }
         )
         .then(res =>
