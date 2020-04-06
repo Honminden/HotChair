@@ -2,7 +2,7 @@
   <div id="Navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <router-link class="navbar-brand" to="home">
-        <h1>CONFERENCE</h1>
+        <h1>HotChair</h1>
       </router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle"
                 aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
