@@ -70,9 +70,9 @@
             <span class="col-7"></span>
             <span class="col"></span>
             <input class="col btn btn-info" name="submit" type="submit" value="submit" @click.prevent="submit"/>
-            <alert v-show="alert.isVisible" :type="alert.type" :closable="false" show-icon>
-              {{ alert.content }}
-            </alert>
+          </div>
+          <div v-show="alert.isVisible" :class="alert.type">
+            {{ alert.content }}
           </div>
 
         </form>
@@ -86,6 +86,7 @@
 import Navbar from './Navbar'
 import Alert from './Message/Alert'
 import Validation from './Form/Validation'
+import User from './User/User'
 
 const emptyForm = {
   fullName: '',
@@ -165,7 +166,15 @@ export default {
       this.validate();
       if (Object.values(this.validation).every(field => (field.isValid === true)))
       {
-        this.$axios.post('/conference', this.confForm)
+        this.$axios.post('/conference', {
+          username: (new User()).getUserInfo().username,
+          fullName: this.confForm.fullName,
+          abbreviation: this.confForm.abbreviation,
+          time: this.confForm.time,
+          location: this.confForm.location,
+          submissionDDL: this.confForm.submissionDDL,
+          reviewReleaseDate: this.confForm.reviewReleaseDate
+        })
         .catch(
           error =>
           {
