@@ -35,6 +35,9 @@
               <div v-if="user.isLogined()">
                 <span class="dropdown-header">hello, {{ user.getUserInfo().username }}</span>
                 <router-link class="dropdown-item" to="userInfo">User Info</router-link>
+                <div v-if="!user.isAdmin()">
+                  <router-link class="dropdown-item" to="notification">Notifications</router-link>
+                </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" @click="showAlert = true;">Logout</a>
               </div>
@@ -43,12 +46,6 @@
                 <router-link class="dropdown-item" to="register">Register</router-link>
               </div>
             </div>
-          </li>
-          <li class="nav-item dropdown">
-            <router-link class="nav-link" to="notification">Notifications</router-link>
-          </li>
-          <li class="divright">
-            <router-link to="notification" style="color: white;text-decoration: none">5</router-link>
           </li>
         </ul>
       </div>
