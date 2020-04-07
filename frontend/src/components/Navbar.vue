@@ -20,7 +20,7 @@
               Conferences
             </a>
             <div class="dropdown-menu ">
-              <router-link class="dropdown-item" to="">List of Conferences</router-link>
+              <router-link class="dropdown-item" to="list">List of Conferences</router-link>
               <div v-if="!user.isAdmin()">
                 <router-link class="dropdown-item" to="conference">New Conference</router-link>
               </div>
@@ -45,7 +45,7 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <router-link class="nav-link" to="conferenceList">Conferences</router-link>
+            <router-link class="nav-link" to="notification">Notifications</router-link>
           </li>
           <li class="divright">
             <router-link to="notification" style="color: white;text-decoration: none">5</router-link>

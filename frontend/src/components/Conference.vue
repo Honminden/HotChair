@@ -2,15 +2,7 @@
   <div id="Conference">
     <Navbar/>
     <article>
-
-      <div class="row">
-        <nav class="nav navbar-expand-sm flex-column bg-light navbar-light" style="height: 100vh; width: 200px;text-align: center">
-          <router-link class="nav-link"  to="userInfo">UserInfo</router-link>
-          <router-link class="nav-link"  to="conferenceList">List</router-link>
-          <router-link class="nav-link bg-white"  to="conference">Application</router-link>
-          <router-link class="nav-link"  to="notification">Notifications</router-link>
-        </nav>
-      <div class="container col-sm-5">
+      <div class="container">
         <div class ="row" style="height: 35px"></div>
         <form :model="confForm" class="col">
           <legend class="row">
@@ -84,7 +76,6 @@
           </div>
 
         </form>
-      </div>
       </div>
     </article>
   </div>

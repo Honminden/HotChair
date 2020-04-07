@@ -37,7 +37,6 @@
       </form>
       <span class="col"></span>
     </div>
-    <!--<div class="row"></div>-->
   </div>
 </template>
 

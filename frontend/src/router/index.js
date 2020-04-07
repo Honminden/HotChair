@@ -5,7 +5,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Conference from '@/components/Conference'
 import UserInfo from '@/components/UserInfo'
-import ConferenceList from '@/components/ConferenceList'
+import List from '@/components/List'
 import Notification from '@/components/Notification'
 import Submission from '@/components/Submission'
 import Invitation from '@/components/Invitation'
@@ -63,9 +63,9 @@ export const router = new Router({
 
     },
     {
-      path: '/conferenceList',
-      name: 'ConfenenceList',
-      component: ConferenceList,
+      path: '/list',
+      name: 'List',
+      component: List,
       meta: {
         title: "List of Conferences",
         requireAuth: true // 需要登录权限
