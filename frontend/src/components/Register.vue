@@ -64,12 +64,8 @@
         </div>
         <div class="row">
           <span class="col"></span>
-<<<<<<< HEAD
           <button class="col btn btn-info" @click.prevent="register()">register</button>
           <span class="col"></span>
-=======
-          <button class="col-sm-3 btn btn-primary" @click="register()">register</button>
->>>>>>> fba5ef0675b5b384f8be925844942f47c2373c79
         </div>
         <div v-show="alert.isVisible" :class="alert.type">
           {{ alert.content }}
