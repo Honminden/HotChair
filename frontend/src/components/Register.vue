@@ -1,6 +1,7 @@
 <template>
   <div id="Register">
     <Navbar/>
+    <div class="row" style="height: 35px"></div>
     <div class="row">
       <span class="col"></span>
       <form class="col" novalidate>
@@ -63,8 +64,12 @@
         </div>
         <div class="row">
           <span class="col"></span>
+<<<<<<< HEAD
           <button class="col btn btn-info" @click.prevent="register()">register</button>
           <span class="col"></span>
+=======
+          <button class="col-sm-3 btn btn-primary" @click="register()">register</button>
+>>>>>>> fba5ef0675b5b384f8be925844942f47c2373c79
         </div>
         <div v-show="alert.isVisible" :class="alert.type">
           {{ alert.content }}
@@ -72,7 +77,7 @@
         <hr/>
         <span>already have an account?</span>
         <router-link to="login">
-          <button class="btn btn-outline-info">login</button>
+          <button class="btn btn-outline-primary">login</button>
         </router-link>
       </form>
       <span class="col"></span>

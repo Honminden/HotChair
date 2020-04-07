@@ -5,6 +5,12 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Conference from '@/components/Conference'
 import UserInfo from '@/components/UserInfo'
+import ConferenceList from '@/components/ConferenceList'
+import Notification from '@/components/Notification'
+import Submission from '@/components/Submission'
+import Invitation from '@/components/Invitation'
+import Detail from '@/components/Detail'
+
 import store from '../store'
 
 Vue.use(Router)
@@ -52,6 +58,51 @@ export const router = new Router({
       component: UserInfo,
       meta: {
         title: "User Info", 
+        requireAuth: true // 需要登录权限
+      }
+
+    },
+    {
+      path: '/conferenceList',
+      name: 'ConfenenceList',
+      component: ConferenceList,
+      meta: {
+        title: "List of Conferences",
+        requireAuth: true // 需要登录权限
+      }
+    },
+    {
+      path: '/notification',
+      name: 'Notification',
+      component: Notification,
+      meta: {
+        title: "Notification",
+        requireAuth: true // 需要登录权限
+      }
+    },
+    {
+      path: '/submission',
+      name: 'Submission',
+      component: Submission,
+      meta: {
+        title: "Submission",
+        requireAuth: true // 需要登录权限
+      }
+    },
+    {
+      path: '/invitation',
+      name: 'Invitation',
+      component: Invitation,
+      meta: {
+        title: "Invitations",
+        requireAuth: true // 需要登录权限
+      }
+    },  {
+      path: '/detail',
+      name: 'Detail',
+      component: Detail,
+      meta: {
+        title: "Detail",
         requireAuth: true // 需要登录权限
       }
     }
