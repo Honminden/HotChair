@@ -3,8 +3,8 @@
     <header class="nav navbar-expand-sm navbar-dark bg-secondary row">
 
         <router-link class="navbar-brand bg-primary" style="width: 200px" to="home">
-          <div class="col-sm-2" >
-              <h2 >CONFERENCE</h2>
+          <div class="col-sm-2 text-center">
+              <h2 class="col" style="margin-left: 10px">HOTCHAIR</h2>
           </div>
          </router-link>
 
@@ -19,7 +19,7 @@
             <router-link class="nav-link" to="home">Home</router-link>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" 
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                       aria-haspopup="true" aria-expanded="false">
               User
             </a>
@@ -40,6 +40,7 @@
             <router-link class="nav-link" to="conferenceList">Conferences</router-link>
           </li>
           <li class="divright">
+<!--            改为接受到的信息的个数-->
             <router-link to="notification" style="color: white;text-decoration: none">5</router-link>
           </li>
         </ul>

@@ -68,7 +68,7 @@ export const router = new Router({
       component: ConferenceList,
       meta: {
         title: "Conference List",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -77,7 +77,7 @@ export const router = new Router({
       component: Notification,
       meta: {
         title: "Notification",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -86,7 +86,7 @@ export const router = new Router({
       component: Submission,
       meta: {
         title: "Submission",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -95,7 +95,7 @@ export const router = new Router({
       component: Invitation,
       meta: {
         title: "Invitation",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },  {
       path: '/detail',
@@ -103,7 +103,7 @@ export const router = new Router({
       component: Detail,
       meta: {
         title: "Detail",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     }
   ]
