@@ -35,8 +35,8 @@
                     <td>{{ conf.location }}</td>
                     <td>{{ conf.submissionDDL }}</td>
                     <td>{{ conf.reviewReleaseDate }}</td>
-                    <td><button class="btn btn-info" @click="putStatus(conf.fullName, 'passed')">Pass</button></td>
-                    <td><button class="btn btn-danger" @click="putStatus(conf.fullName, 'rejected')">Reject</button></td>
+                    <td><button class="btn btn-outline-info" @click="putStatus(conf.fullName, 'passed')">Pass</button></td>
+                    <td><button class="btn btn-outline-danger" @click="putStatus(conf.fullName, 'rejected')">Reject</button></td>
                   </tr>
                 </tbody>
               </table>
