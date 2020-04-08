@@ -1,8 +1,6 @@
 <template>
   <div id="Invitaion">
     <Navbar/>
-<<<<<<< HEAD
-=======
     <div class="row">
       <nav class="nav navbar-expand-sm flex-column bg-light navbar-light" style="min-height: 100vh;width: 200px;text-align: center">
         <router-link class="nav-link"  to="userInfo">UserInfo</router-link>
@@ -74,7 +72,6 @@
 
       </div>
     </div>
->>>>>>> ytq-update
   </div>
 
 </template>

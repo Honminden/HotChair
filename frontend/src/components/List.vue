@@ -4,13 +4,13 @@
     <div v-show="alert.isVisible" :class="alert.type">
       {{ alert.content }}
     </div>
-    <div class="accordation" id="accordtion">
+    <div class="accordion" id="accordion">
       <div v-if="user.isAdmin()">
         <div class="card">
           <button class="btn btn-primary" data-toggle="collapse" data-target="#AdminConf">
             Admin Panel
           </button>
-          <div id="AdminConf" class="collapse show" data-parent="#accordtion">
+          <div id="AdminConf" class="collapse show" data-parent="#accordion">
             <div class="card-body">
               <table class="table table-hover">
                 <thead>
@@ -49,7 +49,7 @@
           <button class="btn btn-primary" data-toggle="collapse" data-target="#YourConf">
             Your Conferences
           </button>
-          <div id="YourConf" class="collapse" data-parent="#accordtion">
+          <div id="YourConf" class="collapse" data-parent="#accordion">
             <div class="card-body">
               <table class="table table-hover">
                 <thead>
@@ -91,7 +91,7 @@
           <button class="btn btn-primary" data-toggle="collapse" data-target="#AllConf">
             All Conferences
           </button>
-          <div id="AllConf" class="collapse show" data-parent="#accordtion">
+          <div id="AllConf" class="collapse show" data-parent="#accordion">
             <div class="card-body">
               <table class="table table-hover">
                 <thead>
