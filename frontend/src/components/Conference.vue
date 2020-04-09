@@ -192,6 +192,10 @@ export default {
           if(res && res.status === 200)
           {
             this.alert.popSuccess('form submitted');
+            setTimeout(() => 
+            {
+              this.$router.replace('list');
+            }, 1500);
           }
         });
       }
