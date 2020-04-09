@@ -103,8 +103,19 @@ export const router = new Router({
       component: Detail,
       meta: {
         title: "Detail",
-        // requireAuth: true // 需要登录权限
-      }
+        requireAuth: true // 需要登录权限
+      },
+      props: route => ({ 
+        username: route.query.username,
+        fullName: route.query.fullName,
+        abbreviation: route.query.abbreviation,
+        time: route.query.time,
+        location: route.query.location,
+        submissionDDL: route.query.submissionDDL,
+        reviewReleaseDate: route.query.reviewReleaseDate,
+        status: route.query.status,
+        role: route.query.role
+      })
     }
   ]
 })

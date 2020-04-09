@@ -34,8 +34,8 @@ export default class ConfLists
 
         let addField = conf => 
         {
-            conf.badge = this.getBadge(conf);
-            conf.isPassed = this.isPassed(conf);
+            conf.badge = this.getBadge(conf.status);
+            conf.isPassed = this.isPassed(conf.status);
         };
 
         this.adminConfList.forEach(addField);
@@ -43,20 +43,20 @@ export default class ConfLists
         this.allConfList.forEach(addField);
     }
 
-    isPassed(conf)
+    isPassed(status)
     {
-        return ((conf.status === "passed") || (conf.status === "open"));
+        return ((status === "passed") || (status === "open"));
     }
 
-    getBadge(conf)
+    getBadge(status)
     {
         let badge = {
-            status: conf.status,
+            status: status,
             class: '',
             content: ''
         };
 
-        switch (conf.status)
+        switch (status)
         {
             case ("waiting"):
                 badge.class = "badge badge-warning";
