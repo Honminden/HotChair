@@ -15,6 +15,18 @@ import store from '../store'
 
 Vue.use(Router)
 
+const confProps = route => ({ 
+  username: route.query.username,
+  fullName: route.query.fullName,
+  abbreviation: route.query.abbreviation,
+  time: route.query.time,
+  location: route.query.location,
+  submissionDDL: route.query.submissionDDL,
+  reviewReleaseDate: route.query.reviewReleaseDate,
+  status: route.query.status,
+  role: route.query.role
+})
+
 export const router = new Router({
   routes: [
     {
@@ -96,7 +108,8 @@ export const router = new Router({
       meta: {
         title: "Invitations",
         requireAuth: true // 需要登录权限
-      }
+      },
+      props: confProps
     },  {
       path: '/detail',
       name: 'Detail',
@@ -105,17 +118,7 @@ export const router = new Router({
         title: "Detail",
         requireAuth: true // 需要登录权限
       },
-      props: route => ({ 
-        username: route.query.username,
-        fullName: route.query.fullName,
-        abbreviation: route.query.abbreviation,
-        time: route.query.time,
-        location: route.query.location,
-        submissionDDL: route.query.submissionDDL,
-        reviewReleaseDate: route.query.reviewReleaseDate,
-        status: route.query.status,
-        role: route.query.role
-      })
+      props: confProps
     }
   ]
 })

@@ -1,79 +1,53 @@
 <template>
   <div id="Detail">
     <Navbar/>
+    <InnerNav :username="username" 
+              :fullName="fullName" 
+              :abbreviation="abbreviation" 
+              :time="time" 
+              :location="location" 
+              :submissionDDL="submissionDDL"
+              :reviewReleaseDate="reviewReleaseDate" 
+              :status="status"
+              :role="role"/>
     <div v-show="alert.isVisible" :class="alert.type">
       {{ alert.content }}
     </div>
-    <div class="row">
-      <div class="container col-sm-10">
-        <ul class="nav nav-tabs col-sm-5">
-          <li class="nav-item">
-            <router-link class="nav-link" to="list">List of Conferences</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link active" to="detail">Details</router-link>
-          </li>
-          <li v-if="(role !== '') && (role !== 'chair') && (status === 'open')" class="nav-item">
-            <router-link class="nav-link" to="submission">Submit Paper</router-link>
-          </li>
-          <li v-if="(role === 'author') && (status === 'open')" class="nav-item">
-            <router-link class="nav-link" to="">Your Submissions</router-link>
-          </li>
-          <li v-if="role === 'chair'" class="nav-item">
-            <router-link class="nav-link" to="invitation">Invitation</router-link>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
-              <span v-if="role === ''">Choose Your Role</span>
-              <span v-else>Change Your Role</span>
-            </button>
-          </li>
-        </ul>
-        <div class="container col-sm-7">
-          <div class="row" style="margin-top: 35px">
-            <span class="col"></span>
-            <h2>
-              <span class="mr-2">{{ fullName }}</span>
-              <small :class="badge.class">{{ badge.content }}</small>
-            </h2>
-            <span class="col"></span>
-          </div>
-          <table class="table">
-            <tbody>
-            <tr>
-              <th scope="row">Abbreviation</th>
-              <td>{{ abbreviation }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Chair</th>
-              <td>{{ username }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Date and time</th>
-              <td>{{ time }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Location</th>
-              <td>{{ location }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Submission Deadline</th>
-              <td>
-                <span>{{ submissionDDL }}</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Review Release Date</th>
-              <td>{{ reviewReleaseDate }}</td>
-            </tr>
-            <tr v-if="(role === 'chair') && (status === 'passed')">
-              <th scope="row"></th>
-              <td><button class="btn btn-success" @click="openConference()">Open this conference</button></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div class="container col-sm-7">
+      <table class="table">
+        <tbody>
+        <tr>
+          <th scope="row">Abbreviation</th>
+          <td>{{ abbreviation }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Chair</th>
+          <td>{{ username }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Date and time</th>
+          <td>{{ time }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Location</th>
+          <td>{{ location }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Submission Deadline</th>
+          <td>
+            <span>{{ submissionDDL }}</span>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Review Release Date</th>
+          <td>{{ reviewReleaseDate }}</td>
+        </tr>
+        <tr v-if="(role === 'chair') && (status === 'passed')">
+          <th scope="row"></th>
+          <td><button class="btn btn-success" @click="openConference()">Open this conference</button></td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog">
@@ -118,9 +92,11 @@
 
 <script>
 import Navbar from './Navbar'
+import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
 import ConfLists from './List/ConfLists'
+import ConfDetail from './Detail/ConfDetail'
 
 export default {
   name: 'Detail',
@@ -129,13 +105,15 @@ export default {
       user: new User(),
       alert: new Alert(),
       badge: (new ConfLists()).getBadge(this.status),
-      character: ''
+      character: '',
+      confDetail: new ConfDetail()
     }
   },
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
   components:
   {
-    'Navbar': Navbar
+    'Navbar': Navbar,
+    'InnerNav': InnerNav
   },
   methods: {
     chooseRole (role) {

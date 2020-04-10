@@ -67,7 +67,7 @@
                   <tr v-for="conf in this.confLists.yourConfList" :key="conf.fullName">
                     <th scope="row">
                       <div v-if="conf.isPassed">
-                        <router-link :to="confDetail.getPath(conf, '')">
+                        <router-link :to="confDetail.getURI('detail', conf, '')">
                           {{ conf.fullName }}
                         </router-link>
                       </div>
@@ -105,7 +105,7 @@
                 <tbody>
                   <tr v-for="conf in this.confLists.allConfList" :key="conf.fullName">
                     <th scope="row">
-                      <router-link :to="confDetail.getPath(conf, '')">
+                      <router-link :to="confDetail.getURI('detail', conf, '')">
                         {{ conf.fullName }}
                         <span :class="conf.badge.class">{{ conf.badge.content }}</span>
                       </router-link>

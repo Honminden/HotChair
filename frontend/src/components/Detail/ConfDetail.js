@@ -14,9 +14,9 @@ export default class ConfDetail
         };
     }
 
-    getPath(conf, role)
+    getURI(path, conf, role)
     {
         let encodedConf = this.encode(conf);
-        return `detail?username=${encodedConf.username}&fullName=${encodedConf.fullName}&abbreviation=${encodedConf.abbreviation}&time=${encodedConf.time}&location=${encodedConf.location}&submissionDDL=${encodedConf.submissionDDL}&reviewReleaseDate=${encodedConf.reviewReleaseDate}&status=${encodedConf.status}&role=${role}`;
+        return `${path}?username=${encodedConf.username}&fullName=${encodedConf.fullName}&abbreviation=${encodedConf.abbreviation}&time=${encodedConf.time}&location=${encodedConf.location}&submissionDDL=${encodedConf.submissionDDL}&reviewReleaseDate=${encodedConf.reviewReleaseDate}&status=${encodedConf.status}&role=${role}`;
     }
 }
