@@ -52,22 +52,22 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <button v-if="character === 'chair'" class="col mx-2 btn btn-outline-danger" 
+              <button v-if="character === 'chair'" class="col m-4 p-4 btn btn-outline-danger" 
                         @click="chooseRole('chair')" data-dismiss="modal">
                 <h5>Chair</h5>
                 <p>Chair can open the conference and invite PC Members.</p>
               </button>
-              <button v-if="character === 'PCmember'" class="col mx-2 btn btn-outline-info" 
+              <button v-if="character === 'PCmember'" class="col m-4 p-4 btn btn-outline-info" 
                         @click="chooseRole('PCmember')" data-dismiss="modal">
                 <h5>PC Member</h5>
                 <p>PC Members can review submissions.</p>
               </button>
-              <button v-if="character !== 'chair'" class="col mx-2 btn btn-outline-success" 
+              <button v-if="character !== 'chair'" class="col m-4 p-4 btn btn-outline-success" 
                         @click="chooseRole('author')" data-dismiss="modal">
                 <h5>Author</h5>
                 <p>Authors can check their previous submissions.</p>
               </button>
-              <button v-if="character !== 'chair'" class="col mx-2 btn btn-outline-primary" 
+              <button v-if="character !== 'chair'" class="col m-4 p-4 btn btn-outline-primary" 
                         @click="chooseRole('visitor')" data-dismiss="modal">
                 <h5>Visitor</h5>
                 <p>Visitors can submit papers.</p>
