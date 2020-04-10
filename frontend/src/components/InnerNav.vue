@@ -10,9 +10,15 @@
     </div>
     <ul class="nav nav-tabs ml-4">
       <li class="nav-item">
-        <router-link class="nav-link" to="list">
+        <router-link class="nav-link text-black-50" to="list">
           List of Conferences
         </router-link>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
+          <span v-if="parent.role === ''"><strong>Choose Your Role</strong></span>
+          <span v-else>Change Your Role</span>
+        </button>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('detail', this.parent, parent.role)">
@@ -33,12 +39,6 @@
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)">
           Invitation
         </router-link>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
-          <span v-if="parent.role === ''">Choose Your Role</span>
-          <span v-else>Change Your Role</span>
-        </button>
       </li>
     </ul>
     <div class="modal fade" id="modal" tabindex="-1" role="dialog">
