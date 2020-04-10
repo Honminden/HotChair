@@ -1,16 +1,10 @@
 <template>
   <div id="Invitaion">
     <Navbar/>
-    <InnerNav :username="username" 
-              :fullName="fullName" 
-              :abbreviation="abbreviation" 
-              :time="time" 
-              :location="location" 
-              :submissionDDL="submissionDDL"
-              :reviewReleaseDate="reviewReleaseDate" 
-              :status="status"
-              :role="role"/>
-    
+    <InnerNav :parent="this"/>
+    <div v-show="alert.isVisible" :class="alert.type">
+      {{ alert.content }}
+    </div>
     <div class="row mt-4">
       <div class="col-2"></div>
       <div class="col-8">
@@ -58,17 +52,17 @@
 <script>
 import Navbar from './Navbar'
 import InnerNav from './InnerNav'
+import Alert from './Message/Alert'
 import User from './User/User'
-import ConfLists from './List/ConfLists'
 
 export default {
   name: 'Invitation',
   data () {
     return {
       user: new User(),
+      alert: new Alert(),
       userFullName: '',
-      userList: [],
-      badge: (new ConfLists()).getBadge(this.status)
+      userList: []
     }
   },
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
@@ -82,9 +76,9 @@ export default {
     {
       this.$axios.get('/user', {
         params: {
-          username: this.user.getUserInfo().username,
-          fullName: this.userFullName,
-          conference: this.conference
+          conference: this.conference,
+          inviter: this.user.getUserInfo().username,
+          fullName: this.userFullName
         }
       })
       .catch(
