@@ -1,32 +1,67 @@
 <template>
   <div id="Notification">
     <Navbar/>
-    <div class="row">
-      <nav class="nav navbar-expand-sm flex-column bg-light navbar-light " style="min-height: 100vh; width: 200px;text-align: center">
-        <router-link class="nav-link"  to="userInfo">UserInfo</router-link>
-        <router-link class="nav-link"  to="conferenceList">List</router-link>
-        <router-link class="nav-link"  to="conference">Application</router-link>
-        <router-link class="nav-link bg-white" to="notification">Notifications</router-link>
-      </nav>
-      <div class="container col-sm-10" style="margin-top: 35px">
-        <div>
-          <div class="card border-light mb-5">
-            <!--            改为会议简称-->
-            <div class="card-header">
-              Abbreviation for the conference
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">state:
-                <!--                改为会议状态-->
-                <span>waiting</span>
-              </h5>
-              <!--              可以加一些会议信息-->
-              <p class="card-text">
-                Invite you to become a PCmember of this conference.
-              </p>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-danger">Refuse</button>
-            </div>
+    <div v-show="alert.isVisible" :class="alert.type">
+      {{ alert.content }}
+    </div>
+    <div class="accordion" id="accordion">
+      <div class="card">
+        <button class="btn btn-primary" data-toggle="collapse" data-target="#unhandled">
+          Unhandled PC Member Invitations
+        </button>
+        <div id="unhandled" class="collapse show" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-hover form-group" style="margin-top: 30px">
+              <tbody>
+                <tr class="bg-light">
+                  <th scope="col">Conference</th>
+                  <th scope="col">Chair</th>
+                  <th scope="col"></th>
+                </tr>
+                <tr v-for="invitation in invitationList.filter(invitation => (invitation.status === 'waiting'))" 
+                          :key="invitation.inviter">
+                  <td>{{ invitation.conference }}</td>
+                  <td>{{ invitation.inviter }}</td>
+                  <td>
+                    <button class="btn btn-outline-info" 
+                              @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
+                      Accept
+                    </button>
+                    <button class="btn btn-outline-danger ml-2" 
+                              @click="putStatus(invitation.conference, invitation.inviter, 'rejected')">
+                      Reject
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <button class="btn btn-primary" data-toggle="collapse" data-target="#unhandled">
+          Handled PC Member Invitations
+        </button>
+        <div id="unhandled" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-hover form-group" style="margin-top: 30px">
+              <tbody>
+                <tr class="bg-light">
+                  <th scope="col">Conference</th>
+                  <th scope="col">Chair</th>
+                  <th scope="col">Status</th>
+                </tr>
+                <tr v-for="invitation in invitationList.filter(invitation => (invitation.status !== 'waiting'))" 
+                          :key="invitation.inviter">
+                  <td>{{ invitation.conference }}</td>
+                  <td>{{ invitation.inviter }}</td>
+                  <td>
+                    <span v-if="invitation.status === 'accepted'" class="badge badge-info">accepted</span>
+                    <span v-else-if="invitation.status === 'rejected'" class="badge badge-danger">rejected</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -35,32 +70,71 @@
 
 </template>
 <script>
-  import Navbar from './Navbar'
+import Navbar from './Navbar'
+import Alert from './Message/Alert'
+import User from './User/User'
 
-  export default {
-    name: 'Notification',
-    data () {
-      return {}
-    },
-    components:
+export default {
+  name: 'Notification',
+  data () {
+    return {
+      user: new User(),
+      alert: new Alert(),
+      invitationList: []
+    }
+  },
+  methods: {
+    getInvitations () {
+      this.$axios.get('/invitation', {
+        params: {
+          inviter: '',
+          receiver: this.user.getUserInfo().username
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('fetch invitations error');
+        }
+      )
+      .then(res =>
       {
-        'Navbar': Navbar
-      }
-
+        if(res && res.status === 200)
+        {
+          this.invitationList = res.data.invitationList;
+        }
+      });
+    },
+    putStatus(conference, inviter, status)
+    {
+      this.$axios.put('/invitation', {
+          conference: conference,
+          inviter: inviter,
+          receiver: this.user.getUserInfo().username,
+          status: status
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('invitation handling error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.alert.popSuccess('invitation handling success');
+          this.$router.go();
+        }
+      });
+    }
+  },
+  components:
+  {
+    'Navbar': Navbar
+  },
+  mounted () {
+    this.getInvitations();
   }
-
+}
 </script>
-<style>
-  .card{
-    width: 40%;
-    height: 30%;
-    float: left;
-    margin-left: 3%;
-  }
-  .card-text{
-    height: 10%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-</style>
