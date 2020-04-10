@@ -10,6 +10,7 @@ import Notification from '@/components/Notification'
 import Submission from '@/components/Submission'
 import Invitation from '@/components/Invitation'
 import Detail from '@/components/Detail'
+import MySubmission from "@/components/MySubmission";
 
 import store from '../store'
 
@@ -23,7 +24,7 @@ export const router = new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "Home", 
+        title: "Home",
         requireAuth: true // 需要登录权限
       }
     },
@@ -32,7 +33,7 @@ export const router = new Router({
       name: 'Login',
       component: Login,
       meta: {
-        title: "Login", 
+        title: "Login",
       }
     },
     {
@@ -40,7 +41,7 @@ export const router = new Router({
       name: 'Register',
       component: Register,
       meta: {
-        title: "Register", 
+        title: "Register",
       }
     },
     {
@@ -48,7 +49,7 @@ export const router = new Router({
       name: 'Conference',
       component: Conference,
       meta: {
-        title: "New Conference", 
+        title: "New Conference",
         // requireAuth: true // 需要登录权限
       }
     },
@@ -57,7 +58,7 @@ export const router = new Router({
       name: 'UserInfo',
       component: UserInfo,
       meta: {
-        title: "User Info", 
+        title: "User Info",
         // requireAuth: true // 需要登录权限
       }
 
@@ -97,12 +98,22 @@ export const router = new Router({
         title: "Invitation",
         // requireAuth: true // 需要登录权限
       }
-    },  {
+    },
+    {
       path: '/detail',
       name: 'Detail',
       component: Detail,
       meta: {
         title: "Detail",
+        // requireAuth: true // 需要登录权限
+      }
+    },
+    {
+      path: '/mySubmission',
+      name: 'MySubmission',
+      component: MySubmission,
+      meta: {
+        title: "My Submission",
         // requireAuth: true // 需要登录权限
       }
     }

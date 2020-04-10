@@ -17,9 +17,6 @@
               <router-link class="nav-link" to="detail">Details</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="submission">Submission</router-link>
-            </li>
-            <li class="nav-item">
               <router-link class="nav-link active" to="invitation">Invitation</router-link>
             </li>
           </ul>

@@ -19,8 +19,9 @@
           <li class="nav-item">
             <router-link class="nav-link active" to="submission">Submission</router-link>
           </li>
+<!--          判断身份，是author才显示mysubmission-->
           <li class="nav-item">
-            <router-link class="nav-link" to="invitation">Invitation</router-link>
+            <router-link class="nav-link" to="mySubmission">My Submission</router-link>
           </li>
         </ul>
         <form class="col-sm-6 container" style="margin-top: 35px">
@@ -40,7 +41,7 @@
               </div>
               <div class="form-group">
                 <label for="exampleTextarea">Abstract</label>
-                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="no longer than 800 characters..."></textarea>
+                <textarea class="form-control" id="exampleTextarea" rows="10" placeholder="no longer than 800 characters..."></textarea>
               </div>
           <div class="input-group">
             <div class="custom-file">

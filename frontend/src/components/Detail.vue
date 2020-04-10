@@ -17,11 +17,15 @@
           <li class="nav-item">
             <router-link class="nav-link active" to="detail">Details</router-link>
           </li>
+<!--          判断身份：chair——invitation，其他人：submission，author：submission，mysubmission-->
           <li class="nav-item">
             <router-link class="nav-link" to="submission">Submission</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="invitation">Invitation</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="mySubmission">My Submission</router-link>
           </li>
         </ul>
         <div class="container col-sm-7">
