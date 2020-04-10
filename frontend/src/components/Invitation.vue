@@ -22,7 +22,7 @@
                   <td>{{ invitation.receiver }}</td>
                   <td>
                     <span v-if="invitation.status === 'waiting'" class="badge badge-warning">waiting</span>
-                    <span v-else-if="invitation.status === 'passed'" class="badge badge-info">passed</span>
+                    <span v-else-if="invitation.status === 'accepted'" class="badge badge-info">accepted</span>
                     <span v-else-if="invitation.status === 'rejected'" class="badge badge-danger">rejected</span>
                   </td>
                 </tr>
