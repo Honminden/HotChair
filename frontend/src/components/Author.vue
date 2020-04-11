@@ -61,7 +61,6 @@ export default {
         if(res && res.status === 200)
         {
           this.submissionList = res.data.submissionList;
-          console.log(this.submissionList);
         }
       });
     }

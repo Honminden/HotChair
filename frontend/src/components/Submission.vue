@@ -2,6 +2,12 @@
   <div id="Submission">
     <Navbar/>
     <InnerNav :parent="this"/>
+    <div v-if="progress.show" class="progress" style="height: 30px">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                role="progressbar" :style="`width: ${progress.value}%`">
+        <strong>{{ progress.value }}%</strong>
+      </div>
+    </div>
     <div v-show="alert.isVisible" :class="alert.type">
       {{ alert.content }}
     </div>
@@ -21,7 +27,7 @@
         <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"></textarea>
       </div>
       <div class="form-group row">
-        <label for="file">File</label>
+        <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
         <div class="custom-file">
           <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
           <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
@@ -55,6 +61,11 @@ export default {
         title: '',
         abs: '',
         fileName: ''
+      },
+      file: null,
+      progress: {
+        show: false,
+        value: 0
       }
     }
   },
@@ -70,6 +81,7 @@ export default {
       if (files)
       {
         this.subForm.fileName = files[0].name;
+        this.file = files[0];
       }
     },
     submit () {
@@ -97,11 +109,43 @@ export default {
       {
         if(res && res.status === 200)
         {
-          this.alert.popSuccess('paper submitted');
-          setTimeout(() => 
+          let progress = this.progress;
+          progress.show = true;
+          let formData = new FormData();
+          formData.append('username', this.user.getUserInfo().username);
+          formData.append('category', 'paper');
+          formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}`);
+          formData.append('file', this.file);
+
+          this.$axios.post('/file', formData, {
+            onUploadProgress (event) {
+              progress.value = Math.round((event.loaded * 100) / event.total);
+            }
+          })
+          .catch(
+            error =>
+            {
+              if (error.response.status === 403)
+              {
+                this.alert.popDanger('you are not allowed to upload this file');
+              }
+              else
+              {
+                this.alert.popDanger('file upload error');
+              }
+            }
+          )
+          .then(res =>
           {
-            this.$router.replace(this.confDetail.getURI('author', this, 'author'));
-          }, 1500);
+            if(res && res.status === 200)
+            {
+              this.alert.popSuccess('paper submitted');
+              setTimeout(() => 
+              {
+                this.$router.replace(this.confDetail.getURI('author', this, 'author'));
+              }, 1500);
+            }
+          });
         }
       });
     }
