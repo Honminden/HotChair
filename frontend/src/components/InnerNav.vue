@@ -32,7 +32,7 @@
       </li>
       <li v-if="(parent.role === 'author') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)">
-          Your Submissions
+          Author Page
         </router-link>
       </li>
       <li v-if="parent.role === 'chair'" class="nav-item">
