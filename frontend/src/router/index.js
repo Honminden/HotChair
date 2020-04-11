@@ -100,7 +100,8 @@ export const router = new Router({
       meta: {
         title: "Submission",
         requireAuth: true // 需要登录权限
-      }
+      },
+      props: confProps
     },
     {
       path: '/invitation',
