@@ -62,7 +62,7 @@
                 <h5>PC Member</h5>
                 <p>PC Members can review submissions.</p>
               </button>
-              <button v-if="character !== 'chair'" class="col m-4 p-4 btn btn-outline-success" 
+              <button v-if="(character !== 'chair') && isAuthor" class="col m-4 p-4 btn btn-outline-success" 
                         @click="chooseRole('author')" data-dismiss="modal">
                 <h5>Author</h5>
                 <p>Authors can check their previous submissions.</p>
@@ -92,6 +92,7 @@ export default {
       user: new User(),
       badge: (new ConfLists()).getBadge(this.parent.status),
       character: '',
+      isAuthor: false,
       confDetail: new ConfDetail()
     }
   },
@@ -114,29 +115,52 @@ export default {
       });
     },
     getCharacter () {
-        this.$axios.get('/character', {
-          params: {
-            username: this.user.getUserInfo().username,
-            fullName: this.parent.fullName
-          }
-        })
-        .catch(
-          error =>
-          {
-            this.parent.alert.popDanger('get character error');
-          }
-        )
-        .then(res =>
+      this.$axios.get('/character', {
+        params: {
+          username: this.user.getUserInfo().username,
+          fullName: this.parent.fullName
+        }
+      })
+      .catch(
+        error =>
         {
-          if(res && res.status === 200)
-          {
-            this.character = res.data.character;
-          }
-        });
+          this.parent.alert.popDanger('get character error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.character = res.data.character;
+        }
+      });
+    },
+    checkAuthor () {
+      this.$axios.get('/submission', {
+        params: {
+          username: this.user.getUserInfo().username,
+          author: this.user.getUserInfo().username,
+          conference: this.parent.fullName
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.parent.alert.popDanger('get submissions error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.isAuthor = (res.data.submissionList.length >= 1);
+        }
+      });
     }
   },
   mounted () {
     this.getCharacter();
+    this.checkAuthor();
   }
 }
 </script>
