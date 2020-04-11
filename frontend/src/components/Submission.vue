@@ -14,21 +14,22 @@
       <hr/>
       <div class="form-group row">
         <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-        <input type="text" class="form-control" id="title" maxlength="50">
+        <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title">
       </div>
       <div class="form-group row">
         <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-        <textarea class="form-control" id="abstract" rows="10" maxlength="800"></textarea>
+        <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"></textarea>
       </div>
       <div class="form-group row">
+        <label for="file">File</label>
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="file">
-          <label class="custom-file-label" for="file">Choose file</label>
+          <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
+          <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
         </div>
       </div>
       <div class="row">
         <span class="col"></span>
-        <button class="col btn btn-info" @click.prevent="">submit</button>
+        <button class="col btn btn-info" @click.prevent="submit()">submit</button>
         <span class="col"></span>
       </div>
     </form>
@@ -41,13 +42,20 @@ import Navbar from './Navbar'
 import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
+import ConfDetail from './Detail/ConfDetail'
 
 export default {
   name: 'Submission',
   data () {
     return {
       user: new User(),
-      alert: new Alert()
+      alert: new Alert(),
+      confDetail: new ConfDetail(),
+      subForm: {
+        title: '',
+        abs: '',
+        fileName: ''
+      }
     }
   },
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
@@ -57,6 +65,46 @@ export default {
     'InnerNav': InnerNav
   },
   methods: {
+    updateFile (event) {
+      let files = event.target.files;
+      if (files)
+      {
+        this.subForm.fileName = files[0].name;
+      }
+    },
+    submit () {
+      this.$axios.post('/submission', {
+        author: this.user.getUserInfo().username,
+        conference: this.fullName,
+        title: this.subForm.title,
+        abs: this.subForm.abs,
+        fileName: this.subForm.fileName
+      })
+      .catch(
+        error =>
+        {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('you are not allowed to submit this paper');
+          }
+          else
+          {
+            this.alert.popDanger('submission error');
+          }
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.alert.popSuccess('paper submitted');
+          setTimeout(() => 
+          {
+            this.$router.replace(this.confDetail.getURI('author', this, 'author'));
+          }, 1500);
+        }
+      });
+    }
   },
   mounted () {
     document.title += ` - ${this.fullName}`;
