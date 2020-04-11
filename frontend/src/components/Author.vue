@@ -1,5 +1,5 @@
 <template>
-  <div id="Submission">
+  <div id="Author">
     <Navbar/>
     <div class="row">
       <nav class="nav navbar-expand-sm flex-column bg-light navbar-light" style="min-height: 100vh;width: 200px;text-align: center">
@@ -61,7 +61,7 @@
   import Navbar from './Navbar'
 
   export default {
-    name: 'MySubmission',
+    name: 'Author',
     data () {
       return {}
     },
