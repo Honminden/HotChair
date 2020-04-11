@@ -10,6 +10,7 @@ import Notification from '@/components/Notification'
 import Submission from '@/components/Submission'
 import Invitation from '@/components/Invitation'
 import Detail from '@/components/Detail'
+import MySubmission from "@/components/MySubmission";
 
 import store from '../store'
 
@@ -35,7 +36,7 @@ export const router = new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "Home", 
+        title: "Home",
         requireAuth: true // 需要登录权限
       }
     },
@@ -44,7 +45,7 @@ export const router = new Router({
       name: 'Login',
       component: Login,
       meta: {
-        title: "Login", 
+        title: "Login",
       }
     },
     {
@@ -52,7 +53,7 @@ export const router = new Router({
       name: 'Register',
       component: Register,
       meta: {
-        title: "Register", 
+        title: "Register",
       }
     },
     {

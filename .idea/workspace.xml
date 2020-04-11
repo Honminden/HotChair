@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4934fa9d-e08b-489c-846a-a78b84efdbc3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/MySubmission.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Conference.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Conference.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ConferenceList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ConferenceList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Detail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Invitation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Invitation.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Notification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Notification.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Submission.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Submission.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserInfo.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +73,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -85,7 +80,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1586177916140" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../backend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -150,46 +145,49 @@
       <workItem from="1586221224239" duration="94000" />
       <workItem from="1586221330504" duration="31000" />
       <workItem from="1586256102725" duration="12103000" />
-      <workItem from="1586305812593" duration="12484000" />
+      <workItem from="1586305812593" duration="12792000" />
+      <workItem from="1586477479714" duration="190000" />
+      <workItem from="1586477789007" duration="1701000" />
+      <workItem from="1586500899479" duration="5020000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="352" y="87" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586221307421">
+    <state x="352" y="87" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586477506996">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state x="352" y="87" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/62.0.1218.720@62.0.1218.720" timestamp="1586221307421" />
-    <state x="452" y="116" key="FileChooserDialogImpl" timestamp="1586091525443">
+    <state x="352" y="87" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/62.0.1218.720@62.0.1218.720" timestamp="1586477506996" />
+    <state x="452" y="116" key="FileChooserDialogImpl" timestamp="1586500950826">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state x="452" y="116" key="FileChooserDialogImpl/62.0.1218.720@62.0.1218.720" timestamp="1586091525443" />
-    <state width="565" height="2" key="GridCell.Tab.0.bottom" timestamp="1586272454337">
+    <state x="452" y="116" key="FileChooserDialogImpl/62.0.1218.720@62.0.1218.720" timestamp="1586500950826" />
+    <state width="1175" height="2" key="GridCell.Tab.0.bottom" timestamp="1586504011965">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="565" height="2" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586272454337" />
-    <state width="565" height="2" key="GridCell.Tab.0.center" timestamp="1586272454337">
+    <state width="1175" height="2" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586504011965" />
+    <state width="1175" height="2" key="GridCell.Tab.0.center" timestamp="1586504011965">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="565" height="2" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586272454337" />
-    <state width="565" height="2" key="GridCell.Tab.0.left" timestamp="1586272454337">
+    <state width="1175" height="2" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586504011965" />
+    <state width="1175" height="2" key="GridCell.Tab.0.left" timestamp="1586504011965">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="565" height="2" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586272454337" />
-    <state width="565" height="2" key="GridCell.Tab.0.right" timestamp="1586272454337">
+    <state width="1175" height="2" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586504011965" />
+    <state width="1175" height="2" key="GridCell.Tab.0.right" timestamp="1586504011965">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="565" height="2" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586272454337" />
+    <state width="1175" height="2" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586504011965" />
     <state x="173" y="3" key="SettingsEditor" timestamp="1586090891093">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="173" y="3" key="SettingsEditor/62.0.1218.720@62.0.1218.720" timestamp="1586090891093" />
-    <state x="108" y="191" key="com.intellij.ide.util.TipDialog" timestamp="1586305813792">
+    <state x="108" y="191" key="com.intellij.ide.util.TipDialog" timestamp="1586477481260">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state x="108" y="191" key="com.intellij.ide.util.TipDialog/62.0.1218.720@62.0.1218.720" timestamp="1586305813792" />
+    <state x="108" y="191" key="com.intellij.ide.util.TipDialog/62.0.1218.720@62.0.1218.720" timestamp="1586477481260" />
     <state x="328" y="161" key="run.anything.popup" timestamp="1586264083092">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
