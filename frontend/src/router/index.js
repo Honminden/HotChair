@@ -10,7 +10,7 @@ import Notification from '@/components/Notification'
 import Submission from '@/components/Submission'
 import Invitation from '@/components/Invitation'
 import Detail from '@/components/Detail'
-import MySubmission from "@/components/MySubmission";
+import Author from "@/components/Author";
 
 import store from '../store'
 
@@ -90,7 +90,7 @@ export const router = new Router({
       component: Notification,
       meta: {
         title: "Notification",
-        // requireAuth: true // 需要登录权限
+        requireAuth: true // 需要登录权限
       }
     },
     {
@@ -99,7 +99,7 @@ export const router = new Router({
       component: Submission,
       meta: {
         title: "Submission",
-        // requireAuth: true // 需要登录权限
+        requireAuth: true // 需要登录权限
       }
     },
     {
@@ -117,6 +117,15 @@ export const router = new Router({
       component: Detail,
       meta: {
         title: "Detail",
+        requireAuth: true // 需要登录权限
+      },
+      props: confProps
+    },  {
+      path: '/author',
+      name: 'Author',
+      component: Author,
+      meta: {
+        title: "Author",
         requireAuth: true // 需要登录权限
       },
       props: confProps
