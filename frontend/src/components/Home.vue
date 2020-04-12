@@ -1,35 +1,21 @@
 <template>
   <div>
     <Navbar/>
-    <div class="container d-flex">
-      <div id="carousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carousel" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel" data-slide-to="1"></li>
-          <li data-target="#carousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="https://www.pcrm.org/sites/default/files/ICNM2018.jpg" 
-                      class="d-block w-100" alt="conference photo 1">
-          </div>
-          <div class="carousel-item">
-            <img src="https://cdn.meetingsbooker.com/images/venues/Edinburgh-International-Conference-Centre-14.jpg" 
-                      class="d-block w-100" alt="conference photo 2">
-          </div>
-          <div class="carousel-item">
-            <img src="https://www.hkafcn.hk/wp-content/uploads/2013/03/time2017_1.jpg" 
-                      class="d-block w-100" alt="conference photo 3">
-          </div>
+    <div class="container" style="margin-top: 10vh">
+      <div class="row">
+        <div class="col-sm-7">
+            <h1 class="text-primary" style="font-size: 70px;">Hotchair</h1>
+          <p  style="font-size: 25px;-webkit-text-fill-color: grey">
+            Hold and handle conferences.<br/>
+            Fast, clear, and stable.<br/>
+            It's easy to arrange conferences, or manage paper submission.<br/>
+          </p>
+          <router-link to="list" class="col-sm-4 btn btn-outline-primary btn-lg">Get started</router-link><br/>
+          <p style="margin-top: 20px;">©404NotFound fjy saq xyb ytq</p>
         </div>
-        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+          <div class="col-sm-5">
+    <img src="../assets/background/icon.png" width="100%">
+          </div>
       </div>
     </div>
   </div>

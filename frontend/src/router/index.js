@@ -16,7 +16,7 @@ import store from '../store'
 
 Vue.use(Router)
 
-const confProps = route => ({ 
+const confProps = route => ({
   username: route.query.username,
   fullName: route.query.fullName,
   abbreviation: route.query.abbreviation,
@@ -37,7 +37,7 @@ export const router = new Router({
       component: Home,
       meta: {
         title: "Home",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -61,8 +61,8 @@ export const router = new Router({
       name: 'Conference',
       component: Conference,
       meta: {
-        title: "New Conference", 
-        requireAuth: true // 需要登录权限
+        title: "New Conference",
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -70,8 +70,8 @@ export const router = new Router({
       name: 'UserInfo',
       component: UserInfo,
       meta: {
-        title: "User Info", 
-        requireAuth: true // 需要登录权限
+        title: "User Info",
+        // requireAuth: true // 需要登录权限
       }
 
     },
@@ -81,7 +81,7 @@ export const router = new Router({
       component: List,
       meta: {
         title: "List of Conferences",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -90,7 +90,7 @@ export const router = new Router({
       component: Notification,
       meta: {
         title: "Notification",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       }
     },
     {
@@ -99,7 +99,7 @@ export const router = new Router({
       component: Submission,
       meta: {
         title: "Submission",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       },
       props: confProps
     },
@@ -109,7 +109,7 @@ export const router = new Router({
       component: Invitation,
       meta: {
         title: "Invitations",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       },
       props: confProps
     },  {
@@ -118,7 +118,7 @@ export const router = new Router({
       component: Detail,
       meta: {
         title: "Detail",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       },
       props: confProps
     },  {
@@ -127,7 +127,7 @@ export const router = new Router({
       component: Author,
       meta: {
         title: "Author",
-        requireAuth: true // 需要登录权限
+        // requireAuth: true // 需要登录权限
       },
       props: confProps
     }

@@ -1,9 +1,9 @@
 <template>
   <div id="List">
     <Navbar/>
-    <div v-show="alert.isVisible" :class="alert.type">
-      {{ alert.content }}
-    </div>
+    <div class="row">
+    <LeftNav/>
+      <div class="container col-sm-10" style="margin-top: 15px">
     <div class="accordion" id="accordion">
       <div v-if="user.isAdmin()">
         <div class="card">
@@ -45,51 +45,9 @@
         </div>
       </div>
       <div v-else>
-        <div class="card">
-          <button class="btn btn-primary" data-toggle="collapse" data-target="#YourConf">
-            Your Conferences
-          </button>
-          <div id="YourConf" class="collapse" data-parent="#accordion">
-            <div class="card-body">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Abbreviation</th>
-                    <th scope="col">Date and Time</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Submission Deadline</th>
-                    <th scope="col">Review Release Date</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="conf in this.confLists.yourConfList" :key="conf.fullName">
-                    <th scope="row">
-                      <div v-if="conf.isPassed">
-                        <router-link :to="confDetail.getURI('detail', conf, '')">
-                          {{ conf.fullName }}
-                        </router-link>
-                      </div>
-                      <div v-else>
-                        {{ conf.fullName }}
-                      </div>
-                    </th>
-                    <td>{{ conf.abbreviation }}</td>
-                    <td>{{ conf.time }}</td>
-                    <td>{{ conf.location }}</td>
-                    <td>{{ conf.submissionDDL }}</td>
-                    <td>{{ conf.reviewReleaseDate }}</td>
-                    <td><span :class="conf.badge.class">{{ conf.badge.status }}</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <button class="btn btn-primary" data-toggle="collapse" data-target="#AllConf">
-            All Conferences
+        <div class="card  border-light">
+          <button class="btn btn-light text-left card-header"  data-toggle="collapse" data-target="#AllConf">
+           All Conferences <i class="fa fa-bars float-right"> </i>
           </button>
           <div id="AllConf" class="collapse show" data-parent="#accordion">
             <div class="card-body">
@@ -119,6 +77,55 @@
             </div>
           </div>
         </div>
+        <div class="card  border-light">
+          <button class="btn btn-light text-left card-header" data-toggle="collapse" data-target="#YourConf">
+            Your Conferences<i class="fa fa-bars float-right"> </i>
+          </button>
+          <div id="YourConf" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Abbreviation</th>
+                  <th scope="col">Date and Time</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Submission Deadline</th>
+                  <th scope="col">Review Release Date</th>
+                  <th scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="conf in this.confLists.yourConfList" :key="conf.fullName">
+                  <th scope="row">
+                    <div v-if="conf.isPassed">
+                      <router-link :to="confDetail.getURI('detail', conf, '')">
+                        {{ conf.fullName }}
+                      </router-link>
+                    </div>
+                    <div v-else>
+                      {{ conf.fullName }}
+                    </div>
+                  </th>
+                  <td>{{ conf.abbreviation }}</td>
+                  <td>{{ conf.time }}</td>
+                  <td>{{ conf.location }}</td>
+                  <td>{{ conf.submissionDDL }}</td>
+                  <td>{{ conf.reviewReleaseDate }}</td>
+                  <td><span :class="conf.badge.class">{{ conf.badge.status }}</span></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div>
+        <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
+          {{ alert.content }}
+        </div>
+        </div>
       </div>
     </div>
   </div>
@@ -126,6 +133,7 @@
 
 <script>
 import Navbar from './Navbar'
+import LeftNav from './LeftNav'
 import Alert from './Message/Alert'
 import User from './User/User'
 import ConfLists from './List/ConfLists'
@@ -138,12 +146,14 @@ export default {
       user: new User(),
       alert: new Alert(),
       confLists: new ConfLists(),
-      confDetail: new ConfDetail()
+      confDetail: new ConfDetail(),
+
     }
   },
   components:
   {
-    'Navbar': Navbar
+    'Navbar': Navbar,
+    'LeftNav':LeftNav
   },
   methods: {
     getList()

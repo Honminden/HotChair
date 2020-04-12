@@ -1,14 +1,12 @@
 <template>
   <div id="Detail">
     <Navbar/>
+    <div class="row">
+     <LeftNav/>
+      <div class="container col-sm-10" style="margin-top: 15px">
     <InnerNav :parent="this"/>
-    <div v-show="alert.isVisible" :class="alert.type">
-      {{ alert.content }}
-    </div>
-    <div class="row mt-4">
-      <div class="col-2"></div>
-      <div class="col-8">
-        <table class="table table-hover">
+      <div>
+        <table class="table table-hover container col-sm-11" >
           <tbody>
           <tr>
             <th scope="row">Abbreviation</th>
@@ -43,8 +41,14 @@
           </tbody>
         </table>
       </div>
-      <div class="col-2"></div>
+        <div>
+        <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
+          {{ alert.content }}
+        </div>
+        </div>
     </div>
+      </div>
+
   </div>
 
 </template>
@@ -54,6 +58,7 @@ import Navbar from './Navbar'
 import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
+import LeftNav from "./LeftNav";
 
 export default {
   name: 'Detail',
@@ -66,6 +71,7 @@ export default {
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
   components:
   {
+    LeftNav,
     'Navbar': Navbar,
     'InnerNav': InnerNav
   },
@@ -87,7 +93,7 @@ export default {
         if(res && res.status === 200)
         {
           this.alert.popSuccess('open success');
-          setTimeout(() => 
+          setTimeout(() =>
           {
             this.$router.replace({
               path: 'detail',

@@ -1,9 +1,12 @@
 <template>
   <div id="Navbar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link class="navbar-brand" to="home">
-        <h1>HotChair</h1>
+    <header class="nav navbar-expand-sm navbar-dark bg-secondary row">
+      <router-link class="navbar-brand bg-primary" style="width: 200px" to="home">
+        <div class="col-sm-2 text-center">
+          <h2 class="col" style="margin-left: 10px">HOTCHAIR</h2>
+        </div>
       </router-link>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle"
                 aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,7 +30,7 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" 
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                       aria-haspopup="true" aria-expanded="false">
               User
             </a>
@@ -39,7 +42,7 @@
                   <router-link class="dropdown-item" to="notification">Notifications</router-link>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" @click="showAlert = true;">Logout</a>
+                <a class="dropdown-item" href="#" @click="showAlert = true">Logout</a>
               </div>
               <div v-else>
                 <router-link class="dropdown-item" to="login">Login</router-link>
@@ -49,11 +52,11 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </header>
     <div v-if="showAlert" class="position: relative">
       <div class="alert alert-warning" role="alert" style="position: absolute; top: 40%; left: 40%; z-index:9">
         <h4 class="alert-heading">Logout
-        <button type="button" class="ml-2 mb-1 close" @click="showAlert = false;" aria-label="Close">&times;</button></h4>
+        <button type="button" class="ml-2 mb-1 close" @click="showAlert = false" aria-label="Close">&times;</button></h4>
         <p>You are going to logout.</p>
         <div class="d-flex justify-content-center align-items-center">
         <button type="button" class="btn btn-warning" @click="logout()">

@@ -1,16 +1,21 @@
 <template>
   <div id="Submission">
     <Navbar/>
+    <div class="row">
+      <LeftNav/>
+      <div class="container col-sm-10" style="margin-top: 15px">
     <InnerNav :parent="this"/>
     <div v-if="progress.show" class="progress" style="height: 30px">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+      <div class="progress-bar progress-bar-striped progress-bar-animated"
                 role="progressbar" :style="`width: ${progress.value}%`">
         <strong>{{ progress.value }}%</strong>
       </div>
     </div>
-    <div v-show="alert.isVisible" :class="alert.type">
-      {{ alert.content }}
-    </div>
+        <div>
+          <div class="col-sm-3 float-left text-center" v-show="alert.isVisible" :class="alert.type">
+            {{ alert.content }}
+          </div>
+        </div>
     <form class="col-sm-6 container" style="margin-top: 35px">
       <legend class="row">
         <span class="col"></span>
@@ -28,19 +33,21 @@
       </div>
       <div class="form-group row">
         <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
+      <div class="input-group">
         <div class="custom-file">
-          <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
           <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
+          <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-primary" @click.prevent="submit()">submit</button>
         </div>
       </div>
-      <div class="row">
-        <span class="col"></span>
-        <button class="col btn btn-info" @click.prevent="submit()">submit</button>
-        <span class="col"></span>
       </div>
     </form>
-  </div>
 
+  </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,6 +56,7 @@ import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
 import ConfDetail from './Detail/ConfDetail'
+import LeftNav from "./LeftNav";
 
 export default {
   name: 'Submission',
@@ -72,6 +80,7 @@ export default {
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
   components:
   {
+    LeftNav,
     'Navbar': Navbar,
     'InnerNav': InnerNav
   },
@@ -140,7 +149,7 @@ export default {
             if(res && res.status === 200)
             {
               this.alert.popSuccess('paper submitted');
-              setTimeout(() => 
+              setTimeout(() =>
               {
                 this.$router.replace(this.confDetail.getURI('author', this, 'author'));
               }, 1500);

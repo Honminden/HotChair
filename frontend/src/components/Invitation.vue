@@ -1,20 +1,20 @@
 <template>
   <div id="Invitaion">
     <Navbar/>
+    <div class="row">
+      <LeftNav/>
+      <div class="container col-sm-10" style="margin-top: 15px">
     <InnerNav :parent="this"/>
-    <div v-show="alert.isVisible" :class="alert.type">
-      {{ alert.content }}
-    </div>
     <div class="accordion" id="accordion">
-      <div class="card">
+      <div class="card" style="margin-top: 15px">
         <button class="btn btn-primary" data-toggle="collapse" data-target="#invitations">
           Previous Invitations
         </button>
         <div id="invitations" class="collapse show" data-parent="#accordion">
           <div class="card-body">
-            <table class="table table-hover form-group" style="margin-top: 30px">
+            <table class="table table-hover form-group">
               <tbody>
-                <tr class="bg-light">
+                <tr>
                   <th scope="col">Receiver</th>
                   <th scope="col">Status</th>
                 </tr>
@@ -39,7 +39,7 @@
           <div class="card-body row mt-4">
             <div class="col-2"></div>
             <div class="col-8">
-              <form class="form-inline" style="margin-top:25px">
+              <form class="form-inline">
                 <legend>Invite PC Members</legend>
                 <input class="form-control" type="search" placeholder="Search User..." v-model="userFullName">
                 <button class="btn btn-outline-primary ml-2" @click.prevent="getUsers()">Search</button>
@@ -72,12 +72,19 @@
                 </tbody>
               </table>
               <div>
-                <button class="btn btn-outline-info float-right mr-2" type="button" @click="postInvitations()">
+                <button class="btn btn-primary float-right mr-2" type="button" @click="postInvitations()">
                   Invite
                   </button>
               </div>
             </div>
             <div class="col-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div>
+          <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
+            {{ alert.content }}
           </div>
         </div>
       </div>
@@ -90,6 +97,7 @@ import Navbar from './Navbar'
 import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
+import LeftNav from "./LeftNav";
 
 export default {
   name: 'Invitation',
@@ -110,6 +118,7 @@ export default {
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
   components:
   {
+    LeftNav,
     'Navbar': Navbar,
     'InnerNav': InnerNav
   },
@@ -201,7 +210,7 @@ export default {
         else
         {
           this.alert.popSuccess(`${successCount} invitations sended`);
-          setTimeout(() => 
+          setTimeout(() =>
           {
             this.$router.go();
           }, 1500);

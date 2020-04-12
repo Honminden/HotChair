@@ -1,16 +1,19 @@
 <template>
   <div id="Conference">
     <Navbar/>
-    <div class="row" style="height: 35px"></div>
-    <div class="row">
-      <span class="col"></span>
-      <form :model="confForm" class="col">
-        <legend class="row">
-          <span class="col"></span>
-          <h2>Application</h2>
-          <span class="col"></span>
-        </legend>
-        <hr/>
+
+    <article>
+
+      <div class="row">
+        <LeftNav/>
+        <div class="container col-sm-5" style="margin-top: 35px">
+          <form :model="confForm" class="col">
+            <legend class="row">
+              <span class="col"></span>
+              <h2>Application</h2>
+              <span class="col"></span>
+            </legend>
+            <hr/>
 
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Full Name</label>
@@ -65,19 +68,18 @@
             {{ validAlert.content }}
           </div>
         </div>
-
-        <div class="row">
-          <span class="col"></span>
-          <button class="col btn btn-info" @click.prevent="submit()">submit</button>
-          <span class="col"></span>
-        </div>
+            <div class="row ">
+              <span class="col"></span>
+              <input class="col-sm-2 btn btn-primary" name="submit" type="submit" value="submit" @click.prevent="submit"/>
+            </div>
         <div v-show="alert.isVisible" :class="alert.type">
           {{ alert.content }}
         </div>
 
-      </form>
-      <span class="col"></span>
-    </div>
+          </form>
+        </div>
+      </div>
+    </article>
   </div>
 </template>
 
@@ -86,6 +88,7 @@ import Navbar from './Navbar'
 import Alert from './Message/Alert'
 import Validation from './Form/Validation'
 import User from './User/User'
+import LeftNav from "./LeftNav";
 
 const emptyForm = {
   fullName: '',
@@ -124,6 +127,7 @@ export default {
   },
   components:
   {
+    LeftNav,
     'Navbar': Navbar
   },
   methods: {
@@ -192,7 +196,7 @@ export default {
           if(res && res.status === 200)
           {
             this.alert.popSuccess('form submitted');
-            setTimeout(() => 
+            setTimeout(() =>
             {
               this.$router.replace('list');
             }, 1500);

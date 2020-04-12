@@ -1,11 +1,11 @@
 <template>
   <div id="Author">
     <Navbar/>
+    <div class="row">
+      <LeftNav/>
+      <div class="container col-sm-10" style="margin-top: 15px">
     <InnerNav :parent="this"/>
-    <div v-show="alert.isVisible" :class="alert.type">
-      {{ alert.content }}
-    </div>
-    <table class="table table-hover">
+    <table class="table table-hover container col-sm-11">
       <tbody>
         <tr>
           <th scope="col">Title</th>
@@ -17,6 +17,14 @@
         </tr>
       </tbody>
     </table>
+        <div>
+          <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
+            {{ alert.content }}
+          </div>
+        </div>
+  </div>
+
+    </div>
   </div>
 </template>
 
@@ -25,6 +33,7 @@ import Navbar from './Navbar'
 import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import User from './User/User'
+import LeftNav from "./LeftNav";
 
 export default {
   name: 'Author',
@@ -38,6 +47,7 @@ export default {
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
   components:
   {
+    LeftNav,
     'Navbar': Navbar,
     'InnerNav': InnerNav
   },
