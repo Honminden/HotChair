@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4934fa9d-e08b-489c-846a-a78b84efdbc3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/css/carousel.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Carousel.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LeftNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LeftNav.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,6 +151,8 @@
       <workItem from="1586674253457" duration="26413000" />
       <workItem from="1586706102512" duration="32000" />
       <workItem from="1586741304198" duration="4721000" />
+      <workItem from="1586747407143" duration="2110000" />
+      <workItem from="1586772914976" duration="352000" />
     </task>
     <servers />
   </component>
@@ -173,22 +171,22 @@
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="452" y="116" key="FileChooserDialogImpl/62.0.1218.720@62.0.1218.720" timestamp="1586676466125" />
-    <state width="1175" height="23" key="GridCell.Tab.0.bottom" timestamp="1586747076618">
+    <state width="1175" height="56" key="GridCell.Tab.0.bottom" timestamp="1586773266871">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="23" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
-    <state width="1175" height="23" key="GridCell.Tab.0.center" timestamp="1586747076618">
+    <state width="1175" height="56" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586773266871" />
+    <state width="1175" height="56" key="GridCell.Tab.0.center" timestamp="1586773266870">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="23" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
-    <state width="1175" height="23" key="GridCell.Tab.0.left" timestamp="1586747076618">
+    <state width="1175" height="56" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586773266870" />
+    <state width="1175" height="56" key="GridCell.Tab.0.left" timestamp="1586773266870">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="23" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
-    <state width="1175" height="23" key="GridCell.Tab.0.right" timestamp="1586747076618">
+    <state width="1175" height="56" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586773266870" />
+    <state width="1175" height="56" key="GridCell.Tab.0.right" timestamp="1586773266871">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="23" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
+    <state width="1175" height="56" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586773266871" />
     <state x="173" y="3" key="SettingsEditor" timestamp="1586090891093">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
