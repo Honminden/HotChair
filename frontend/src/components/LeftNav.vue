@@ -3,7 +3,7 @@
     <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/userInfo') != -1 }]" to="userInfo">UserInfo</router-link>
     <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/list') != -1 }]" to="list">List</router-link>
     <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/conference') != -1 }]" to="conference">Application</router-link>
-    <router-link class="nav-link"  :class="[{ 'bg-white':href.indexOf('/notification') != -1 }]"to="notification">Notifications</router-link>
+    <router-link class="nav-link"  :class="[{ 'bg-white':href.indexOf('/notification') != -1 }]" to="notification">Notifications</router-link>
   </nav>
 </template>
 
