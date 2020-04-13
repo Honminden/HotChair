@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4934fa9d-e08b-489c-846a-a78b84efdbc3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/css/carousel.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Carousel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +35,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="CSS File" />
         <option value="Vue Single File Component" />
       </list>
     </option>
@@ -75,6 +81,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1586177916140" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -85,6 +92,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\HotChair\frontend\frontend\src\assets\css" />
       <recent name="D:\HotChair\frontend\frontend\src\assets\background" />
       <recent name="D:\HotChair\frontend\frontend\src\components" />
       <recent name="C:\Users\ytqtina\Desktop\frontend\frontend\src\components" />
@@ -146,6 +154,7 @@
       <workItem from="1586500899479" duration="5020000" />
       <workItem from="1586674253457" duration="26413000" />
       <workItem from="1586706102512" duration="32000" />
+      <workItem from="1586741304198" duration="4721000" />
     </task>
     <servers />
   </component>
@@ -164,30 +173,30 @@
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="452" y="116" key="FileChooserDialogImpl/62.0.1218.720@62.0.1218.720" timestamp="1586676466125" />
-    <state width="1175" height="2" key="GridCell.Tab.0.bottom" timestamp="1586702713349">
+    <state width="1175" height="23" key="GridCell.Tab.0.bottom" timestamp="1586747076618">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586702713349" />
-    <state width="1175" height="2" key="GridCell.Tab.0.center" timestamp="1586702713349">
+    <state width="1175" height="23" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
+    <state width="1175" height="23" key="GridCell.Tab.0.center" timestamp="1586747076618">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586702713349" />
-    <state width="1175" height="2" key="GridCell.Tab.0.left" timestamp="1586702713349">
+    <state width="1175" height="23" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
+    <state width="1175" height="23" key="GridCell.Tab.0.left" timestamp="1586747076618">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586702713349" />
-    <state width="1175" height="2" key="GridCell.Tab.0.right" timestamp="1586702713349">
+    <state width="1175" height="23" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
+    <state width="1175" height="23" key="GridCell.Tab.0.right" timestamp="1586747076618">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586702713349" />
+    <state width="1175" height="23" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1586747076618" />
     <state x="173" y="3" key="SettingsEditor" timestamp="1586090891093">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="173" y="3" key="SettingsEditor/62.0.1218.720@62.0.1218.720" timestamp="1586090891093" />
-    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586696935484">
+    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586746228970">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog/62.0.1218.720@62.0.1218.720" timestamp="1586696935484" />
+    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog/62.0.1218.720@62.0.1218.720" timestamp="1586746228970" />
     <state x="108" y="191" key="com.intellij.ide.util.TipDialog" timestamp="1586477481260">
       <screen x="62" y="0" width="1218" height="720" />
     </state>

@@ -1,0 +1,16 @@
+.carousel-item{
+  height: 100vh;
+  width:auto;
+  overflow: hidden;
+}
+.carousel-img{
+  width:100%;
+  transition: 1s filter;
+  filter:opacity(60%);
+}
+.carousel-img:hover{
+  filter:none;
+}
+.carousel-outer{
+  position: fixed;
+}

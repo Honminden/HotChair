@@ -1,8 +1,8 @@
 <template>
   <div id="Register">
-    <div class="row">
-        <div class="col-sm-5" >
-          <div class="container col-sm-12"  style="margin-top:30px;left: 20vh">
+    <div class="row-cols-sm-1">
+        <div class="col-sm-5" style="margin:30px 15vh 30px">
+<!--          <div class="container col-sm-11"  style="margin-top:30px;left: 20vh">-->
           <form>
             <legend class="row">
               <h1 class="col" style="font-family: 'MV Boli';   text-shadow: 5px 5px 5px rgba(75,0,130,0.4); ">Hotchair</h1>
@@ -78,40 +78,9 @@
               <button class="col-sm-3  btn btn-primary" @click.prevent="register()">Create Account</button>
             </div>
       </form>
+<!--        </div>-->
         </div>
-        </div>
-
-      <div class="d-flex bg-primary" style="width:80vh;position: fixed;right: 0">
-        <div id="carousel" class="carousel slide" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel" data-slide-to="1"></li>
-            <li data-target="#carousel" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner" >
-            <div class="carousel-item active">
-              <img src="https://www.pcrm.org/sites/default/files/ICNM2018.jpg"
-                   class="d-block w-100" alt="conference photo 1">
-            </div>
-            <div class="carousel-item" >
-              <img src="https://cdn.meetingsbooker.com/images/venues/Edinburgh-International-Conference-Centre-14.jpg"
-                   class="d-block w-100" alt="conference photo 2">
-            </div>
-            <div class="carousel-item">
-              <img src="https://www.hkafcn.hk/wp-content/uploads/2013/03/time2017_1.jpg"
-                   class="d-block w-100" alt="conference photo 3">
-            </div>
-          </div>
-          <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-    </div>
+      <Carousel/>
     </div>
   </div>
 </template>
@@ -121,6 +90,7 @@ import Navbar from './Navbar'
 import Alert from './Message/Alert'
 import regionData from '../assets/data/region.json'
 import Validation from './Form/Validation'
+import Carousel from "./Carousel";
 const regions = Object.values(regionData);
 
 const emptyForm = {
@@ -162,6 +132,7 @@ export default {
   },
   components:
   {
+    Carousel,
     'Navbar': Navbar
   },
   methods: {
@@ -231,18 +202,9 @@ export default {
   }
 }
 </script>
-<style>
-  .carousel-item{
-    height: 100vh;
-    width:auto;
-    overflow: hidden;
-  }
-  img{
-    width:100%;
-    transition: 1s filter;
-    filter:opacity(60%);
-  }
-  img:hover{
-    filter:none;
+<style scoped>
+  .carousel-outer{
+    right: 0;
+    top: 0
   }
 </style>

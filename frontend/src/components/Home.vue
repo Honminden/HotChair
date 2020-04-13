@@ -1,9 +1,9 @@
 <template>
   <div>
     <Navbar/>
-    <div class="container" style="margin-top: 10vh">
+    <div class="container col-sm-11" style="margin-top: 10vh">
       <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             <h1 class="text-primary" style="font-size: 70px;">Hotchair</h1>
           <p  style="font-size: 25px;-webkit-text-fill-color: grey">
             Hold and handle conferences.<br/>
@@ -14,7 +14,7 @@
           <p style="margin-top: 20px;">©404NotFound fjy saq xyb ytq</p>
         </div>
           <div class="col-sm-5">
-    <img src="../assets/background/icon.png" width="100%">
+    <img src="../assets/background/icon.png" width="120%">
           </div>
       </div>
     </div>

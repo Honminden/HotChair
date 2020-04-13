@@ -1,39 +1,8 @@
 <template>
-  <div class="row">
-    <div class="d-flex bg-primary" style="width:80vh;">
-      <div id="carousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carousel" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel" data-slide-to="1"></li>
-          <li data-target="#carousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" >
-          <div class="carousel-item active">
-            <img src="https://www.pcrm.org/sites/default/files/ICNM2018.jpg"
-                 class="d-block w-100" alt="conference photo 1">
-          </div>
-          <div class="carousel-item" >
-            <img src="https://cdn.meetingsbooker.com/images/venues/Edinburgh-International-Conference-Centre-14.jpg"
-                 class="d-block w-100" alt="conference photo 2">
-          </div>
-          <div class="carousel-item">
-            <img src="https://www.hkafcn.hk/wp-content/uploads/2013/03/time2017_1.jpg"
-                 class="d-block w-100" alt="conference photo 3">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </div>
-    <div class="col">
-      <div class="container col-sm-9" style="margin-top:20vh">
-        <span class="col"></span>
+  <div id="Login">
+  <div class="row-cols-sm-1">
+    <Carousel/>
+      <div class="container col-sm-5 float-right" style="margin-right: 15vh;margin-top: 20vh">
         <form>
           <legend class="row">
             <h1 class="col" style="font-family: 'MV Boli';   text-shadow: 5px 5px 5px rgba(75,0,130,0.4); ">Hotchair</h1>
@@ -70,7 +39,6 @@
 
 
         </form>
-        <span class="col"></span>
       </div>
     </div>
     </div>
@@ -80,6 +48,7 @@
 <script>
   import Navbar from './Navbar'
   import Alert from './Message/Alert'
+  import Carousel from "./Carousel";
 
   export default {
     name: 'Login',
@@ -95,6 +64,7 @@
     },
     components:
       {
+        Carousel,
         'Navbar': Navbar
       },
     methods: {
@@ -133,18 +103,9 @@
     }
   }
 </script>
-<style>
-  .carousel-item{
-    height: 100vh;
-    width:auto;
-    overflow: hidden;
-  }
-  img{
-    width:100%;
-    transition: 1s filter;
-    filter:opacity(60%);
-  }
-  img:hover{
-    filter:none;
+<style scoped>
+  .carousel-outer{
+    left: 0;
+    top: 0;
   }
 </style>
