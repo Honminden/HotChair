@@ -42,7 +42,7 @@
                   <router-link class="dropdown-item" to="notification">Notifications</router-link>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" @click="showAlert = true">Logout</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logout">Logout</a>
               </div>
               <div v-else>
                 <router-link class="dropdown-item" to="login">Login</router-link>
@@ -53,15 +53,24 @@
         </ul>
       </div>
     </header>
-    <div v-if="showAlert" class="position: relative">
-      <div class="alert alert-warning" role="alert" style="position: absolute; top: 40%; left: 40%; z-index:9">
-        <h4 class="alert-heading">Logout
-        <button type="button" class="ml-2 mb-1 close" @click="showAlert = false" aria-label="Close">&times;</button></h4>
-        <p>You are going to logout.</p>
-        <div class="d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-warning" @click="logout()">
-          Confirm
-        </button>
+    <div class="modal fade" id="logout" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="logout">Logout</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>You are going to logout.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal" @click="logout()">
+              Confirm
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -75,13 +84,11 @@ export default {
   name: 'Navbar',
   data () {
     return {
-      showAlert: false,
       user: new User()
     }
   },
   methods: {
     logout () {
-      this.popConfirm = false;
       this.user.logout();
       this.$router.replace('/login');
     },
@@ -96,14 +103,7 @@ export default {
             this.logout();
           }, 1500);
         }
-      )
-      .then(res =>
-      {
-        if(res && res.status === 200)
-        {
-          this.confLists.update(res.data.confList);
-        }
-      });
+      );
     }
   },
   mounted () {
