@@ -84,7 +84,30 @@ export default {
       this.popConfirm = false;
       this.user.logout();
       this.$router.replace('/login');
+    },
+    checkToken()
+    {
+      this.$axios.head('/token')
+      .catch(
+        error =>
+        {
+          console.log("token expired or invalid");
+          setTimeout(() => {
+            this.logout();
+          }, 1500);
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.confLists.update(res.data.confList);
+        }
+      });
     }
+  },
+  mounted () {
+    this.checkToken();
   }
 }
 </script>
