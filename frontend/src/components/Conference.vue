@@ -13,66 +13,66 @@
             </legend>
             <hr/>
 
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Full Name</label>
-            <input type="text" name="fullName" class="col-sm-8 form-control" v-model="confForm.fullName"
-                  auto-complete="off" placeholder="Full Name" @input="validate('fullName')">
-            <div v-for="validAlert in validAlerts.fullName" :class="validAlert.type" :key="validAlert.content">
-              {{ validAlert.content }}
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Full Name</label>
+              <input type="text" name="fullName" class="col-sm-8 form-control" v-model="confForm.fullName"
+                        auto-complete="off" placeholder="Full Name" @input="validate('fullName')">
+              <div v-for="validAlert in validAlerts.fullName" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
             </div>
-        </div>
 
-        <div class="form-group row">
+            <div class="form-group row">
               <label class="col-sm-4 col-form-label">Abbreviation</label>
-            <input type="text"  name="abbreviation" class="col-sm-8 form-control" v-model="confForm.abbreviation"
-                  auto-complete="off" placeholder="Abbreviation" @input="validate('abbreviation')">
-            <div v-for="validAlert in validAlerts.abbreviation" :class="validAlert.type" :key="validAlert.content">
-              {{ validAlert.content }}
+              <input type="text"  name="abbreviation" class="col-sm-8 form-control" v-model="confForm.abbreviation"
+                        auto-complete="off" placeholder="Abbreviation" @input="validate('abbreviation')">
+              <div v-for="validAlert in validAlerts.abbreviation" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Date and Time</label>
-            <input type="datetime-local" name="time" class="col-sm-8 form-control" v-model="confForm.time"
-              auto-complete="off" placeholder="Date and Time" @input="validate('time')">
-            <div v-for="validAlert in validAlerts.time" :class="validAlert.type" :key="validAlert.content">
-              {{ validAlert.content }}
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Date and Time</label>
+              <input type="datetime-local" name="time" class="col-sm-8 form-control" v-model="confForm.time"
+                        auto-complete="off" placeholder="Date and Time" @input="validate('time')">
+              <div v-for="validAlert in validAlerts.time" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Location</label>
-            <input type="text" name="location" class="col-sm-8 form-control" v-model="confForm.location"
-                auto-complete="off" placeholder="Location" @input="validate('location')">
-            <div v-for="validAlert in validAlerts.location" :class="validAlert.type" :key="validAlert.content">
-              {{ validAlert.content }}
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Location</label>
+              <input type="text" name="location" class="col-sm-8 form-control" v-model="confForm.location"
+                        auto-complete="off" placeholder="Location" @input="validate('location')">
+              <div v-for="validAlert in validAlerts.location" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Submission Deadline</label>
-          <input type="date" name="submissionDDL" class="col-sm-8 form-control" v-model="confForm.submissionDDL"
-              auto-complete="off" placeholder="Submission Deadline" @input="validate('submissionDDL')">
-          <div v-for="validAlert in validAlerts.submissionDDL" :class="validAlert.type" :key="validAlert.content">
-            {{ validAlert.content }}
-          </div>
-        </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Submission Deadline</label>
+              <input type="date" name="submissionDDL" class="col-sm-8 form-control" v-model="confForm.submissionDDL"
+                        auto-complete="off" placeholder="Submission Deadline" @input="validate('submissionDDL')">
+              <div v-for="validAlert in validAlerts.submissionDDL" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
+            </div>
 
-        <div class="form-group row ">
-          <label class="col-sm-4 col-form-label">Review Release Date</label>
-          <input type="date" name="reviewReleaseDate" class=" col-sm-8 form-control" v-model="confForm.reviewReleaseDate"
-              auto-complete="off" placeholder="Review Release Date" @input="validate('reviewReleaseDate')">
-          <div v-for="validAlert in validAlerts.reviewReleaseDate" :class="validAlert.type" :key="validAlert.content">
-            {{ validAlert.content }}
-          </div>
-        </div>
+            <div class="form-group row ">
+              <label class="col-sm-4 col-form-label">Review Release Date</label>
+              <input type="date" name="reviewReleaseDate" class=" col-sm-8 form-control" v-model="confForm.reviewReleaseDate"
+                        auto-complete="off" placeholder="Review Release Date" @input="validate('reviewReleaseDate')">
+              <div v-for="validAlert in validAlerts.reviewReleaseDate" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
+            </div>
             <div class="row ">
               <span class="col"></span>
               <input class="col-sm-2 btn btn-primary" name="submit" type="submit" value="submit" @click.prevent="submit"/>
             </div>
-        <div v-show="alert.isVisible" :class="alert.type">
-          {{ alert.content }}
-        </div>
+            <div v-show="alert.isVisible" :class="alert.type">
+              <i :class="alert.icon"></i>{{ alert.content }}
+            </div>
 
           </form>
         </div>

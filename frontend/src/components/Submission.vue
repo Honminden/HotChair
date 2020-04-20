@@ -13,7 +13,7 @@
         </div>
         <div>
           <div class="col-sm-3 float-left text-center" v-show="alert.isVisible" :class="alert.type">
-            {{ alert.content }}
+            <i :class="alert.icon"></i>{{ alert.content }}
           </div>
         </div>
         <form class="col-sm-6 container" style="margin-top: 35px">

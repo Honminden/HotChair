@@ -86,7 +86,7 @@
         </div>
         <div>
           <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
-            {{ alert.content }}
+            <i :class="alert.icon"></i>{{ alert.content }}
           </div>
         </div>
       </div>

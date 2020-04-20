@@ -20,12 +20,12 @@
           <div class="form-group col-sm-6" >
             <label for="username" class="col-form-label">Username</label>
             <input id="username" class=" form-control" v-model="loginForm.username"
-                   type="text" auto-complete="off" placeholder="username">
+                    type="text" auto-complete="off" placeholder="username">
           </div>
           <div class="form-group col-sm-6">
             <label for="password" class="col-form-label">Password</label>
             <input id="password" class=" form-control" v-model="loginForm.password"
-                   type="password" auto-complete="off" placeholder="password">
+                    type="password" auto-complete="off" placeholder="password">
           </div>
           </div>
           <hr/>
@@ -34,7 +34,7 @@
             <button class="col-sm-3 btn btn-primary" @click.prevent="login()">login</button>
           </div>
           <div v-show="alert.isVisible" :class="alert.type">
-            {{ alert.content }}
+            <i :class="alert.icon"></i>{{ alert.content }}
           </div>
 
 
