@@ -8,7 +8,7 @@
       <div v-if="user.isAdmin()">
         <div class="card">
           <button class="btn btn-primary" data-toggle="collapse" data-target="#AdminConf">
-            Admin Panel
+            <i class="fa fa-legal mx-2"></i>Admin Panel
           </button>
           <div id="AdminConf" class="collapse show" data-parent="#accordion">
             <div class="card-body">
@@ -47,7 +47,7 @@
       <div v-else>
         <div class="card  border-light">
           <button class="btn btn-light text-left card-header"  data-toggle="collapse" data-target="#AllConf">
-           All Conferences <i class="fa fa-bars float-right"> </i>
+            <i class="fa fa-users mx-2"></i>All Conferences <i class="fa fa-bars float-right"> </i>
           </button>
           <div id="AllConf" class="collapse show" data-parent="#accordion">
             <div class="card-body">
@@ -79,7 +79,7 @@
         </div>
         <div class="card  border-light">
           <button class="btn btn-light text-left card-header" data-toggle="collapse" data-target="#YourConf">
-            Your Conferences<i class="fa fa-bars float-right"> </i>
+            <i class="fa fa-user mx-2"></i>Your Conferences<i class="fa fa-bars float-right"> </i>
           </button>
           <div id="YourConf" class="collapse" data-parent="#accordion">
             <div class="card-body">

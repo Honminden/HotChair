@@ -1,9 +1,9 @@
 <template>
   <div id="Navbar">
     <header class="nav navbar-expand-sm navbar-dark bg-secondary row">
-      <router-link class="navbar-brand bg-primary" style="width: 200px" to="home">
-        <div class="col-sm-2 text-center">
-          <h2 class="col" style="margin-left: 10px">HOTCHAIR</h2>
+      <router-link class="navbar-brand bg-primary" to="home">
+        <div class="text-center mx-4">
+          <h2 class="col" style="margin-left: 10px"><i class="fa fa-fire mr-2"></i>HOTCHAIR</h2>
         </div>
       </router-link>
 
@@ -15,31 +15,34 @@
       <div class="collapse navbar-collapse" id="toggle">
         <ul class="mr-auto nav navbar-nav">
           <li class="nav-item active">
-            <router-link class="nav-link" to="home">Home</router-link>
+            <router-link class="nav-link" to="home"><i class="fa fa-home mx-2"></i>Home</router-link>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                       aria-haspopup="true" aria-expanded="false">
-              Conferences
+              <i class="fa fa-coffee mx-2"></i>Conferences
             </a>
             <div class="dropdown-menu ">
-              <router-link class="dropdown-item" to="list">List of Conferences</router-link>
+              <router-link class="dropdown-item" to="list"><i class="fa fa-th-list mx-2"></i>List of Conferences</router-link>
               <div v-if="!user.isAdmin()">
-                <router-link class="dropdown-item" to="conference">New Conference</router-link>
+                <router-link class="dropdown-item" to="conference"><i class="fa fa-file-o mx-2"></i>New Conference</router-link>
               </div>
             </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                       aria-haspopup="true" aria-expanded="false">
-              User
+              <i class="fa fa-user-circle mx-2"></i>User
             </a>
             <div class="dropdown-menu">
               <div v-if="user.isLogined()">
-                <span class="dropdown-header">hello, {{ user.getUserInfo().username }}</span>
-                <router-link class="dropdown-item" to="userInfo">User Info</router-link>
+                <span class="dropdown-header">
+                  hello, <i :class="(user.isAdmin()) ? 'fa fa-user-secret' : 'fa fa-user'"></i>
+                  {{ user.getUserInfo().username }}
+                </span>
+                <router-link class="dropdown-item" to="userInfo"><i class="fa fa-id-card mx-2"></i>User Info</router-link>
                 <div v-if="!user.isAdmin()">
-                  <router-link class="dropdown-item" to="notification">Notifications</router-link>
+                  <router-link class="dropdown-item" to="notification"><i class="fa fa-envelope mx-2"></i>Notifications</router-link>
                 </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logout">Logout</a>
@@ -57,7 +60,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="logout">Logout</h4>
+            <h4 class="modal-title" id="logout"><i class="fa fa-warning mx-2"></i>Logout</h4>
             <button type="button" class="close" data-dismiss="modal">
               <span>&times;</span>
             </button>

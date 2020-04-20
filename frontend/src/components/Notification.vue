@@ -8,7 +8,7 @@
     <div class="accordion" id="accordion">
       <div class="card border-light">
         <button class="btn btn-light card-header text-left" data-toggle="collapse" data-target="#unhandled">
-           Unhandled PC Member Invitations<i class="fa fa-bars float-right"> </i>
+            <i class="fa fa-envelope mx-2"></i>Unhandled PC Member Invitations<i class="fa fa-bars float-right"> </i>
         </button>
         <div id="unhandled" class="collapse show" data-parent="#accordion">
           <div class="card-body">
@@ -41,7 +41,7 @@
       </div>
       <div class="card border-light">
         <button class="btn btn-light card-header text-left" data-toggle="collapse" data-target="#handled">
-           Handled PC Member Invitations<i class="fa fa-bars float-right"> </i>
+            <i class="fa fa-envelope-open mx-2"></i>Handled PC Member Invitations<i class="fa fa-bars float-right"> </i>
         </button>
         <div id="handled" class="collapse" data-parent="#accordion">
           <div class="card-body">

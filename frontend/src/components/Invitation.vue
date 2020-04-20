@@ -8,7 +8,7 @@
     <div class="accordion" id="accordion">
       <div class="card" style="margin-top: 15px">
         <button class="btn btn-primary" data-toggle="collapse" data-target="#invitations">
-          Previous Invitations
+          <i class="fa fa-envelope mx-2"></i>Previous Invitations
         </button>
         <div id="invitations" class="collapse show" data-parent="#accordion">
           <div class="card-body">
@@ -33,7 +33,7 @@
       </div>
       <div class="card">
         <button class="btn btn-primary" data-toggle="collapse" data-target="#invite">
-          Send New Invitations
+          <i class="fa fa-pencil-square-o mx-2"></i>Send New Invitations
         </button>
         <div id="invite" class="collapse" data-parent="#accordion">
           <div class="card-body row mt-4">
@@ -42,7 +42,9 @@
               <form class="form-inline">
                 <legend>Invite PC Members</legend>
                 <input class="form-control" type="search" placeholder="Search User..." v-model="userFullName">
-                <button class="btn btn-outline-primary ml-2" @click.prevent="getUsers()">Search</button>
+                <button class="btn btn-outline-primary ml-2" @click.prevent="getUsers()">
+                  <i class="fa fa-search mr-2"></i>Search
+                </button>
               </form>
 
               <table class="table table-hover form-group" style="margin-top: 30px">

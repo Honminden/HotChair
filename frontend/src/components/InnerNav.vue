@@ -11,31 +11,32 @@
     <ul class="nav nav-tabs ml-4">
       <li class="nav-item">
         <router-link class="nav-link" to="list">
-          List of Conferences
+          <i class="fa fa-arrow-left mx-2"></i>List of Conferences
         </router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('detail', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/detail') != -1 }]">
-          Detail
+          <i class="fa fa-list-ul mx-2"></i>Detail
         </router-link>
       </li>
       <li v-if="(parent.role !== '') && (parent.role !== 'chair') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('submission', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/submission') != -1 }]">
-          New Submission
+          <i class="fa fa-file mx-2"></i>New Submission
         </router-link>
       </li>
       <li v-if="(parent.role === 'author') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
-          Author Page
+          <i class="fa fa-book mx-2"></i>Author Page
         </router-link>
       </li>
       <li v-if="parent.role === 'chair'" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
-          Invitation
+          <i class="fa fa-envelope mx-2"></i>Invitation
         </router-link>
       </li>
       <li class="nav-item">
         <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
+          <i class="fa fa-id-badge mx-2"></i>
           <span v-if="parent.role === ''"><strong>Choose Your Role</strong></span>
           <span v-else>Change Your Role</span>
         </button>
@@ -45,7 +46,7 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Choose Your Character</h5>
+            <h5 class="modal-title"><i class="fa fa-id-badge mx-2"></i>Choose Your Role</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
