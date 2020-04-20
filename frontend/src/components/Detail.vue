@@ -2,53 +2,52 @@
   <div id="Detail">
     <Navbar/>
     <div class="row">
-     <LeftNav/>
+      <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
-    <InnerNav :parent="this"/>
-      <div>
-        <table class="table table-hover container col-sm-11" >
-          <tbody>
-          <tr>
-            <th scope="row">Abbreviation</th>
-            <td>{{ abbreviation }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Chair</th>
-            <td>{{ username }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Date and time</th>
-            <td>{{ time }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Location</th>
-            <td>{{ location }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Submission Deadline</th>
-            <td>
-              <span>{{ submissionDDL }}</span>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Review Release Date</th>
-            <td>{{ reviewReleaseDate }}</td>
-          </tr>
-          <tr v-if="(role === 'chair') && (status === 'passed')">
-            <th scope="row"></th>
-            <td><button class="btn btn-success" @click="openConference()">Open this conference</button></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <InnerNav :parent="this"/>
         <div>
-        <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
-          {{ alert.content }}
+          <table class="table table-hover container col-sm-11" >
+            <tbody>
+            <tr>
+              <th scope="row">Abbreviation</th>
+              <td>{{ abbreviation }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Chair</th>
+              <td>{{ username }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Date and time</th>
+              <td>{{ time }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Location</th>
+              <td>{{ location }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Submission Deadline</th>
+              <td>
+                <span>{{ submissionDDL }}</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Review Release Date</th>
+              <td>{{ reviewReleaseDate }}</td>
+            </tr>
+            <tr v-if="(role === 'chair') && (status === 'passed')">
+              <th scope="row"></th>
+              <td><button class="btn btn-success" @click="openConference()">Open this conference</button></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
+            {{ alert.content }}
+          </div>
         </div>
         </div>
     </div>
-      </div>
-
   </div>
 
 </template>

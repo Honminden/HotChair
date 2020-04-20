@@ -1,11 +1,9 @@
 <template>
   <div id="Conference">
     <Navbar/>
-
     <article>
-
       <div class="row">
-        <LeftNav/>
+        <LeftNav :parent="this"/>
         <div class="container col-sm-5" style="margin-top: 35px">
           <form :model="confForm" class="col">
             <legend class="row">

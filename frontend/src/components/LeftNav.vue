@@ -1,19 +1,61 @@
 <template>
-  <nav class="nav navbar-expand-sm flex-column bg-light navbar-light" style="min-height: 100vh; width: 200px;text-align: center">
-    <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/userInfo') != -1 }]" to="userInfo"><i class="fa fa-id-card mx-2"></i>UserInfo</router-link>
-    <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/list') != -1 }]" to="list"><i class="fa fa-th-list mx-2"></i>List</router-link>
-    <router-link class="nav-link" :class="[{ 'bg-white':href.indexOf('/conference') != -1 }]" to="conference"><i class="fa fa-file-o mx-2"></i>Application</router-link>
-    <router-link class="nav-link"  :class="[{ 'bg-white':href.indexOf('/notification') != -1 }]" to="notification"><i class="fa fa-envelope mx-2"></i>Notifications</router-link>
-  </nav>
+  <ul class="nav nav-pills navbar-expand-sm flex-column bg-light navbar-light text-left" style="min-height: 100vh">
+    <li class="nav-item ml-2">
+      <router-link class="nav-link m-2 rounded" :class="[{ 'active': highlight === 'userInfo' }]" to="userInfo">
+        <i class="fa fa-id-card mx-2"></i>UserInfo
+      </router-link>
+    </li>
+    <li class="nav-item ml-2">
+      <router-link class="nav-link m-2 rounded" :class="[{ 'active': highlight === 'list' }]" to="list">
+        <i class="fa fa-th-list mx-2"></i>List
+      </router-link>
+    </li>
+    <li class="nav-item ml-2">
+      <router-link class="nav-link m-2 rounded" :class="[{ 'active': highlight === 'conference' }]" to="conference">
+        <i class="fa fa-file-o mx-2"></i>Application
+      </router-link>
+    </li>
+    <li class="nav-item ml-2">
+      <router-link class="nav-link m-2 rounded"  :class="[{ 'active': highlight === 'notification' }]" to="notification">
+        <i class="fa fa-envelope mx-2"></i>Notifications
+      </router-link>
+    </li>
+  </ul>
 </template>
 
 <script>
-    export default {
-        name: "LeftNav",
-      data(){
-          return {
-            href: location.href
-          }
-      }
+
+export default {
+  name: "LeftNav",
+  data(){
+    return {
+      highlight: ""
     }
+  },
+  props: ['parent'],
+  mounted () {
+    switch (this.parent.$el.id)
+    {
+      case ('UserInfo'):
+        this.highlight = 'userInfo';
+        break;
+      case ('List'):
+      case ('Detail'):
+      case ('Author'):
+      case ('Invitation'):
+      case ('Submission'):
+        this.highlight = 'list';
+        break;
+      case ('Conference'):
+        this.highlight = 'conference';
+        break;
+      case ('Notification'):
+        this.highlight = 'notification';
+        break;
+      default:
+        break;
+    }
+  }
+}
+
 </script>

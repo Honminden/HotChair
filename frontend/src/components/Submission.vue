@@ -2,50 +2,49 @@
   <div id="Submission">
     <Navbar/>
     <div class="row">
-      <LeftNav/>
+      <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
-    <InnerNav :parent="this"/>
-    <div v-if="progress.show" class="progress" style="height: 30px">
-      <div class="progress-bar progress-bar-striped progress-bar-animated"
-                role="progressbar" :style="`width: ${progress.value}%`">
-        <strong>{{ progress.value }}%</strong>
-      </div>
-    </div>
+        <InnerNav :parent="this"/>
+        <div v-if="progress.show" class="progress" style="height: 30px">
+          <div class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar" :style="`width: ${progress.value}%`">
+            <strong>{{ progress.value }}%</strong>
+          </div>
+        </div>
         <div>
           <div class="col-sm-3 float-left text-center" v-show="alert.isVisible" :class="alert.type">
             {{ alert.content }}
           </div>
         </div>
-    <form class="col-sm-6 container" style="margin-top: 35px">
-      <legend class="row">
-        <span class="col"></span>
-        <h2>Paper Submission</h2>
-        <span class="col"></span>
-      </legend>
-      <hr/>
-      <div class="form-group row">
-        <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-        <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title">
+        <form class="col-sm-6 container" style="margin-top: 35px">
+          <legend class="row">
+            <span class="col"></span>
+            <h2>Paper Submission</h2>
+            <span class="col"></span>
+          </legend>
+          <hr/>
+          <div class="form-group row">
+            <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
+            <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title">
+          </div>
+          <div class="form-group row">
+            <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
+            <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"></textarea>
+          </div>
+          <div class="form-group row">
+            <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
+              <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-primary" @click.prevent="submit()">submit</button>
+            </div>
+          </div>
+          </div>
+        </form>
       </div>
-      <div class="form-group row">
-        <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-        <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"></textarea>
-      </div>
-      <div class="form-group row">
-        <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
-      <div class="input-group">
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
-          <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
-        </div>
-        <div class="input-group-append">
-          <button class="btn btn-primary" @click.prevent="submit()">submit</button>
-        </div>
-      </div>
-      </div>
-    </form>
-
-  </div>
     </div>
   </div>
 </template>

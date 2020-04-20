@@ -2,27 +2,27 @@
   <div id="Author">
     <Navbar/>
     <div class="row">
-      <LeftNav/>
+      <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
-    <InnerNav :parent="this"/>
-    <table class="table table-hover container col-sm-11">
-      <tbody>
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Abstract</th>
-        </tr>
-        <tr v-for="submission in submissionList" :key="submission.title">
-          <td><h4>{{ submission.title }}</h4></td>
-          <td><p>{{ submission.abs }}</p></td>
-        </tr>
-      </tbody>
-    </table>
+        <InnerNav :parent="this"/>
+        <table class="table table-hover container col-sm-11">
+          <tbody>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Abstract</th>
+            </tr>
+            <tr v-for="submission in submissionList" :key="submission.title">
+              <td><h4>{{ submission.title }}</h4></td>
+              <td><p>{{ submission.abs }}</p></td>
+            </tr>
+          </tbody>
+        </table>
         <div>
           <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
             {{ alert.content }}
           </div>
         </div>
-  </div>
+      </div>
 
     </div>
   </div>

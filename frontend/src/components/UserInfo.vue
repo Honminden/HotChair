@@ -2,7 +2,7 @@
   <div id="UserInfo">
     <Navbar/>
     <div class="row">
-   <LeftNav/>
+      <LeftNav :parent="this"/>
       <div class="container col-sm-5" style="margin-top: 35px">
         <div class="row">
           <span class="col"></span>
