@@ -12,7 +12,7 @@
     </li>
     <li v-if="!user.isAdmin()" class="nav-item ml-2">
       <router-link class="nav-link m-2 rounded" :class="[{ 'active': highlight === 'conference' }]" to="conference">
-        <i class="fa fa-file-o mx-2"></i>New Conference
+        <i class="fa fa-paint-brush mx-2"></i>New Conference
       </router-link>
     </li>
     <li v-if="!user.isAdmin()" class="nav-item ml-2">

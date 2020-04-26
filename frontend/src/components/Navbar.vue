@@ -25,7 +25,7 @@
             <div class="dropdown-menu ">
               <router-link class="dropdown-item" to="list"><i class="fa fa-th-list mx-2"></i>List of Conferences</router-link>
               <div v-if="!user.isAdmin()">
-                <router-link class="dropdown-item" to="conference"><i class="fa fa-file-o mx-2"></i>New Conference</router-link>
+                <router-link class="dropdown-item" to="conference"><i class="fa fa-paint-brush mx-2"></i>New Conference</router-link>
               </div>
             </div>
           </li>
@@ -38,7 +38,7 @@
               <div v-if="user.isLogined()">
                 <span class="dropdown-header">
                   hello, <i :class="(user.isAdmin()) ? 'fa fa-user-secret' : 'fa fa-user'"></i>
-                   {{ user.getUserInfo().username }}
+                    {{ user.getUserInfo().username }}
                 </span>
                 <router-link class="dropdown-item" to="userInfo"> <i class="fa fa-user-circle mx-2"></i>User Info</router-link>
                 <div v-if="!user.isAdmin()">
