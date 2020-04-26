@@ -58,6 +58,11 @@
                       <li>topic</li>
                       <li>topic2</li>
                     </ul>
+                    <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
+                      <span class="col"></span>
+                      <button class="btn btn-success col-sm-5">Update</button>
+                      <span class="col"></span>
+                    </div>
                   </div>
                 </div>
               </div>

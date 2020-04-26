@@ -31,6 +31,31 @@
                         Reject
                       </button>
                     </td>
+                    <div class="modal fade" id="topic" tabindex="-1">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose Topics</h4>
+                            <button type="button" class="close" data-dismiss="modal">
+                              <span>&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="customCheck1">
+                              <label class="custom-control-label" for="customCheck1">Topic</label>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
+                              Confirm
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </tr>
                   </tbody>
                 </table>
@@ -50,8 +75,8 @@
                     <th scope="col">Chair</th>
                     <th scope="col">Status</th>
                   </tr>
-                  <tr v-for="invitation in invitationList.filter(invitation => (invitation.status !== 'waiting'))"
-                      :key="invitation.inviter">
+                  <tr   v-for="invitation in invitationList.filter(invitation => (invitation.status !== 'waiting'))"
+                        :key="invitation.inviter">
                     <td>{{ invitation.conference }}</td>
                     <td>{{ invitation.inviter }}</td>
                     <td>
@@ -70,31 +95,7 @@
             <i :class="alert.icon"></i>{{ alert.content }}
           </div>
         </div>
-        <div class="modal fade" id="topic" tabindex="-1">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose Topics</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                  <span>&times;</span>
-                </button>
-              </div>
-              <div class="modal-body form-group">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label" for="customCheck1">Topic</label>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
