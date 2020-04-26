@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex bg-primary carousel-outer" style="width:500px;">
+  <div class="d-flex bg-primary carousel-outer">
     <div id="carousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carousel" data-slide-to="0" class="active"></li>

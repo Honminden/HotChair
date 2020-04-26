@@ -16,27 +16,26 @@
       </li>
       <li class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('detail', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/detail') != -1 }]">
-          <i class="fa fa-list-ul mx-2"></i>Detail
+          Detail
         </router-link>
       </li>
       <li v-if="(parent.role !== '') && (parent.role !== 'chair') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('submission', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/submission') != -1 }]">
-          <i class="fa fa-file mx-2"></i>New Submission
+          New Submission
         </router-link>
       </li>
       <li v-if="(parent.role === 'author') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
-          <i class="fa fa-book mx-2"></i>Author Page
+          Author Page
         </router-link>
       </li>
       <li v-if="parent.role === 'chair'" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
-          <i class="fa fa-envelope mx-2"></i>Invitation
+          Invitation
         </router-link>
       </li>
       <li class="nav-item">
         <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
-          <i class="fa fa-id-badge mx-2"></i>
           <span v-if="parent.role === ''"><strong>Choose Your Role</strong></span>
           <span v-else>Change Your Role</span>
         </button>
@@ -46,14 +45,14 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title"><i class="fa fa-id-badge mx-2"></i>Choose Your Role</h5>
+            <h5 class="modal-title">Choose Your Role</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <button v-if="character === 'chair'" class="col m-4 p-4 btn btn-outline-danger"
+              <button style="width: 300px" v-if="character === 'chair'" class="col m-4 p-4 btn btn-outline-danger"
                         @click="chooseRole('chair')" data-dismiss="modal">
                 <h5>Chair</h5>
                 <p>Chair can open the conference and invite PC Members.</p>

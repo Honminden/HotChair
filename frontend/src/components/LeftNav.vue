@@ -1,8 +1,8 @@
 <template>
-  <ul class="nav nav-pills navbar-expand-sm flex-column bg-light navbar-light text-left" style="min-height: 100vh; min-width: 15vw;">
+  <ul class="nav nav-pills navbar-expand-sm flex-column bg-light navbar-light text-left" style="min-height: 100vh;">
     <li class="nav-item ml-2">
       <router-link class="nav-link m-2 rounded" :class="[{ 'active': highlight === 'userInfo' }]" to="userInfo">
-        <i class="fa fa-id-card mx-2"></i>User Info
+        <i class="fa fa-user-circle mx-2" ></i>User Info
       </router-link>
     </li>
     <li class="nav-item ml-2">
@@ -20,6 +20,7 @@
         <i class="fa fa-envelope mx-2"></i>Notifications
       </router-link>
     </li>
+
   </ul>
 </template>
 
@@ -61,3 +62,8 @@ export default {
 }
 
 </script>
+<style>
+  i:hover{
+    -webkit-text-fill-color: #3c2166;
+  }
+</style>
