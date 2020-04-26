@@ -23,6 +23,7 @@
             <span class="col"></span>
           </legend>
           <hr/>
+          <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
           <div class="form-group row">
             <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
             <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title">
@@ -33,15 +34,61 @@
           </div>
           <div class="form-group row">
             <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
-          <div class="input-group">
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
               <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
-            </div>
-            <div class="input-group-append">
-              <button class="btn btn-primary" @click.prevent="submit()">submit</button>
+          </div>
+          </div>
+          <div class="form-group mt-5">
+            <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="customCheck1">
+              <label class="custom-control-label" for="customCheck1">some topics</label>
             </div>
           </div>
+
+
+          <div class="row mt-5">
+            <span class="col"></span>
+            <h3 class="col-sm-5"><i class="fa fa-user-plus mr-3"></i>Authors</h3>
+            <button class="btn btn-outline-primary rounded-pill" >Add author<i class="fa fa-plus ml-1"></i></button>
+          </div>
+
+          <div>
+            <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="name" class="col-form-label">Name</label>
+            <input id="name" class="form-control"
+                   type="text" auto-complete="off" placeholder="username" >
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="organization" class="col-form-label">Organization</label>
+            <input id="organization" class="form-control"
+                   type="organization" auto-complete="off" placeholder="organization" >
+          </div>
+            </div>
+            <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="region" class="col-form-label">Region</label>
+            <input type="text" id="region" class="form-control"
+                    auto-complete="off" placeholder="region/country">
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label for="email" class="col-form-label">Email</label>
+            <input id="email" class="form-control"
+                   type="email" auto-complete="off" placeholder="email" >
+          </div>
+            </div>
+            <div class="row">
+              <span class="col"></span>
+              <button class="col-sm-2 float-right btn btn-outline-danger rounded-pill" >Delete<i class="fa fa-close ml-1"></i> </button>
+            </div>
+            <hr>
+          </div>
+          <div class="row">
+            <span class="col"></span>
+          <button class="btn btn-primary my-3 col-sm-2" @click.prevent="submit()">submit</button>
           </div>
         </form>
       </div>

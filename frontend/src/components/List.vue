@@ -23,7 +23,6 @@
                         <th scope="col">Submission Deadline</th>
                         <th scope="col">Review Release Date</th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -35,11 +34,36 @@
                         <td>{{ conf.location }}</td>
                         <td>{{ conf.submissionDDL }}</td>
                         <td>{{ conf.reviewReleaseDate }}</td>
-                        <td><button class="btn btn-outline-info" @click="putStatus(conf.fullName, 'passed')">Pass</button></td>
+                        <td><button class="btn btn-outline-success" data-toggle="modal" data-target="#topic">Pass</button></td>
                         <td><button class="btn btn-outline-danger" @click="putStatus(conf.fullName, 'rejected')">Reject</button></td>
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+<!--            弹出的勾选框-->
+            <div class="modal fade" id="topic" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose topics</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                      <span>&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="putStatus(conf.fullName, 'passed')">
+                      Confirm
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

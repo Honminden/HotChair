@@ -66,10 +66,25 @@
                 <i :class="validAlert.icon"></i>{{ validAlert.content }}
               </div>
             </div>
-            <div class="row ">
+            <hr>
+            <div class="row mb-3">
+              <span class="col"></span>
+              <button class="btn btn-outline-primary rounded-pill" >Add topic +</button>
+              <span class="col"></span>
+            </div>
+
+            <div class="input-group row ml-5">
+              <input type="text" name="topic" class="col-sm-9 form-control" placeholder="Topic" >
+              <div class="input-group-append">
+                <button class="btn btn-outline-dark">x</button>
+              </div>
+            </div>
+
+            <div class="row mt-3" >
               <span class="col"></span>
               <input class="col-sm-2 btn btn-primary" name="submit" type="submit" value="submit" @click.prevent="submit"/>
             </div>
+
             <div v-show="alert.isVisible" :class="alert.type">
               <i :class="alert.icon"></i>{{ alert.content }}
             </div>
