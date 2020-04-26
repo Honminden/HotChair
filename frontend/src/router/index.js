@@ -142,8 +142,8 @@ router.beforeEach(function (to, from ,next) {
       next()
     } else {
       next({
-        // path: '/login',
-        path:'/home',
+        path: '/login',
+        // path:'/home',
         query: {redirect: to.fullPath} // 登录成功之后重新跳转到该路由
       })
     }
