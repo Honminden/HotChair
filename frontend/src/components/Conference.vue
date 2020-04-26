@@ -69,7 +69,7 @@
             <hr>
             <div class="row mb-3">
               <span class="col"></span>
-              <button class="btn btn-outline-primary rounded-pill" >Add topic +</button>
+              <button class="btn btn-outline-primary rounded-pill" ><i class="fa fa-plus mr-1"></i>Add topic</button>
               <span class="col"></span>
             </div>
 
