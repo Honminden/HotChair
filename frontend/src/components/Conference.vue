@@ -66,19 +66,24 @@
                 <i :class="validAlert.icon"></i>{{ validAlert.content }}
               </div>
             </div>
-            <hr>
-            <div class="row mb-3">
-              <span class="col"></span>
-              <button class="btn btn-outline-primary rounded-pill" >Add topic +</button>
-              <span class="col"></span>
-            </div>
 
-            <div class="input-group row ml-5">
-              <input type="text" name="topic" class="col-sm-9 form-control" placeholder="Topic" >
-              <div class="input-group-append">
-                <button class="btn btn-outline-dark">x</button>
+            <div class="form-group row ">
+              <label class="col-sm-4 col-form-label">Topics</label>
+              <div class="col-sm-8">
+                <button v-for="topic in topics" :key="topic" class="btn btn-outline-primary mx-2" data-toggle="tooltip"
+                          data-placement="top" :title="'remove ' + topic" @click.prevent="removeTopic(topic)">
+                  {{ topic }}
+                </button>
+                <div class="input-group row ml-5 mt-2">
+                  <input type="text" name="topic" class="col-sm-9 form-control" placeholder="Topic" v-model="newTopic">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" @click.prevent="addTopic()">+</button>
+                  </div>
+                </div>
               </div>
             </div>
+            <hr>
+
 
             <div class="row mt-3" >
               <span class="col"></span>
@@ -117,6 +122,8 @@ export default {
   data () {
     return {
       confForm: emptyForm,
+      newTopic: '',
+      topics: [],
       validation: (new Validation).validateConference(emptyForm),
       loading: false,
       alert: new Alert(),
@@ -146,6 +153,16 @@ export default {
   methods: {
     logOut () {
       user.logOut();
+    },
+    addTopic () {
+      if (this.topics.indexOf(this.newTopic) === -1)
+      {
+        this.topics.push(this.newTopic);
+      }
+      this.newTopic = '';
+    },
+    removeTopic (topic) {
+      this.topics.splice(this.topics.indexOf(topic), 1);
     },
     validate (field) {
       this.triggered[field] = true;
