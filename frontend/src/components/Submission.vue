@@ -41,51 +41,88 @@
           </div>
           <div class="form-group mt-5">
             <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheck1">
-              <label class="custom-control-label" for="customCheck1">some topics</label>
+            <div v-for="topic in Object.keys(topics)" :key="topic">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+              </div>
             </div>
           </div>
 
 
-          <div class="row mt-5">
-            <span class="col"></span>
-            <h3 class="col-sm-5"><i class="fa fa-user-plus mr-3"></i>Authors</h3>
-            <button class="btn btn-outline-primary rounded-pill" >Add author<i class="fa fa-plus ml-1"></i></button>
+          <div class="mt-5">
+            <h3 class="text-center"><i class="fa fa-user-plus mr-3"></i>Authors</h3>
           </div>
-
+          
           <div>
-            <div class="row">
-          <div class="form-group col-sm-6">
-            <label for="name" class="col-form-label">Name</label>
-            <input id="name" class="form-control"
-                   type="text" auto-complete="off" placeholder="username" >
-          </div>
-          <div class="form-group col-sm-6">
-            <label for="organization" class="col-form-label">Organization</label>
-            <input id="organization" class="form-control"
-                   type="organization" auto-complete="off" placeholder="organization" >
-          </div>
-            </div>
-            <div class="row">
-          <div class="form-group col-sm-6">
-            <label for="region" class="col-form-label">Region</label>
-            <input type="text" id="region" class="form-control"
-                    auto-complete="off" placeholder="region/country">
-          </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Order</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Organization</th>
+                  <th scope="col">Region</th>
+                  <th scope="col">Email</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(author, index) in authors" :key="index">
+                  <th scope="row">{{ index + 1 }}</th>
+                  <td>{{ author.name }}</td>
+                  <td>{{ author.organization }}</td>
+                  <td>{{ author.region }}</td>
+                  <td>{{ author.email }}</td>
+                  <td>
+                    <span class="text-primary" style="cursor: pointer" title="move up" @click.prevent="moveUpAuthor(author)">
+                      <i class="fa fa-arrow-circle-up"></i>
+                    </span>
+                    <span class="text-primary" style="cursor: pointer" title="move down" @click.prevent="moveDownAuthor(author)">
+                      <i class="fa fa-arrow-circle-down"></i>
+                    </span>
+                    <span class="text-danger" style="cursor: pointer" title="remove" @click.prevent="removeAuthor(author)">
+                      <i class="fa fa-close"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row mt-2">
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <label for="name" class="col-form-label">Name</label>
+                  <input id="name" class="form-control"
+                        type="text" auto-complete="off" placeholder="username" v-model="newAuthor.name">
+                </div>
+                <div class="form-group col-sm-6">
+                  <label for="organization" class="col-form-label">Organization</label>
+                  <input id="organization" class="form-control"
+                        type="organization" auto-complete="off" placeholder="organization" v-model="newAuthor.organization">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <label for="region" class="col-form-label">Region</label>
+                  <input type="text" id="region" class="form-control"
+                          auto-complete="off" placeholder="region/country" v-model="newAuthor.region">
+                </div>
 
-          <div class="form-group col-sm-6">
-            <label for="email" class="col-form-label">Email</label>
-            <input id="email" class="form-control"
-                   type="email" auto-complete="off" placeholder="email" >
-          </div>
+                <div class="form-group col-sm-6">
+                  <label for="email" class="col-form-label">Email</label>
+                  <input id="email" class="form-control"
+                        type="email" auto-complete="off" placeholder="email" v-model="newAuthor.email">
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <span class="col"></span>
-              <button class="col-sm-2 float-right btn btn-outline-danger rounded-pill" >Delete<i class="fa fa-close ml-1"></i> </button>
+            <div class="row mt-2">
+              <span class="col-sm-4"></span>
+              <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="addAuthor()">
+                Add author<i class="fa fa-plus ml-1"></i>
+              </button>
+              <span class="col-sm-4"></span>
             </div>
-            <hr>
           </div>
+          <hr>
           <div class="row">
             <span class="col"></span>
           <button class="btn btn-primary my-3 col-sm-2" @click.prevent="submit()">submit</button>
@@ -104,6 +141,14 @@ import User from './User/User'
 import ConfDetail from './Detail/ConfDetail'
 import LeftNav from "./LeftNav";
 
+const emptyAuthor = 
+{
+  name: '',
+  organization: '',
+  region: '',
+  email: ''
+}
+
 export default {
   name: 'Submission',
   data () {
@@ -120,7 +165,10 @@ export default {
       progress: {
         show: false,
         value: 0
-      }
+      },
+      topics: {'computer science': false, 'tetris': false, 'digital tennis': false}, // for display
+      authors: [],
+      newAuthor: emptyAuthor
     }
   },
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
@@ -138,6 +186,36 @@ export default {
         this.subForm.fileName = files[0].name;
         this.file = files[0];
       }
+    },
+    addAuthor () {
+      if (this.authors.findIndex(author => (author.name === this.newAuthor.name)) === -1)
+      {
+        this.authors.push(Object.assign({}, this.newAuthor));
+      }
+      this.newAuthor = emptyAuthor;
+    },
+    removeAuthor (author) {
+      this.authors.splice(this.authors.indexOf(author), 1);
+    },
+    moveUpAuthor (author) {
+      let index = this.authors.indexOf(author);
+      if (index > 0)
+      {
+        let above = this.authors[index - 1];
+        this.authors[index - 1] = author;
+        this.authors[index] = above;
+      }
+      this.$forceUpdate();
+    },
+    moveDownAuthor (author) {
+      let index = this.authors.indexOf(author);
+      if (index !== -1 && index < this.authors.length - 1)
+      {
+        let below = this.authors[index + 1];
+        this.authors[index + 1] = author;
+        this.authors[index] = below;
+      }
+      this.$forceUpdate();
     },
     submit () {
       this.$axios.post('/submission', {
