@@ -80,14 +80,16 @@
                 </button>
               </div>
               <div class="modal-body form-group">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label" for="customCheck1">Topic</label>
+                <div v-for="topic in Object.keys(topics)" :key="topic">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                    <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                <button type="button" class="btn btn-success" data-dismiss="modal"
                         @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
                   Confirm
                 </button>
@@ -112,7 +114,8 @@
       return {
         user: new User(),
         alert: new Alert(),
-        invitationList: []
+        invitationList: [],
+        topics: {'computer science': false, 'tetris': false, 'digital tennis': false} // for display
       }
     },
     methods: {
