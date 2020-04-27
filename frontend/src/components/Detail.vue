@@ -5,8 +5,8 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this"/>
-        <div>
-          <table class="table table-hover container col-sm-11" >
+        <div class="row">
+          <table class="table table-hover container col-sm-5" >
             <tbody>
             <tr>
               <th scope="row">Abbreviation</th>
@@ -34,13 +34,24 @@
               <th scope="row">Review Release Date</th>
               <td>{{ reviewReleaseDate }}</td>
             </tr>
-            <tr v-if="(role === 'chair') && (status === 'passed')">
-              <th scope="row"></th>
-              <td><button class="btn btn-success" @click="openConference()">Open this conference</button></td>
-            </tr>
             </tbody>
           </table>
+          <div class="col-sm-5 mt-4">
+            <div class="row">
+            <h4>Topics</h4>
+            <ul class="topics">
+              <li>topic</li>
+              <li>topic2</li>
+            </ul>
+            </div>
+            <div class="row mt-5" v-if="(role === 'chair') && (status === 'passed')">
+              <span class="col"></span>
+              <button class="btn btn-success col-sm-5" @click="openConference()">Open this conference</button>
+              <span class="col"></span>
+            </div>
+          </div>
         </div>
+
         <div>
           <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
             <i :class="alert.icon"></i>{{ alert.content }}
@@ -121,3 +132,9 @@ export default {
 }
 
 </script>
+<style>
+  .topics li{
+    list-style-type: decimal;
+    font-size: larger;
+  }
+</style>

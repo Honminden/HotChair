@@ -31,6 +31,33 @@
                         Reject
                       </button>
                     </td>
+                    <div class="modal fade" id="topic" tabindex="-1">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose Topics</h4>
+                            <button type="button" class="close" data-dismiss="modal">
+                              <span>&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body form-group">
+                            <div v-for="topic in Object.keys(topics)" :key="topic">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                                <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal"
+                                    @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
+                              Confirm
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </tr>
                   </tbody>
                 </table>
@@ -68,33 +95,6 @@
         <div>
           <div class="col-sm-3 float-right text-center" v-show="alert.isVisible" :class="alert.type">
             <i :class="alert.icon"></i>{{ alert.content }}
-          </div>
-        </div>
-        <div class="modal fade" id="topic" tabindex="-1">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose Topics</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                  <span>&times;</span>
-                </button>
-              </div>
-              <div class="modal-body form-group">
-                <div v-for="topic in Object.keys(topics)" :key="topic">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
-                    <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
-                  Confirm
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

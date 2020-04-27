@@ -29,6 +29,12 @@
           Author Page
         </router-link>
       </li>
+<!--      这里status改成审稿-->
+<!--      <li v-if="(parent.role === 'PCmember') && (parent.status === 'open')" class="nav-item">-->
+<!--        <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">-->
+<!--          Examine Page-->
+<!--        </router-link>-->
+<!--      </li>-->
       <li v-if="parent.role === 'chair'" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
           Invitation
@@ -41,8 +47,8 @@
         </button>
       </li>
     </ul>
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-xl" role="document">
+    <div class="modal fade" id="modal" tabindex="-1" >
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Choose Your Role</h5>
@@ -52,7 +58,7 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <button style="width: 300px" v-if="character === 'chair'" class="col m-4 p-4 btn btn-outline-danger"
+              <button v-if="character === 'chair'" class="col m-4 p-4 btn btn-outline-danger"
                         @click="chooseRole('chair')" data-dismiss="modal">
                 <h5>Chair</h5>
                 <p>Chair can open the conference and invite PC Members.</p>

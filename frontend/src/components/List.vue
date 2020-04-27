@@ -26,7 +26,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="conf in this.confLists.adminConfList" :key="conf.fullName">
+                      <tr  v-for="conf in this.confLists.adminConfList" :key="conf.fullName">
                         <th scope="row">{{ conf.fullName }}</th>
                         <td>{{ conf.abbreviation }}</td>
                         <td>{{ conf.username }}</td>
@@ -36,37 +36,40 @@
                         <td>{{ conf.reviewReleaseDate }}</td>
                         <td><button class="btn btn-outline-success" data-toggle="modal" data-target="#topic">Pass</button></td>
                         <td><button class="btn btn-outline-danger" @click="putStatus(conf.fullName, 'rejected')">Reject</button></td>
+                        <div class="modal fade" id="topic" tabindex="-1">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose Topics</h4>
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <span>&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body form-group">
+                                <div v-for="topic in Object.keys(topics)" :key="topic">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                                    <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal"
+                                        @click="putStatus(conf.fullName, 'passed')">
+                                  Confirm
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-<!--            弹出的勾选框-->
-            <div class="modal fade" id="topic" tabindex="-1">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title"><i class="fa fa-check-square-o mx-1"></i>Choose topics</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                      <span>&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body form-group">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="putStatus(conf.fullName, 'passed')">
-                      Confirm
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
           <div v-else>
             <div class="card  border-light">
@@ -171,7 +174,7 @@ export default {
       alert: new Alert(),
       confLists: new ConfLists(),
       confDetail: new ConfDetail(),
-
+      topics: {'computer science': false, 'tetris': false, 'digital tennis': false} // for display
     }
   },
   components:
