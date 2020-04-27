@@ -25,41 +25,41 @@
 </template>
 
 <script>
-import User from './User/User'
+  import User from './User/User'
 
-export default {
-  name: "LeftNav",
-  data(){
-    return {
-      user: new User(),
-      highlight: ""
-    }
-  },
-  props: ['parent'],
-  mounted () {
-    switch (this.parent.$el.id)
-    {
-      case ('UserInfo'):
-        this.highlight = 'userInfo';
-        break;
-      case ('List'):
-      case ('Detail'):
-      case ('Author'):
-      case ('Invitation'):
-      case ('Submission'):
-        this.highlight = 'list';
-        break;
-      case ('Conference'):
-        this.highlight = 'conference';
-        break;
-      case ('Notification'):
-        this.highlight = 'notification';
-        break;
-      default:
-        break;
+  export default {
+    name: "LeftNav",
+    data(){
+      return {
+        user: new User(),
+        highlight: ""
+      }
+    },
+    props: ['parent'],
+    mounted () {
+      switch (this.parent.$el.id)
+      {
+        case ('UserInfo'):
+          this.highlight = 'userInfo';
+          break;
+        case ('List'):
+        case ('Detail'):
+        case ('Author'):
+        case ('Invitation'):
+        case ('Submission'):
+          this.highlight = 'list';
+          break;
+        case ('Conference'):
+          this.highlight = 'conference';
+          break;
+        case ('Notification'):
+          this.highlight = 'notification';
+          break;
+        default:
+          break;
+      }
     }
   }
-}
 
 </script>
 <style>

@@ -38,7 +38,7 @@
               <div v-if="user.isLogined()">
                 <span class="dropdown-header">
                   hello, <i :class="(user.isAdmin()) ? 'fa fa-user-secret' : 'fa fa-user'"></i>
-                    {{ user.getUserInfo().username }}
+                   {{ user.getUserInfo().username }}
                 </span>
                 <router-link class="dropdown-item" to="userInfo"> <i class="fa fa-user-circle mx-2"></i>User Info</router-link>
                 <div v-if="!user.isAdmin()">
