@@ -81,6 +81,9 @@
                   </div>
                 </div>
               </div>
+              <div v-for="validAlert in validAlerts.topics" :class="validAlert.type" :key="validAlert.content">
+                <i :class="validAlert.icon"></i>{{ validAlert.content }}
+              </div>
             </div>
             <hr>
 
@@ -124,7 +127,7 @@ export default {
       confForm: emptyForm,
       newTopic: '',
       topics: [],
-      validation: (new Validation).validateConference(emptyForm),
+      validation: (new Validation).validateConference(emptyForm, []),
       loading: false,
       alert: new Alert(),
       triggered: {
@@ -133,7 +136,8 @@ export default {
         time: false,
         location: false,
         submissionDDL: false,
-        reviewReleaseDate: false
+        reviewReleaseDate: false,
+        topics: false
       },
       validAlerts: {
         fullName: [],
@@ -141,7 +145,8 @@ export default {
         time: [],
         location: [],
         submissionDDL: [],
-        reviewReleaseDate: []
+        reviewReleaseDate: [],
+        topics: []
       }
     }
   },
@@ -155,18 +160,20 @@ export default {
       user.logOut();
     },
     addTopic () {
-      if (this.topics.indexOf(this.newTopic) === -1)
+      if ((this.newTopic !== '') && (this.topics.indexOf(this.newTopic) === -1))
       {
         this.topics.push(this.newTopic);
       }
       this.newTopic = '';
+      this.validate('topics');
     },
     removeTopic (topic) {
       this.topics.splice(this.topics.indexOf(topic), 1);
+      this.validate('topics');
     },
     validate (field) {
       this.triggered[field] = true;
-      this.validation = (new Validation).validateConference(this.confForm);
+      this.validation = (new Validation).validateConference(this.confForm, this.topics);
       /* update validation alerts */
       for (let field of Object.keys(this.validAlerts))
       {
