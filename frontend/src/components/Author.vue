@@ -7,11 +7,11 @@
         <InnerNav :parent="this" class="mb-3"/>
         <div class="accordion" id="accordion">
         <div v-for="submission in submissionList" :key="submission.title" class="card  border-light">
-          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#'+submission.title">
+          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#'+submission.title.replace(/ /g, '-')">
             {{ submission.title }}
             <i class="fa fa-angle-down float-right"> </i>
           </button>
-          <div :id="submission.title" class="collapse" data-parent="#accordion">
+          <div :id="submission.title.replace(/ /g, '-')" class="collapse" data-parent="#accordion">
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 thinsleft">
