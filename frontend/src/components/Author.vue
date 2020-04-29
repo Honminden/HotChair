@@ -7,7 +7,8 @@
         <InnerNav :parent="this" class="mb-3"/>
         <div class="accordion" id="accordion">
         <div v-for="submission in submissionList" :key="submission.title" class="card  border-light">
-          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#'+submission.title.replace(/ /g, '-')">
+          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#'+submission.title.replace(/ /g, '-')"
+                    @click="getAuthors(submission)">
             {{ submission.title }}
             <i class="fa fa-angle-down float-right"> </i>
           </button>
@@ -36,16 +37,18 @@
                   <h3 class="text-center"><i class="fa fa-mortar-board mr-3"></i>Authors</h3><table class="table table-hover container col-sm-10" >
                   <tbody>
                   <tr>
+                    <th scope="col">Order</th>
                     <th scope="col">Name</th>
                     <th scope="col">Organization</th>
                     <th scope="col">Region</th>
                     <th scope="col">Email</th>
                   </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
+                  <tr v-for="author in authors" :key="author.order">
+                    <th scope="row">{{ author.order }}</th>
+                    <td>{{ author.fullName }}</td>
+                    <td>{{ author.organization }}</td>
+                    <td>{{ author.region }}</td>
+                    <td>{{ author.email }}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -111,6 +114,7 @@ export default {
       user: new User(),
       alert: new Alert(),
       submissionList: [],
+      authors: [],
       src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
     }
   },
@@ -134,7 +138,7 @@ export default {
       .catch(
         error =>
         {
-          this.parent.alert.popDanger('get submissions error');
+          this.alert.popDanger('get submissions error');
         }
       )
       .then(res =>
@@ -142,6 +146,29 @@ export default {
         if(res && res.status === 200)
         {
           this.submissionList = res.data.submissionList;
+        }
+      });
+    },
+    getAuthors (submission) {
+      this.$axios.get('/author', {
+        params: {
+          conference: this.fullName,
+          username: this.user.getUserInfo().username,
+          title: submission.title
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('get authors error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.authors = res.data.authors;
+          console.log(this.authors);
         }
       });
     }
