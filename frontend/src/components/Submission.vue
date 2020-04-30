@@ -41,6 +41,7 @@
           </div>
           <div class="form-group mt-5">
             <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
+<<<<<<< HEAD
             <div>
               <div v-for="topic in Object.keys(topics)" :key="topic">
                 <div class="custom-control custom-checkbox">
@@ -51,16 +52,31 @@
               </div>
               <div v-show="topicAlert.isVisible" :class="topicAlert.type">
                 <i :class="topicAlert.icon"></i>{{ topicAlert.content }}
+=======
+            <div v-for="topic in Object.keys(topics)" :key="topic">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+>>>>>>> review
               </div>
             </div>
           </div>
 
 
+<<<<<<< HEAD
           <div class="mt-5">
             <h3 class="text-center"><i class="fa fa-user-plus mr-3"></i>Authors</h3>
           </div>
 
           <div>
+=======
+
+
+          <div>
+            <div class="mt-5">
+              <h3 class="text-center"><i class="fa fa-user-plus mr-3"></i>Authors</h3>
+            </div>
+>>>>>>> review
             <table class="table table-hover">
               <thead>
               <tr>
@@ -93,7 +109,11 @@
               </tr>
               </tbody>
             </table>
+<<<<<<< HEAD
             <div class="row mt-2">
+=======
+            <div class="row mt-2 container ml-2">
+>>>>>>> review
               <div class="row">
                 <div class="form-group col-sm-6">
                   <label for="name" class="col-form-label">Name</label>
@@ -119,6 +139,7 @@
                          type="email" auto-complete="off" placeholder="email" v-model="newAuthor.email">
                 </div>
               </div>
+<<<<<<< HEAD
             </div>
             <div class="row mt-2">
               <span class="col-sm-4"></span>
@@ -131,6 +152,13 @@
               <span class="col-sm-4"></span>
               <button class="col-sm-4 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
                 Add yourself as author<i class="fa fa-plus ml-1"></i>
+=======
+            </div>
+            <div class="row mt-2">
+              <span class="col-sm-4"></span>
+              <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="addAuthor()">
+                Add author<i class="fa fa-plus ml-1"></i>
+>>>>>>> review
               </button>
               <span class="col-sm-4"></span>
             </div>
@@ -168,7 +196,10 @@
       return {
         user: new User(),
         alert: new Alert(),
+<<<<<<< HEAD
         topicAlert: new Alert(),
+=======
+>>>>>>> review
         confDetail: new ConfDetail(),
         subForm: {
           title: '',
@@ -180,7 +211,11 @@
           show: false,
           value: 0
         },
+<<<<<<< HEAD
         topics: {},
+=======
+        topics: {'computer science': false, 'tetris': false, 'digital tennis': false}, // for display
+>>>>>>> review
         authors: [],
         newAuthor: emptyAuthor
       }
@@ -199,6 +234,7 @@
         {
           this.subForm.fileName = files[0].name;
           this.file = files[0];
+<<<<<<< HEAD
         }
       },
       addAuthor () {
@@ -383,17 +419,58 @@
           onUploadProgress (event) {
             progress.value = Math.round((event.loaded * 100) / event.total);
           }
+=======
+        }
+      },
+      addAuthor () {
+        if (this.authors.findIndex(author => (author.name === this.newAuthor.name)) === -1)
+        {
+          this.authors.push(Object.assign({}, this.newAuthor));
+        }
+        this.newAuthor = emptyAuthor;
+      },
+      removeAuthor (author) {
+        this.authors.splice(this.authors.indexOf(author), 1);
+      },
+      moveUpAuthor (author) {
+        let index = this.authors.indexOf(author);
+        if (index > 0)
+        {
+          let above = this.authors[index - 1];
+          this.authors[index - 1] = author;
+          this.authors[index] = above;
+        }
+        this.$forceUpdate();
+      },
+      moveDownAuthor (author) {
+        let index = this.authors.indexOf(author);
+        if (index !== -1 && index < this.authors.length - 1)
+        {
+          let below = this.authors[index + 1];
+          this.authors[index + 1] = author;
+          this.authors[index] = below;
+        }
+        this.$forceUpdate();
+      },
+      submit () {
+        this.$axios.post('/submission', {
+          author: this.user.getUserInfo().username,
+          conference: this.fullName,
+          title: this.subForm.title,
+          abs: this.subForm.abs,
+          fileName: this.subForm.fileName
+>>>>>>> review
         })
           .catch(
             error =>
             {
               if (error.response.status === 403)
               {
-                this.alert.popDanger('you are not allowed to upload this file');
+                this.alert.popDanger('you are not allowed to submit this paper');
               }
               else
               {
-                this.alert.popDanger('file upload error');
+                this.alert.popDanger('submission error');
               }
             }
           )
@@ -401,13 +478,46 @@
           {
             if(res && res.status === 200)
             {
-              this.alert.popSuccess('paper submitted');
-              setTimeout(() =>
-              {
-                this.$router.replace(this.confDetail.getURI('author', this, 'author'));
-              }, 1500);
+              let progress = this.progress;
+              progress.show = true;
+              let formData = new FormData();
+              formData.append('username', this.user.getUserInfo().username);
+              formData.append('category', 'paper');
+              formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}`);
+              formData.append('file', this.file);
+
+              this.$axios.post('/file', formData, {
+                onUploadProgress (event) {
+                  progress.value = Math.round((event.loaded * 100) / event.total);
+                }
+              })
+                .catch(
+                  error =>
+                  {
+                    if (error.response.status === 403)
+                    {
+                      this.alert.popDanger('you are not allowed to upload this file');
+                    }
+                    else
+                    {
+                      this.alert.popDanger('file upload error');
+                    }
+                  }
+                )
+                .then(res =>
+                {
+                  if(res && res.status === 200)
+                  {
+                    this.alert.popSuccess('paper submitted');
+                    setTimeout(() =>
+                    {
+                      this.$router.replace(this.confDetail.getURI('author', this, 'author'));
+                    }, 1500);
+                  }
+                });
             }
           });
+<<<<<<< HEAD
       },
       submit () {
         if (!this.validate())
@@ -447,11 +557,16 @@
             }
           }
         });
+=======
+>>>>>>> review
       }
     },
     mounted () {
       document.title += ` - ${this.fullName}`;
+<<<<<<< HEAD
       this.getConfTopics();
+=======
+>>>>>>> review
     }
   }
 

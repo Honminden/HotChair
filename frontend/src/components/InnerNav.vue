@@ -30,11 +30,11 @@
         </router-link>
       </li>
 <!--      这里status改成审稿-->
-<!--      <li v-if="(parent.role === 'PCmember') && (parent.status === 'open')" class="nav-item">-->
-<!--        <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">-->
-<!--          Examine Page-->
-<!--        </router-link>-->
-<!--      </li>-->
+      <li v-if="(parent.role === 'PCmember') && (parent.status === 'open')" class="nav-item">
+        <router-link class="nav-link" :to="confDetail.getURI('review', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/review') != -1 }]">
+         Review Paper
+        </router-link>
+      </li>
       <li v-if="parent.role === 'chair'" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
           Invitation
