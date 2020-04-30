@@ -336,7 +336,7 @@
         for (let i = 0; i < this.authors.length; i++)
         {
           let author = Object.assign({}, this.authors[i]);
-          author.order = i;
+          author.order = i + 1; // start from 1
           author.fullName = author.name;
           delete author.name;
           authors.push(author);
