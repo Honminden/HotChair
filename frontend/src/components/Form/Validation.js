@@ -36,6 +36,23 @@ const testAll = (reTable, form) =>
     return results;
 };
 
+const compareDate = (time, submissionDDL, reviewReleaseDate) =>
+{
+    // expected: N < S < R < T
+    let dN = new Date(); // now
+    let dT = new Date(time);
+    let dS = new Date(submissionDDL);
+    let dR = new Date(reviewReleaseDate);
+    return {
+        NS: (submissionDDL === '') ? true : +dN <= +dS,
+        NR: (reviewReleaseDate === '') ? true : +dN <= +dR,
+        NT: (time === '') ? true : +dN <= +dT,
+        SR: ((submissionDDL === '') || (reviewReleaseDate === '')) ? true : dS < dR,
+        ST: ((submissionDDL === '') || (time === '')) ? true : dS < dT,
+        RT: ((time === '') || (reviewReleaseDate === '')) ? true : dR < dT
+    };
+}
+
 const isEmpty = value => ((!value) || (value === ''))
 
 export default class Validation
@@ -163,8 +180,9 @@ export default class Validation
         };
     }
 
-    validateConference(form)
+    validateConference(form, topics)
     {
+        let dateResults = compareDate(form.time, form.submissionDDL, form.reviewReleaseDate);
         return {
             fullName: (field => 
                 {
@@ -197,6 +215,24 @@ export default class Validation
 
                     let isValid = true;
                     let messages = [];
+                    if (!dateResults.NT)
+                    {
+                        isValid = false;
+                        messages.push('Should not be earlier than today.');
+                    }
+
+                    if (!dateResults.ST)
+                    {
+                        isValid = false;
+                        messages.push('Submission deadline should be before Date and Time.');
+                    }
+
+                    if (!dateResults.RT)
+                    {
+                        isValid = false;
+                        messages.push('Review Release Date should be before Date and Time.');
+                    }
+
                     return {isValid: isValid, messages: messages}
                 })(form.time), 
             location: (field => 
@@ -219,6 +255,24 @@ export default class Validation
 
                     let isValid = true;
                     let messages = [];
+                    if (!dateResults.NS)
+                    {
+                        isValid = false;
+                        messages.push('Should not be earlier than today.');
+                    }
+
+                    if (!dateResults.ST)
+                    {
+                        isValid = false;
+                        messages.push('Submission deadline should be before Date and Time.');
+                    }
+
+                    if (!dateResults.SR)
+                    {
+                        isValid = false;
+                        messages.push('Submission deadline should be before Review Release Date.');
+                    }
+
                     return {isValid: isValid, messages: messages}
                 })(form.submissionDDL), 
             reviewReleaseDate: (field => 
@@ -230,8 +284,38 @@ export default class Validation
 
                     let isValid = true;
                     let messages = [];
+                    if (!dateResults.NR)
+                    {
+                        isValid = false;
+                        messages.push('Should not be earlier than today.');
+                    }
+
+                    if (!dateResults.SR)
+                    {
+                        isValid = false;
+                        messages.push('Submission deadline should be before Review Release Date.');
+                    }
+
+                    if (!dateResults.RT)
+                    {
+                        isValid = false;
+                        messages.push('Review Release Date should be before Date and Time.');
+                    }
+
                     return {isValid: isValid, messages: messages}
-                })(form.reviewReleaseDate)
+                })(form.reviewReleaseDate), 
+            topics: (field => 
+                {
+                    if (field.length < 1)
+                    {
+                        return {isValid: false, messages: ['Should have at least one topic.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+
+                    return {isValid: isValid, messages: messages}
+                })(topics)
         };
     }
 }

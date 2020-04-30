@@ -41,10 +41,16 @@
           </div>
           <div class="form-group mt-5">
             <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
-            <div v-for="topic in Object.keys(topics)" :key="topic">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
-                <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+            <div>
+              <div v-for="topic in Object.keys(topics)" :key="topic">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]"
+                            @change='validate()'>
+                  <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                </div>
+              </div>
+              <div v-show="topicAlert.isVisible" :class="topicAlert.type">
+                <i :class="topicAlert.icon"></i>{{ topicAlert.content }}
               </div>
             </div>
           </div>
@@ -121,6 +127,13 @@
               </button>
               <span class="col-sm-4"></span>
             </div>
+            <div class="row mt-2">
+              <span class="col-sm-4"></span>
+              <button class="col-sm-4 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
+                Add yourself as author<i class="fa fa-plus ml-1"></i>
+              </button>
+              <span class="col-sm-4"></span>
+            </div>
           </div>
           <hr>
           <div class="row">
@@ -155,6 +168,7 @@
       return {
         user: new User(),
         alert: new Alert(),
+        topicAlert: new Alert(),
         confDetail: new ConfDetail(),
         subForm: {
           title: '',
@@ -166,7 +180,7 @@
           show: false,
           value: 0
         },
-        topics: {'computer science': false, 'tetris': false, 'digital tennis': false}, // for display
+        topics: {},
         authors: [],
         newAuthor: emptyAuthor
       }
@@ -194,6 +208,16 @@
         }
         this.newAuthor = emptyAuthor;
       },
+      addSelf () {
+        this.newAuthor = 
+        {
+          name: this.user.getUserInfo().username,
+          organization: this.user.getUserInfo().organization,
+          region: this.user.getUserInfo().region,
+          email: this.user.getUserInfo().email
+        };
+        this.addAuthor();
+      },
       removeAuthor (author) {
         this.authors.splice(this.authors.indexOf(author), 1);
       },
@@ -217,7 +241,27 @@
         }
         this.$forceUpdate();
       },
-      submit () {
+      validate () {
+        let topics = [];
+        for (let topic in this.topics)
+        {
+          if (this.topics[topic])
+          {
+            topics.push(topic);
+          }
+        }
+        if (Object.keys(topics).length > 0)
+        {
+          this.topicAlert.popSuccess('');
+          return true;
+        }
+        else
+        {
+          this.topicAlert.popWarning('Choose at least one topic.');
+          return false;
+        }
+      },
+      postSubmission (callbacks) {
         this.$axios.post('/submission', {
           author: this.user.getUserInfo().username,
           conference: this.fullName,
@@ -240,51 +284,174 @@
           )
           .then(res =>
           {
-            if(res && res.status === 200)
+            if (res && res.status === 200)
             {
-              let progress = this.progress;
-              progress.show = true;
-              let formData = new FormData();
-              formData.append('username', this.user.getUserInfo().username);
-              formData.append('category', 'paper');
-              formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}`);
-              formData.append('file', this.file);
-
-              this.$axios.post('/file', formData, {
-                onUploadProgress (event) {
-                  progress.value = Math.round((event.loaded * 100) / event.total);
-                }
-              })
-                .catch(
-                  error =>
-                  {
-                    if (error.response.status === 403)
-                    {
-                      this.alert.popDanger('you are not allowed to upload this file');
-                    }
-                    else
-                    {
-                      this.alert.popDanger('file upload error');
-                    }
-                  }
-                )
-                .then(res =>
-                {
-                  if(res && res.status === 200)
-                  {
-                    this.alert.popSuccess('paper submitted');
-                    setTimeout(() =>
-                    {
-                      this.$router.replace(this.confDetail.getURI('author', this, 'author'));
-                    }, 1500);
-                  }
-                });
+              console.log(callbacks);
+              let callback = callbacks.pop();
+              console.log(callbacks);
+              callback(callbacks);
             }
           });
+      },
+      postTopic (callbacks) {
+        let topics = [];
+        for (let topic in this.topics)
+        {
+          if (this.topics[topic])
+          {
+            topics.push(topic);
+          }
+        }
+        this.$axios.post('/submission-topic', 
+        {
+          conference: this.fullName,
+          author: this.user.getUserInfo().username,
+          title: this.subForm.title,
+          topics: topics
+        })
+        .catch(
+          error =>
+          {
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('invalid topics');
+            }
+            else
+            {
+              this.alert.popDanger('topics upload error');
+            }
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            let callback = callbacks.pop();
+            callback(callbacks);
+          }
+        });
+      },
+      postAuthor (callbacks) {
+        let authors = [];
+        for (let i = 0; i < this.authors.length; i++)
+        {
+          let author = Object.assign({}, this.authors[i]);
+          author.order = i;
+          author.fullName = author.name;
+          delete author.name;
+          authors.push(author);
+        }
+        this.$axios.post('/author', 
+        {
+          conference: this.fullName,
+          username: this.user.getUserInfo().username,
+          title: this.subForm.title,
+          authors: authors
+        })
+        .catch(
+          error =>
+          {
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('invalid authors');
+            }
+            else
+            {
+              this.alert.popDanger('authors upload error');
+            }
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            let callback = callbacks.pop();
+            callback(callbacks);
+          }
+        });
+      },
+      postFile () {
+        let progress = this.progress;
+        progress.show = true;
+        let formData = new FormData();
+        formData.append('username', this.user.getUserInfo().username);
+        formData.append('category', 'paper');
+        formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}`);
+        formData.append('file', this.file);
+
+        this.$axios.post('/file', formData, {
+          onUploadProgress (event) {
+            progress.value = Math.round((event.loaded * 100) / event.total);
+          }
+        })
+          .catch(
+            error =>
+            {
+              if (error.response.status === 403)
+              {
+                this.alert.popDanger('you are not allowed to upload this file');
+              }
+              else
+              {
+                this.alert.popDanger('file upload error');
+              }
+            }
+          )
+          .then(res =>
+          {
+            if(res && res.status === 200)
+            {
+              this.alert.popSuccess('paper submitted');
+              setTimeout(() =>
+              {
+                this.$router.replace(this.confDetail.getURI('author', this, 'author'));
+              }, 1500);
+            }
+          });
+      },
+      submit () {
+        if (!this.validate())
+        {
+          return;
+        }
+        let callbacks = [];
+        callbacks.push(this.postFile);
+        callbacks.push(this.postAuthor);
+        callbacks.push(this.postTopic);
+        callbacks.push(this.postSubmission);
+        let callback = callbacks.pop();
+        callback(callbacks);
+      },
+      getConfTopics () {
+        this.$axios.get('/conference-topic', {
+          params: {
+            username: this.user.getUserInfo().username,
+            conference: this.fullName
+          }
+        })
+        .catch(
+          error =>
+          {
+            this.alert.popDanger('fetch topics error');
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.topics = {};
+            for (let i = 0; i < res.data.topics.length; i++)
+            {
+              let topic = res.data.topics[i];
+              this.topics[topic] = false;
+            }
+          }
+        });
       }
     },
     mounted () {
       document.title += ` - ${this.fullName}`;
+      this.getConfTopics();
     }
   }
 

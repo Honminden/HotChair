@@ -23,7 +23,8 @@
                     <td>{{ invitation.conference }}</td>
                     <td>{{ invitation.inviter }}</td>
                     <td>
-                      <button class="btn btn-outline-success" data-toggle="modal" data-target="#topic">
+                      <button class="btn btn-outline-success" data-toggle="modal" data-target="#topic" 
+                                @click="getConfTopics(invitation.conference)">
                         Accept
                       </button>
                       <button class="btn btn-outline-danger ml-2"
@@ -43,14 +44,18 @@
                           <div class="modal-body form-group">
                             <div v-for="topic in Object.keys(topics)" :key="topic">
                               <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
+                                <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]"
+                                          @change='validate()'>
                                 <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
                               </div>
+                            </div>
+                            <div v-show="topicAlert.isVisible" :class="topicAlert.type">
+                              <i :class="topicAlert.icon"></i>{{ topicAlert.content }}
                             </div>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal"
+                            <button type="button" class="btn btn-success" :data-dismiss="(validate()) ? 'modal' : ''"
                                     @click="putStatus(invitation.conference, invitation.inviter, 'accepted')">
                               Confirm
                             </button>
@@ -114,14 +119,16 @@
       return {
         user: new User(),
         alert: new Alert(),
+        topicAlert: new Alert(),
         invitationList: [],
-        topics: {'computer science': false, 'tetris': false, 'digital tennis': false} // for display
+        topics: {}
       }
     },
     methods: {
       getInvitations () {
         this.$axios.get('/invitation', {
           params: {
+            conference: '',
             inviter: '',
             receiver: this.user.getUserInfo().username
           }
@@ -140,8 +147,58 @@
             }
           });
       },
+      getConfTopics (conference) {
+        this.$axios.get('/conference-topic', {
+          params: {
+            username: this.user.getUserInfo().username,
+            conference: conference
+          }
+        })
+        .catch(
+          error =>
+          {
+            this.alert.popDanger('fetch topics error');
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.topics = {};
+            for (let i = 0; i < res.data.topics.length; i++)
+            {
+              let topic = res.data.topics[i];
+              this.topics[topic] = false;
+            }
+          }
+        });
+      },
+      validate () {
+        let topics = [];
+        for (let topic in this.topics)
+        {
+          if (this.topics[topic])
+          {
+            topics.push(topic);
+          }
+        }
+        if (Object.keys(topics).length > 0)
+        {
+          this.topicAlert.popSuccess('');
+          return true;
+        }
+        else
+        {
+          this.topicAlert.popWarning('Choose at least one topic.');
+          return false;
+        }
+      },
       putStatus(conference, inviter, status)
       {
+        if (!this.validate())
+        {
+          return;
+        }
         this.$axios.put('/invitation', {
           conference: conference,
           inviter: inviter,
@@ -158,8 +215,44 @@
           {
             if(res && res.status === 200)
             {
-              this.alert.popSuccess('invitation handling success');
-              this.$router.go();
+              let topics = [];
+              for (let topic in this.topics)
+              {
+                if (this.topics[topic])
+                {
+                  topics.push(topic);
+                }
+              }
+              this.$axios.post('/pcmember-topic', 
+              {
+                username: this.user.getUserInfo().username,
+                conference: conference,
+                topics: topics
+              })
+              .catch(
+                error =>
+                {
+                  if (error.response.status === 403)
+                  {
+                    this.alert.popDanger('topics upload error');
+                  }
+                  else
+                  {
+                    this.alert.popDanger('upload error');
+                  }
+                }
+              )
+              .then(res =>
+              {
+                if(res && res.status === 200)
+                {
+                  this.alert.popSuccess('invitation handling success');
+                  setTimeout(() =>
+                  {
+                    this.$router.go();
+                  }, 1500);
+                }
+              });
             }
           });
       }

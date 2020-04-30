@@ -39,9 +39,8 @@
           <div class="col-sm-5 mt-4">
             <div class="row">
             <h4>Topics</h4>
-            <ul class="topics">
-              <li>topic</li>
-              <li>topic2</li>
+            <ul>
+              <li v-for="topic in topics" :key="topic">{{ topic }}</li>
             </ul>
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'passed')">
@@ -75,7 +74,8 @@ export default {
   data () {
     return {
       user: new User(),
-      alert: new Alert()
+      alert: new Alert(),
+      topics: []
     }
   },
   props: ['username', 'fullName', 'abbreviation', 'time', 'location', 'submissionDDL', 'reviewReleaseDate', 'status', 'role'],
@@ -124,10 +124,32 @@ export default {
           }, 1500);
         }
       });
+    },
+    getConfTopics () {
+      this.$axios.get('/conference-topic', {
+        params: {
+          username: this.user.getUserInfo().username,
+          conference: this.fullName
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('fetch topics error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.topics = res.data.topics;
+        }
+      });
     }
   },
   mounted () {
     document.title += ` - ${this.fullName}`;
+    this.getConfTopics();
   }
 }
 

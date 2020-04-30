@@ -154,6 +154,7 @@ export default {
     getInvitations () {
       this.$axios.get('/invitation', {
         params: {
+          conference: this.fullName,
           inviter: this.user.getUserInfo().username,
           receiver: ''
         }
