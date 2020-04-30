@@ -376,7 +376,7 @@
         let formData = new FormData();
         formData.append('username', this.user.getUserInfo().username);
         formData.append('category', 'paper');
-        formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}`);
+        formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}/${this.subForm.title}`);
         formData.append('file', this.file);
 
         this.$axios.post('/file', formData, {
