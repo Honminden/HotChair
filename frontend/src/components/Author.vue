@@ -28,7 +28,7 @@
                       <tr>
                         <td>{{ submission.title }}</td>
                         <td>{{ submission.abs }}</td>
-                        <td><button class="btn btn-info rounded-pill" data-toggle="modal" data-target="#preview">Preview<i class="fa fa-eye ml-1"></i></button></td>
+                        <td><button class="btn btn-info rounded-pill" data-toggle="modal" :data-target="'#preview'+submission.title.replace(/ /g, '-')">Preview<i class="fa fa-eye ml-1"></i></button></td>
                       </tr>
                       </tbody>
                     </table>
@@ -63,7 +63,7 @@
                     </ul>
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
-                      <button class="btn btn-success col-sm-3" data-toggle="modal" :data-target="'#update'+submission.title">Update</button>
+                      <button class="btn btn-success col-sm-3" data-toggle="modal" :data-target="'#update'+submission.title.replace(/ /g, '-')">Update</button>
                       <span class="col"></span>
                     </div>
                   </div>
@@ -72,7 +72,7 @@
             </div>
           </div>
           <!--          preview-->
-          <div class="modal fade" :id="'preview'+submission.title" tabindex="-1">
+          <div class="modal fade" :id="'preview'+submission.title.replace(/ /g, '-')" tabindex="-1">
             <div class="modal-dialog modal-lg">
               <div class="modal-content"  style="height: 90vh">
                 <div class="modal-header">
@@ -89,7 +89,7 @@
           </div>
 
           <!--          update-->
-          <div class="modal fade" :id="'update'+submission.title" tabindex="-1">
+          <div class="modal fade" :id="'update'+submission.title.replace(/ /g, '-')" tabindex="-1">
             <div class="modal-dialog modal-lg">
               <div class="modal-content"  style="height: 90vh">
                 <div class="modal-header">
