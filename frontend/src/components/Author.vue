@@ -7,12 +7,12 @@
         <InnerNav :parent="this" class="mb-3"/>
         <div class="accordion" id="accordion">
         <div v-for="submission in submissionList" :key="submission.title" class="card  border-light">
-          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#'+submission.title.replace(/ /g, '-')"
-                    @click="getAuthors(submission)">
+          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#Sub'+submission.title.replace(/ /g, '-')"
+                    @click="getAuthors(submission);getSubTopics(submission)">
             {{ submission.title }}
             <i class="fa fa-angle-down float-right"> </i>
           </button>
-          <div :id="submission.title.replace(/ /g, '-')" class="collapse" data-parent="#accordion">
+          <div :id="'Sub' + submission.title.replace(/ /g, '-')" class="collapse" data-parent="#accordion">
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 thingsleft">
@@ -58,8 +58,7 @@
                   <div>
                     <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
                     <ul class="topics">
-                      <li>topic</li>
-                      <li>topic2</li>
+                      <li v-for="topic in Object.keys(topics)" :key="topic">{{ topic }}</li>
                     </ul>
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
@@ -244,7 +243,7 @@ export default {
       },
       // pdf预览链接
       src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
-      topics: {'computer science': false, 'tetris': false, 'digital tennis': false}, // for display
+      topics: {},
       authors: [],
       newAuthor: emptyAuthor
     }
@@ -338,7 +337,33 @@ export default {
         if(res && res.status === 200)
         {
           this.authors = res.data.authors;
-          console.log(this.authors);
+        }
+      });
+    },
+    getSubTopics (submission) {
+      this.$axios.get('/submission-topic', {
+        params: {
+          conference: this.fullName,
+          author: submission.author,
+          title: submission.title
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('get topics error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.topics = {};
+          for (let i = 0; i < res.data.topics.length; i++)
+          {
+            let topic = res.data.topics[i];
+            this.topics[topic] = false;
+          }
         }
       });
     }
