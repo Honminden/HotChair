@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4934fa9d-e08b-489c-846a-a78b84efdbc3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Review.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Author.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Author.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Conference.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Conference.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/InnerNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/InnerNav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Notification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Notification.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Submission.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Submission.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +96,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Desktop\frontend\frontend\src\components" />
       <recent name="D:\HotChair\frontend\frontend\src\assets\css" />
       <recent name="D:\HotChair\frontend\frontend\src\assets\background" />
       <recent name="D:\HotChair\frontend\frontend\src\components" />
@@ -157,6 +167,10 @@
       <workItem from="1587792531534" duration="1692000" />
       <workItem from="1587794945931" duration="11050000" />
       <workItem from="1587882228093" duration="1432000" />
+      <workItem from="1587888064754" duration="12629000" />
+      <workItem from="1587974271960" duration="5176000" />
+      <workItem from="1588036427866" duration="694000" />
+      <workItem from="1588209309869" duration="14039000" />
     </task>
     <servers />
   </component>
@@ -171,34 +185,38 @@
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="352" y="87" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/62.0.1218.720@62.0.1218.720" timestamp="1586477506996" />
+    <state x="402" y="107" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588211650102">
+      <screen x="62" y="0" width="1218" height="720" />
+    </state>
+    <state x="402" y="107" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/62.0.1218.720@62.0.1218.720" timestamp="1588211650102" />
     <state x="452" y="116" key="FileChooserDialogImpl" timestamp="1587794217955">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="452" y="116" key="FileChooserDialogImpl/62.0.1218.720@62.0.1218.720" timestamp="1587794217955" />
-    <state width="1175" height="2" key="GridCell.Tab.0.bottom" timestamp="1587865748486">
+    <state width="1175" height="9" key="GridCell.Tab.0.bottom" timestamp="1588224023302">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1587865748486" />
-    <state width="1175" height="2" key="GridCell.Tab.0.center" timestamp="1587865748486">
+    <state width="1175" height="9" key="GridCell.Tab.0.bottom/62.0.1218.720@62.0.1218.720" timestamp="1588224023302" />
+    <state width="1175" height="9" key="GridCell.Tab.0.center" timestamp="1588224023301">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1587865748486" />
-    <state width="1175" height="2" key="GridCell.Tab.0.left" timestamp="1587865748486">
+    <state width="1175" height="9" key="GridCell.Tab.0.center/62.0.1218.720@62.0.1218.720" timestamp="1588224023301" />
+    <state width="1175" height="9" key="GridCell.Tab.0.left" timestamp="1588224023301">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1587865748486" />
-    <state width="1175" height="2" key="GridCell.Tab.0.right" timestamp="1587865748486">
+    <state width="1175" height="9" key="GridCell.Tab.0.left/62.0.1218.720@62.0.1218.720" timestamp="1588224023301" />
+    <state width="1175" height="9" key="GridCell.Tab.0.right" timestamp="1588224023301">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state width="1175" height="2" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1587865748486" />
+    <state width="1175" height="9" key="GridCell.Tab.0.right/62.0.1218.720@62.0.1218.720" timestamp="1588224023301" />
     <state x="173" y="3" key="SettingsEditor" timestamp="1586090891093">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="173" y="3" key="SettingsEditor/62.0.1218.720@62.0.1218.720" timestamp="1586090891093" />
-    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587866832766">
+    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587908840193">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
-    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog/62.0.1218.720@62.0.1218.720" timestamp="1587866832766" />
+    <state x="155" y="93" width="1033" height="535" key="com.intellij.history.integration.ui.views.FileHistoryDialog/62.0.1218.720@62.0.1218.720" timestamp="1587908840193" />
     <state x="108" y="191" key="com.intellij.ide.util.TipDialog" timestamp="1586477481260">
       <screen x="62" y="0" width="1218" height="720" />
     </state>
@@ -207,6 +225,10 @@
       <screen x="62" y="0" width="1218" height="720" />
     </state>
     <state x="328" y="161" key="run.anything.popup/62.0.1218.720@62.0.1218.720" timestamp="1586264083092" />
+    <state x="334" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1588222264086">
+      <screen x="62" y="0" width="1218" height="720" />
+    </state>
+    <state x="334" y="41" width="672" height="678" key="search.everywhere.popup/62.0.1218.720@62.0.1218.720" timestamp="1588222264086" />
   </component>
   <component name="masterDetails">
     <states>
