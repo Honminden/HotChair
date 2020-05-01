@@ -5,12 +5,6 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this"/>
-        <div v-if="progress.show" class="progress" style="height: 30px">
-          <div class="progress-bar progress-bar-striped progress-bar-animated"
-               role="progressbar" :style="`width: ${progress.value}%`">
-            <strong>{{ progress.value }}%</strong>
-          </div>
-        </div>
         <div>
           <div class="col-sm-3 float-left text-center" v-show="alert.isVisible" :class="alert.type">
             <i :class="alert.icon"></i>{{ alert.content }}
@@ -26,17 +20,28 @@
           <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
           <div class="form-group row">
             <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-            <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title">
+            <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title" 
+                      @input="validate('title')">
+            <div v-for="validAlert in validAlerts.title" :class="validAlert.type" :key="validAlert.content">
+              <i :class="validAlert.icon"></i>{{ validAlert.content }}
+            </div>
           </div>
           <div class="form-group row">
             <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-            <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"></textarea>
+            <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs" 
+                      @input="validate('abs')"></textarea>
+            <div v-for="validAlert in validAlerts.abs" :class="validAlert.type" :key="validAlert.content">
+              <i :class="validAlert.icon"></i>{{ validAlert.content }}
+            </div>
           </div>
           <div class="form-group row">
             <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
               <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
+            </div>
+            <div v-for="validAlert in validAlerts.fileName" :class="validAlert.type" :key="validAlert.content">
+              <i :class="validAlert.icon"></i>{{ validAlert.content }}
             </div>
           </div>
           <div class="form-group mt-5">
@@ -75,7 +80,7 @@
               <tbody>
               <tr v-for="(author, index) in authors" :key="index">
                 <th scope="row">{{ index + 1 }}</th>
-                <td>{{ author.name }}</td>
+                <td>{{ author.fullName }}</td>
                 <td>{{ author.organization }}</td>
                 <td>{{ author.region }}</td>
                 <td>{{ author.email }}</td>
@@ -98,7 +103,7 @@
                 <div class="form-group col-sm-6">
                   <label for="name" class="col-form-label">Name</label>
                   <input id="name" class="form-control"
-                         type="text" auto-complete="off" placeholder="username" v-model="newAuthor.name">
+                         type="text" auto-complete="off" placeholder="username" v-model="newAuthor.fullName">
                 </div>
                 <div class="form-group col-sm-6">
                   <label for="organization" class="col-form-label">Organization</label>
@@ -134,11 +139,20 @@
               </button>
               <span class="col-sm-4"></span>
             </div>
+            <div v-for="validAlert in validAlerts.authors" :class="validAlert.type" :key="validAlert.content">
+              <i :class="validAlert.icon"></i>{{ validAlert.content }}
+            </div>
           </div>
           <hr>
           <div class="row">
             <span class="col"></span>
             <button class="btn btn-primary my-3 col-sm-2" @click.prevent="submit()">submit</button>
+            <div v-if="progress.show" class="progress" style="height: 30px">
+              <div class="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar" :style="`width: ${progress.value}%`">
+                <strong>{{ progress.value }}%</strong>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -150,13 +164,21 @@
   import Navbar from './Navbar'
   import InnerNav from './InnerNav'
   import Alert from './Message/Alert'
+  import Validation from './Form/Validation'
   import User from './User/User'
   import ConfDetail from './Detail/ConfDetail'
   import LeftNav from "./LeftNav";
 
+  const emptyForm = 
+  {
+    title: '',
+    abs: '',
+    fileName: ''
+  }
+
   const emptyAuthor =
     {
-      name: '',
+      fullName: '',
       organization: '',
       region: '',
       email: ''
@@ -168,13 +190,22 @@
       return {
         user: new User(),
         alert: new Alert(),
+        triggered: {
+          title: false,
+          abs: false,
+          fileName: false,
+          authors: false
+        },
+        validAlerts: {
+          title: [],
+          abs: [],
+          fileName: [],
+          authors: []
+        },
         topicAlert: new Alert(),
         confDetail: new ConfDetail(),
-        subForm: {
-          title: '',
-          abs: '',
-          fileName: ''
-        },
+        validation: (new Validation).validateSubmission(emptyForm, []),
+        subForm: emptyForm,
         file: null,
         progress: {
           show: false,
@@ -195,23 +226,32 @@
     methods: {
       updateFile (event) {
         let files = event.target.files;
-        if (files)
+        if (files && files[0])
         {
           this.subForm.fileName = files[0].name;
           this.file = files[0];
         }
+        this.validate('fileName');
       },
       addAuthor () {
-        if (this.authors.findIndex(author => (author.name === this.newAuthor.name)) === -1)
+        for (let field in this.newAuthor)
+        {
+          if (this.newAuthor[field] === '')
+          {
+            return;
+          }
+        }
+        if (this.authors.findIndex(author => (author.fullName === this.newAuthor.fullName)) === -1)
         {
           this.authors.push(Object.assign({}, this.newAuthor));
         }
         this.newAuthor = emptyAuthor;
+        this.validate('authors');
       },
       addSelf () {
         this.newAuthor = 
         {
-          name: this.user.getUserInfo().username,
+          fullName: this.user.getUserInfo().username,
           organization: this.user.getUserInfo().organization,
           region: this.user.getUserInfo().region,
           email: this.user.getUserInfo().email
@@ -220,6 +260,7 @@
       },
       removeAuthor (author) {
         this.authors.splice(this.authors.indexOf(author), 1);
+        this.validate('authors');
       },
       moveUpAuthor (author) {
         let index = this.authors.indexOf(author);
@@ -241,24 +282,53 @@
         }
         this.$forceUpdate();
       },
-      validate () {
-        let topics = [];
-        for (let topic in this.topics)
+      validate (field) {
+        this.triggered[field] = true;
+        this.validation = (new Validation).validateSubmission(this.subForm, this.authors);
+        /* update validation alerts */
+        for (let field of Object.keys(this.validAlerts))
         {
-          if (this.topics[topic])
+          if (this.triggered[field])
           {
-            topics.push(topic);
+            this.validAlerts[field] = [];
+            if (this.validation[field].isValid)
+            {
+              let validAlert = new Alert();
+              validAlert.popSuccess("Valid input.");
+              this.validAlerts[field].push(validAlert);
+            }
+            else
+            {
+              for (let message of this.validation[field].messages)
+              {
+                let validAlert = new Alert();
+                validAlert.popWarning(message);
+                this.validAlerts[field].push(validAlert);
+              }
+            }
           }
         }
-        if (Object.keys(topics).length > 0)
+
+        if (field === undefined)
         {
-          this.topicAlert.popSuccess('');
-          return true;
-        }
-        else
-        {
-          this.topicAlert.popWarning('Choose at least one topic.');
-          return false;
+          let topics = [];
+          for (let topic in this.topics)
+          {
+            if (this.topics[topic])
+            {
+              topics.push(topic);
+            }
+          }
+          if (Object.keys(topics).length > 0)
+          {
+            this.topicAlert.popSuccess('');
+            return true;
+          }
+          else
+          {
+            this.topicAlert.popWarning('Choose at least one topic.');
+            return false;
+          }
         }
       },
       postSubmission (callbacks) {
@@ -286,9 +356,7 @@
           {
             if (res && res.status === 200)
             {
-              console.log(callbacks);
               let callback = callbacks.pop();
-              console.log(callbacks);
               callback(callbacks);
             }
           });
@@ -337,8 +405,6 @@
         {
           let author = Object.assign({}, this.authors[i]);
           author.order = i + 1; // start from 1
-          author.fullName = author.name;
-          delete author.name;
           authors.push(author);
         }
         this.$axios.post('/author', 
@@ -410,17 +476,21 @@
           });
       },
       submit () {
-        if (!this.validate())
+        for (let field of Object.keys(this.triggered))
         {
-          return;
+          this.triggered[field] = true;
         }
-        let callbacks = [];
-        callbacks.push(this.postFile);
-        callbacks.push(this.postAuthor);
-        callbacks.push(this.postTopic);
-        callbacks.push(this.postSubmission);
-        let callback = callbacks.pop();
-        callback(callbacks);
+        this.validate();
+        if (Object.values(this.validation).every(field => (field.isValid === true)))
+        {
+          let callbacks = [];
+          callbacks.push(this.postFile);
+          callbacks.push(this.postAuthor);
+          callbacks.push(this.postTopic);
+          callbacks.push(this.postSubmission);
+          let callback = callbacks.pop();
+          callback(callbacks);
+        }
       },
       getConfTopics () {
         this.$axios.get('/conference-topic', {

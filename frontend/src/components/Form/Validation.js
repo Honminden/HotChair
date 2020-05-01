@@ -55,6 +55,8 @@ const compareDate = (time, submissionDDL, reviewReleaseDate) =>
 
 const isEmpty = value => ((!value) || (value === ''))
 
+const testEmpty = field => (isEmpty(field)) ? {isValid: false, messages: ['Can\'t be empty.']} : {isValid: true, messages: []}
+
 export default class Validation
 {
     validateRegister(form)
@@ -123,17 +125,7 @@ export default class Validation
                     }
                     return {isValid: isValid, messages: messages}
                 })(form.password),
-            fullName: (field => 
-                {
-                    if (isEmpty(field))
-                    {
-                        return {isValid: false, messages: ['Can\'t be empty.']}
-                    }
-
-                    let isValid = true;
-                    let messages = [];
-                    return {isValid: isValid, messages: messages}
-                })(form.fullName),
+            fullName: testEmpty(form.fullName),
             email: (field =>
                 {
                     if (isEmpty(field))
@@ -150,17 +142,7 @@ export default class Validation
                     }
                     return {isValid: isValid, messages: messages}
                 })(form.email),
-            organization: (field => 
-                {
-                    if (isEmpty(field))
-                    {
-                        return {isValid: false, messages: ['Can\'t be empty.']}
-                    }
-
-                    let isValid = true;
-                    let messages = [];
-                    return {isValid: isValid, messages: messages}
-                })(form.organization),
+            organization: testEmpty(form.organization),
             region: (field => 
                 {
                     if (isEmpty(field))
@@ -184,28 +166,8 @@ export default class Validation
     {
         let dateResults = compareDate(form.time, form.submissionDDL, form.reviewReleaseDate);
         return {
-            fullName: (field => 
-                {
-                    if (isEmpty(field))
-                    {
-                        return {isValid: false, messages: ['Can\'t be empty.']}
-                    }
-
-                    let isValid = true;
-                    let messages = [];
-                    return {isValid: isValid, messages: messages}
-                })(form.fullName), 
-                abbreviation: (field => 
-                {
-                    if (isEmpty(field))
-                    {
-                        return {isValid: false, messages: ['Can\'t be empty.']}
-                    }
-
-                    let isValid = true;
-                    let messages = [];
-                    return {isValid: isValid, messages: messages}
-                })(form.abbreviation), 
+            fullName: testEmpty(form.fullName), 
+            abbreviation: testEmpty(form.abbreviation), 
             time: (field => 
                 {
                     if (isEmpty(field))
@@ -316,6 +278,27 @@ export default class Validation
 
                     return {isValid: isValid, messages: messages}
                 })(topics)
+        };
+    }
+
+    validateSubmission(form, authors)
+    {
+        return {
+            title: testEmpty(form.title), 
+            abs: testEmpty(form.abs), 
+            fileName: testEmpty(form.fileName),
+            authors: (field => 
+                {
+                    if (field.length < 1)
+                    {
+                        return {isValid: false, messages: ['Should have at least one author.']}
+                    }
+
+                    let isValid = true;
+                    let messages = [];
+
+                    return {isValid: isValid, messages: messages}
+                })(authors)
         };
     }
 }
