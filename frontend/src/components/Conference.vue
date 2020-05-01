@@ -156,9 +156,6 @@ export default {
     'Navbar': Navbar
   },
   methods: {
-    logOut () {
-      user.logOut();
-    },
     addTopic () {
       if ((this.newTopic !== '') && (this.topics.indexOf(this.newTopic) === -1))
       {
