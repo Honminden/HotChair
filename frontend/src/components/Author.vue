@@ -5,10 +5,16 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this" class="mb-3"/>
+        <div v-if="progress.show" class="progress" style="height: 30px">
+          <div class="progress-bar progress-bar-striped progress-bar-animated"
+               role="progressbar" :style="`width: ${progress.value}%`">
+            <strong>{{ progress.value }}%</strong>
+          </div>
+        </div>
         <div class="accordion" id="accordion">
         <div v-for="submission in submissionList" :key="submission.title" class="card  border-light">
           <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#Sub'+submission.title.replace(/ /g, '-')"
-                    @click="getAuthors(submission);getSubTopics(submission)">
+                    @click="toggle(submission)">
             {{ submission.title }}
             <i class="fa fa-angle-down float-right"> </i>
           </button>
@@ -23,12 +29,19 @@
                       <tr>
                         <th scope="col">Title</th>
                         <th scope="col" width="200px">Abstract</th>
-                        <th scope="col">file</th>
+                        <th scope="col">File</th>
                       </tr>
                       <tr>
                         <td>{{ submission.title }}</td>
                         <td>{{ submission.abs }}</td>
-                        <td><button class="btn btn-info rounded-pill" data-toggle="modal" :data-target="'#preview'+submission.title.replace(/ /g, '-')">Preview<i class="fa fa-eye ml-1"></i></button></td>
+                        <td>
+                          {{ submission.fileName }}
+                          <hr/>
+                          <button class="btn btn-info rounded-pill" data-toggle="modal" 
+                                  :data-target="'#preview'+submission.title.replace(/ /g, '-')">
+                          Preview<i class="fa fa-eye ml-1"></i>
+                          </button>
+                        </td>
                       </tr>
                       </tbody>
                     </table>
@@ -58,11 +71,12 @@
                   <div>
                     <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
                     <ul class="topics">
-                      <li v-for="topic in Object.keys(topics)" :key="topic">{{ topic }}</li>
+                      <li v-for="topic in topics" :key="topic">{{ topic }}</li>
                     </ul>
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
-                      <button class="btn btn-success col-sm-3" data-toggle="modal" :data-target="'#update'+submission.title.replace(/ /g, '-')">Update</button>
+                      <button class="btn btn-success col-sm-3" data-toggle="modal" 
+                                :data-target="'#update'+submission.title.replace(/ /g, '-')">Update</button>
                       <span class="col"></span>
                     </div>
                   </div>
@@ -117,10 +131,16 @@
                     </div>
                     <div class="form-group mt-5">
                       <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
-                      <div v-for="topic in Object.keys(topics)" :key="topic">
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="topics[topic]">
-                          <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                      <div>
+                        <div v-for="topic in Object.keys(newTopics)" :key="topic">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="newTopics[topic]"
+                                      @change='validate()'>
+                            <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
+                          </div>
+                        </div>
+                        <div v-show="topicAlert.isVisible" :class="topicAlert.type">
+                          <i :class="topicAlert.icon"></i>{{ topicAlert.content }}
                         </div>
                       </div>
                     </div>
@@ -142,9 +162,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(author, index) in authors" :key="index">
+                        <tr v-for="(author, index) in newAuthors" :key="index">
                           <th scope="row">{{ index + 1 }}</th>
-                          <td>{{ author.name }}</td>
+                          <td>{{ author.fullName }}</td>
                           <td>{{ author.organization }}</td>
                           <td>{{ author.region }}</td>
                           <td>{{ author.email }}</td>
@@ -167,7 +187,7 @@
                           <div class="form-group col-sm-6">
                             <label for="name" class="col-form-label">Name</label>
                             <input id="name" class="form-control"
-                                   type="text" auto-complete="off" placeholder="username" v-model="newAuthor.name">
+                                   type="text" auto-complete="off" placeholder="username" v-model="newAuthor.fullName">
                           </div>
                           <div class="form-group col-sm-6">
                             <label for="organization" class="col-form-label">Organization</label>
@@ -235,16 +255,26 @@ export default {
     return {
       user: new User(),
       alert: new Alert(),
+      topicAlert: new Alert(),
       submissionList: [],
       subForm: {
         title: '',
         abs: '',
         fileName: ''
       },
+      file: null,
+      progress: {
+        show: false,
+        value: 0
+      },
       // pdf预览链接
       src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
-      topics: {},
+      title: '',
+      confTopics: [],
+      topics: [],
+      newTopics: {},
       authors: [],
+      newAuthors: [],
       newAuthor: emptyAuthor
     }
 
@@ -267,32 +297,32 @@ export default {
       }
     },
     addAuthor () {
-      if (this.authors.findIndex(author => (author.name === this.newAuthor.name)) === -1)
+      if (this.newAuthors.findIndex(author => (author.fullName === this.newAuthor.fullName)) === -1)
       {
-        this.authors.push(Object.assign({}, this.newAuthor));
+        this.newAuthors.push(Object.assign({}, this.newAuthor));
       }
       this.newAuthor = emptyAuthor;
     },
     removeAuthor (author) {
-      this.authors.splice(this.authors.indexOf(author), 1);
+      this.newAuthors.splice(this.newAuthors.indexOf(author), 1);
     },
     moveUpAuthor (author) {
-      let index = this.authors.indexOf(author);
+      let index = this.newAuthors.indexOf(author);
       if (index > 0)
       {
-        let above = this.authors[index - 1];
-        this.authors[index - 1] = author;
-        this.authors[index] = above;
+        let above = this.newAuthors[index - 1];
+        this.newAuthors[index - 1] = author;
+        this.newAuthors[index] = above;
       }
       this.$forceUpdate();
     },
     moveDownAuthor (author) {
-      let index = this.authors.indexOf(author);
-      if (index !== -1 && index < this.authors.length - 1)
+      let index = this.newAuthors.indexOf(author);
+      if (index !== -1 && index < this.newAuthors.length - 1)
       {
-        let below = this.authors[index + 1];
-        this.authors[index + 1] = author;
-        this.authors[index] = below;
+        let below = this.newAuthors[index + 1];
+        this.newAuthors[index + 1] = author;
+        this.newAuthors[index] = below;
       }
       this.$forceUpdate();
     },
@@ -318,6 +348,16 @@ export default {
         }
       });
     },
+    toggle (submission) {
+      this.getAuthors(submission);
+      this.getSubTopics(submission);
+      this.title = submission.title;
+      this.subForm = {
+        title: submission.title,
+        abs: submission.abs,
+        fileName: ''
+      }
+    },
     getAuthors (submission) {
       this.$axios.get('/author', {
         params: {
@@ -337,6 +377,28 @@ export default {
         if(res && res.status === 200)
         {
           this.authors = res.data.authors;
+          this.newAuthors = this.authors.slice();
+        }
+      });
+    },
+    getConfTopics () {
+      this.$axios.get('/conference-topic', {
+        params: {
+          username: this.user.getUserInfo().username,
+          conference: this.fullName
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('fetch topics error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.confTopics = res.data.topics;
         }
       });
     },
@@ -358,20 +420,204 @@ export default {
       {
         if(res && res.status === 200)
         {
-          this.topics = {};
-          for (let i = 0; i < res.data.topics.length; i++)
+          this.topics = res.data.topics;
+          this.newTopics = {};
+          for (let i = 0; i < this.confTopics.length; i++)
           {
-            let topic = res.data.topics[i];
-            this.topics[topic] = false;
+            let topic = this.confTopics[i];
+            this.newTopics[topic] = (this.topics.indexOf(topic) >= 0);
           }
         }
       });
-    }
+    },
+    validate () {
+      let topics = [];
+      for (let topic in this.newTopics)
+      {
+        if (this.newTopics[topic])
+        {
+          topics.push(topic);
+        }
+      }
+      if (Object.keys(topics).length > 0)
+      {
+        this.topicAlert.popSuccess('');
+        return true;
+      }
+      else
+      {
+        this.topicAlert.popWarning('Choose at least one topic.');
+        return false;
+      }
+    },
+    putSubmission (callbacks) {
+      this.$axios.put('/submission', {
+        author: this.user.getUserInfo().username,
+        conference: this.fullName,
+        oldTitle: this.title,
+        newTitle: this.subForm.title,
+        abs: this.subForm.abs,
+        fileName: this.subForm.fileName
+      })
+        .catch(
+          error =>
+          {
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('you are not allowed to submit this paper');
+            }
+            else
+            {
+              this.alert.popDanger('submission error');
+            }
+          }
+        )
+        .then(res =>
+        {
+          if (res && res.status === 200)
+          {
+            console.log(callbacks);
+            let callback = callbacks.pop();
+            console.log(callbacks);
+            callback(callbacks);
+          }
+        });
+    },
+    putTopic (callbacks) {
+      let topics = [];
+      for (let topic in this.newTopics)
+      {
+        if (this.newTopics[topic])
+        {
+          topics.push(topic);
+        }
+      }
+      this.$axios.put('/submission-topic', 
+      {
+        conference: this.fullName,
+        author: this.user.getUserInfo().username,
+        title: this.subForm.title,
+        topics: topics
+      })
+      .catch(
+        error =>
+        {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('invalid topics');
+          }
+          else
+          {
+            this.alert.popDanger('topics upload error');
+          }
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          let callback = callbacks.pop();
+          callback(callbacks);
+        }
+      });
+    },
+    putAuthor (callbacks) {
+      let authors = [];
+      console.log(this.newAuthors)
+      for (let i = 0; i < this.newAuthors.length; i++)
+      {
+        let author = Object.assign({}, this.newAuthors[i]);
+        author.order = i + 1; // start from 1
+        authors.push(author);
+      }
+      console.log(authors)
+      this.$axios.put('/author', 
+      {
+        conference: this.fullName,
+        username: this.user.getUserInfo().username,
+        title: this.subForm.title,
+        authors: authors
+      })
+      .catch(
+        error =>
+        {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('invalid authors');
+          }
+          else
+          {
+            this.alert.popDanger('authors upload error');
+          }
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          let callback = callbacks.pop();
+          callback(callbacks);
+        }
+      });
+    },
+    putFile () {
+      let progress = this.progress;
+      progress.show = true;
+      let formData = new FormData();
+      formData.append('username', this.user.getUserInfo().username);
+      formData.append('category', 'paper');
+      formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}/${this.subForm.title}`);
+      formData.append('file', this.file);
+
+      this.$axios.put('/file', formData, {
+        onUploadProgress (event) {
+          progress.value = Math.round((event.loaded * 100) / event.total);
+        }
+      })
+        .catch(
+          error =>
+          {
+            if (error.response.status === 403)
+            {
+              this.alert.popDanger('you are not allowed to upload this file');
+            }
+            else
+            {
+              this.alert.popDanger('file upload error');
+            }
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.alert.popSuccess('paper submitted');
+            setTimeout(() =>
+            {
+              this.$router.go();
+            }, 1500);
+          }
+        });
+    },
+    submit () {
+      if (!this.validate())
+      {
+        return;
+      }
+      let callbacks = [];
+      callbacks.push(this.putFile);
+      callbacks.push(this.putAuthor);
+      callbacks.push(this.putTopic);
+      callbacks.push(this.putSubmission);
+      let callback = callbacks.pop();
+      callback(callbacks);
+    },
   },
 
   mounted () {
     document.title += ` - ${this.fullName}`;
     this.getSubmission();
+    this.getConfTopics();
   }
 }
 
