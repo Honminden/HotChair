@@ -6,7 +6,7 @@
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this"/>
         <div>
-          <div class="col-sm-3 float-left text-center" v-show="alert.isVisible" :class="alert.type">
+          <div class="col-sm-3 float-left" v-show="alert.isVisible" :class="alert.type">
             <i :class="alert.icon"></i>{{ alert.content }}
           </div>
         </div>
@@ -17,20 +17,21 @@
             <span class="col"></span>
           </legend>
           <hr/>
+
           <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
           <div class="form-group row">
             <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-            <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title" 
+            <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title"
                       @input="validate('title')">
-            <div v-for="validAlert in validAlerts.title" :class="validAlert.type" :key="validAlert.content">
+            <div class="col-sm-4" v-for="validAlert in validAlerts.title" :class="validAlert.type" :key="validAlert.content">
               <i :class="validAlert.icon"></i>{{ validAlert.content }}
             </div>
           </div>
           <div class="form-group row">
             <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-            <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs" 
+            <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"
                       @input="validate('abs')"></textarea>
-            <div v-for="validAlert in validAlerts.abs" :class="validAlert.type" :key="validAlert.content">
+            <div class="col-sm-4" v-for="validAlert in validAlerts.abs" :class="validAlert.type" :key="validAlert.content">
               <i :class="validAlert.icon"></i>{{ validAlert.content }}
             </div>
           </div>
@@ -40,7 +41,7 @@
               <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
               <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
             </div>
-            <div v-for="validAlert in validAlerts.fileName" :class="validAlert.type" :key="validAlert.content">
+            <div class="col-sm-4" v-for="validAlert in validAlerts.fileName" :class="validAlert.type" :key="validAlert.content">
               <i :class="validAlert.icon"></i>{{ validAlert.content }}
             </div>
           </div>
@@ -54,7 +55,7 @@
                   <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
                 </div>
               </div>
-              <div v-show="topicAlert.isVisible" :class="topicAlert.type">
+              <div class="col-sm-4" v-show="topicAlert.isVisible" :class="topicAlert.type">
                 <i :class="topicAlert.icon"></i>{{ topicAlert.content }}
               </div>
             </div>
@@ -98,7 +99,7 @@
               </tr>
               </tbody>
             </table>
-            <div class="row mt-2">
+            <div class="row mt-2 container ml-2">
               <div class="row">
                 <div class="form-group col-sm-6">
                   <label for="name" class="col-form-label">Name</label>
@@ -126,33 +127,33 @@
               </div>
             </div>
             <div class="row mt-2">
-              <span class="col-sm-4"></span>
+              <span class="col"></span>
               <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="addAuthor()">
                 Add author<i class="fa fa-plus ml-1"></i>
               </button>
-              <span class="col-sm-4"></span>
+              <span class="col"></span>
             </div>
             <div class="row mt-2">
-              <span class="col-sm-4"></span>
-              <button class="col-sm-4 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
+              <span class="col"></span>
+              <button class="col-sm-5 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
                 Add yourself as author<i class="fa fa-plus ml-1"></i>
               </button>
-              <span class="col-sm-4"></span>
+              <span class="col"></span>
             </div>
-            <div v-for="validAlert in validAlerts.authors" :class="validAlert.type" :key="validAlert.content">
+            <div class="col-sm-4" v-for="validAlert in validAlerts.authors" :class="validAlert.type" :key="validAlert.content">
               <i :class="validAlert.icon"></i>{{ validAlert.content }}
             </div>
           </div>
           <hr>
+          <div v-if="progress.show" class="progress" style="height: 15px">
+            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                 role="progressbar" :style="`width: ${progress.value}%`">
+              <strong>{{ progress.value }}%</strong>
+            </div>
+          </div>
           <div class="row">
             <span class="col"></span>
             <button class="btn btn-primary my-3 col-sm-2" @click.prevent="submit()">submit</button>
-            <div v-if="progress.show" class="progress" style="height: 30px">
-              <div class="progress-bar progress-bar-striped progress-bar-animated"
-                  role="progressbar" :style="`width: ${progress.value}%`">
-                <strong>{{ progress.value }}%</strong>
-              </div>
-            </div>
           </div>
         </form>
       </div>
@@ -169,7 +170,7 @@
   import ConfDetail from './Detail/ConfDetail'
   import LeftNav from "./LeftNav";
 
-  const emptyForm = 
+  const emptyForm =
   {
     title: '',
     abs: '',
@@ -249,7 +250,7 @@
         this.validate('authors');
       },
       addSelf () {
-        this.newAuthor = 
+        this.newAuthor =
         {
           fullName: this.user.getUserInfo().username,
           organization: this.user.getUserInfo().organization,
@@ -294,7 +295,7 @@
             if (this.validation[field].isValid)
             {
               let validAlert = new Alert();
-              validAlert.popSuccess("Valid input.");
+              validAlert.popSuccess("Valid.");
               this.validAlerts[field].push(validAlert);
             }
             else
@@ -321,7 +322,7 @@
           }
           if (Object.keys(topics).length > 0)
           {
-            this.topicAlert.popSuccess('');
+            this.topicAlert.popSuccess("Valid.");
             return true;
           }
           else
@@ -370,7 +371,7 @@
             topics.push(topic);
           }
         }
-        this.$axios.post('/submission-topic', 
+        this.$axios.post('/submission-topic',
         {
           conference: this.fullName,
           author: this.user.getUserInfo().username,
@@ -407,7 +408,7 @@
           author.order = i + 1; // start from 1
           authors.push(author);
         }
-        this.$axios.post('/author', 
+        this.$axios.post('/author',
         {
           conference: this.fullName,
           username: this.user.getUserInfo().username,

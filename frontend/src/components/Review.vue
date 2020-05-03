@@ -60,7 +60,7 @@
                                       <div class="col">
                                       <h6 >Reject</h6>
                                         <div class="custom-control custom-radio">
-                                          <input type="radio" id="reject" name="customRadio" class="custom-control-input" checked="">
+                                          <input type="radio" id="reject" name="customRadio" class="custom-control-input">
                                           <label class="custom-control-label" for="reject">-2</label>
                                         </div>
                                       </div>

@@ -39,8 +39,8 @@
           <div class="col-sm-5 mt-4">
             <div class="row">
             <h4>Topics</h4>
-            <ul>
-              <li v-for="topic in topics" :key="topic">{{ topic }}</li>
+            <ul class="topics">
+              <li v-for="topic in topics" :key="topic" >{{ topic }}</li>
             </ul>
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'passed')">

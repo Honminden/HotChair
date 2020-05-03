@@ -31,7 +31,7 @@
                         <td>
                           {{ submission.fileName }}
                           <hr/>
-                          <button class="btn btn-info rounded-pill" data-toggle="modal" 
+                          <button class="btn btn-info rounded-pill" data-toggle="modal"
                                   :data-target="'#preview'+submission.title.replace(/ /g, '-')">
                           Preview<i class="fa fa-eye ml-1"></i>
                           </button>
@@ -69,7 +69,7 @@
                     </ul>
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
-                      <button class="btn btn-success col-sm-3" data-toggle="modal" 
+                      <button class="btn btn-success col-sm-3" data-toggle="modal"
                                 :data-target="'#update'+submission.title.replace(/ /g, '-')">Update</button>
                       <span class="col"></span>
                     </div>
@@ -110,7 +110,7 @@
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
                     <div class="form-group row">
                       <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-                      <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title" 
+                      <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title"
                                 @input="validate('title')">
                       <div v-for="validAlert in validAlerts.title" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group row">
                       <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-                      <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs" 
+                      <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"
                                 @input="validate('abs')"></textarea>
                       <div v-for="validAlert in validAlerts.abs" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
@@ -214,34 +214,34 @@
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <span class="col-sm-4"></span>
+                        <span class="col"></span>
                         <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="addAuthor()">
                           Add author<i class="fa fa-plus ml-1"></i>
                         </button>
-                        <span class="col-sm-4"></span>
+                        <span class="col"></span>
                       </div>
                       <div class="row mt-2">
-                        <span class="col-sm-4"></span>
-                        <button class="col-sm-4 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
+                        <span class="col"></span>
+                        <button class="col-sm-5 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
                           Add yourself as author<i class="fa fa-plus ml-1"></i>
                         </button>
-                        <span class="col-sm-4"></span>
+                        <span class="col"></span>
                       </div>
                       <div v-for="validAlert in validAlerts.authors" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
                       </div>
                     </div>
                   </form>
+                  <div v-if="progress.show" class="progress" style="height: 15px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar" :style="`width: ${progress.value}%`">
+                      <strong>{{ progress.value }}%</strong>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                   <button class="btn btn-primary" @click.prevent="submit()">Confirm</button>
-                  <div v-if="progress.show" class="progress" style="height: 30px">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated"
-                        role="progressbar" :style="`width: ${progress.value}%`">
-                      <strong>{{ progress.value }}%</strong>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -263,14 +263,14 @@ import User from './User/User'
 import LeftNav from "./LeftNav";
 import Detail from "./Detail";
 
-const emptyForm = 
+const emptyForm =
 {
   title: '',
   abs: '',
   fileName: ''
 }
 
-const emptyAuthor = 
+const emptyAuthor =
 {
   fullName: '',
   organization: '',
@@ -351,7 +351,7 @@ export default {
       this.validate('authors');
     },
     addSelf () {
-      this.newAuthor = 
+      this.newAuthor =
       {
         fullName: this.user.getUserInfo().username,
         organization: this.user.getUserInfo().organization,
@@ -500,7 +500,7 @@ export default {
           if (this.validation[field].isValid)
           {
             let validAlert = new Alert();
-            validAlert.popSuccess("Valid input.");
+            validAlert.popSuccess("Valid.");
             this.validAlerts[field].push(validAlert);
           }
           else
@@ -527,7 +527,7 @@ export default {
         }
         if (Object.keys(topics).length > 0)
         {
-          this.topicAlert.popSuccess('');
+          this.topicAlert.popSuccess("Valid.");
           return true;
         }
         else
@@ -577,7 +577,7 @@ export default {
           topics.push(topic);
         }
       }
-      this.$axios.put('/submission-topic', 
+      this.$axios.put('/submission-topic',
       {
         conference: this.fullName,
         author: this.user.getUserInfo().username,
@@ -614,7 +614,7 @@ export default {
         author.order = i + 1; // start from 1
         authors.push(author);
       }
-      this.$axios.put('/author', 
+      this.$axios.put('/author',
       {
         conference: this.fullName,
         username: this.user.getUserInfo().username,
