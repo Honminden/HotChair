@@ -45,7 +45,12 @@
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'passed')">
               <span class="col"></span>
-              <button class="btn btn-success col-sm-5" @click="openConference()">Open this conference</button>
+              <button class="btn btn-success col-sm-5" @click="openConference()">Open This Conference</button>
+              <span class="col"></span>
+            </div>
+            <div class="row mt-5" v-if="(role === 'chair') && (status === 'open')">
+              <span class="col"></span>
+              <button class="btn btn-success col-sm-5" @click="startReview()">Start Reviewing</button>
               <span class="col"></span>
             </div>
           </div>
@@ -86,23 +91,23 @@ export default {
     'InnerNav': InnerNav
   },
   methods: {
-    openConference () {
+    putStatus (status, onRes, onError) {
       this.$axios.put('/conference', {
         username: this.user.getUserInfo().username,
         fullName: this.fullName,
-        status: 'open'
+        status: status
       })
       .catch(
         error =>
         {
-          this.alert.popDanger('status put error');
+          onError(error);
         }
       )
       .then(res =>
       {
         if(res && res.status === 200)
         {
-          this.alert.popSuccess('open success');
+          onRes(res);
           setTimeout(() =>
           {
             this.$router.replace({
@@ -115,7 +120,7 @@ export default {
                 location: this.location,
                 submissionDDL: this.submissionDDL,
                 reviewReleaseDate: this.reviewReleaseDate,
-                status: 'open',
+                status: status,
                 role: this.role
               }
             }, () => {
@@ -124,6 +129,27 @@ export default {
           }, 1500);
         }
       });
+    },
+    openConference () {
+      this.putStatus('open', res => {
+          this.alert.popSuccess('open success');
+        }, error => {
+          this.alert.popDanger('status put error');
+        });
+    },
+    startReview () {
+      this.putStatus('reviewing', res => {
+          this.alert.popSuccess('start reviewing success');
+        }, error => {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('Not allowed to start reviewing. Check if you have at least 2 PC Members.');
+          }
+          else
+          {
+            this.alert.popDanger('server error');
+          }
+        });
     },
     getConfTopics () {
       this.$axios.get('/conference-topic', {

@@ -24,13 +24,12 @@
           New Submission
         </router-link>
       </li>
-      <li v-if="(parent.role === 'author') && (parent.status === 'open')" class="nav-item">
+      <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
           Author Page
         </router-link>
       </li>
-<!--      这里status改成审稿-->
-      <li v-if="(parent.role === 'PCmember') && (parent.status === 'open')" class="nav-item">
+      <li v-if="(parent.role === 'PCmember') && (parent.status === 'reviewing')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('review', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/review') != -1 }]">
          Review Paper
         </router-link>
