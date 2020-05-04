@@ -29,7 +29,7 @@ export default class ConfLists
         else
         {
             this.yourConfList = confList.filter(conf => (conf.username === this.username));
-            this.allConfList = confList.filter(conf => ((conf.status === "passed") || (conf.status === "open")));
+            this.allConfList = confList.filter(conf => this.isPassed(conf.status));
         }
 
         let addField = conf => 
@@ -45,7 +45,8 @@ export default class ConfLists
 
     isPassed(status)
     {
-        return ((status === "passed") || (status === "open"));
+        return ((status === "passed") || (status === "open") || (status === "reviewing") || 
+            (status === "review over"));
     }
 
     getBadge(status)
@@ -67,6 +68,14 @@ export default class ConfLists
             case ("passed"):
                 badge.class = "badge badge-info";
                 badge.content = "not open";
+                break;
+            case ("reviewing"):
+                badge.class = "badge badge-secondary";
+                badge.content = "reviewing";
+                break;
+            case ("review over"):
+                badge.class = "badge badge-primary";
+                badge.content = "review over";
                 break;
             case ("open"):
             default:
