@@ -50,7 +50,12 @@
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'open')">
               <span class="col"></span>
-              <button class="btn btn-success col-sm-5" @click="startReview()">Start Reviewing</button>
+              <button class="btn btn-secondary col-sm-5" @click="startReview()">Start Reviewing</button>
+              <span class="col"></span>
+            </div>
+            <div class="row mt-5" v-if="(role === 'chair') && (status === 'reviewing')">
+              <span class="col"></span>
+              <button class="btn btn-primary col-sm-5" @click="releaseReview()">Release Reviews</button>
               <span class="col"></span>
             </div>
           </div>
@@ -144,6 +149,20 @@ export default {
           if (error.response.status === 403)
           {
             this.alert.popDanger('Not allowed to start reviewing. Check if you have at least 2 PC Members.');
+          }
+          else
+          {
+            this.alert.popDanger('server error');
+          }
+        });
+    },
+    releaseReview () {
+      this.putStatus('review over', res => {
+          this.alert.popSuccess('release reviews success');
+        }, error => {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('Not allowed to release reviews. Maybe some PC Member has not reviewed some submissions.');
           }
           else
           {

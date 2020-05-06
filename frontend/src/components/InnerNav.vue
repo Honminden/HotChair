@@ -24,7 +24,8 @@
           New Submission
         </router-link>
       </li>
-      <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing'))" class="nav-item">
+      <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing') || 
+                (parent.status === 'review over'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
           Author Page
         </router-link>
