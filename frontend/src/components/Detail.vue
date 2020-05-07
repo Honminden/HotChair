@@ -45,17 +45,17 @@
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'passed')">
               <span class="col"></span>
-              <button class="btn btn-success col-sm-5" @click="openConference()">Open This Conference</button>
+              <button class="btn btn-outline-success col-sm-5" @click="openConference()">Open This Conference</button>
               <span class="col"></span>
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'open')">
               <span class="col"></span>
-              <button class="btn btn-secondary col-sm-5" @click="startReview()">Start Reviewing</button>
+              <button class="btn btn-outline-secondary col-sm-5" @click="startReview()">Start Reviewing</button>
               <span class="col"></span>
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'reviewing')">
               <span class="col"></span>
-              <button class="btn btn-primary col-sm-5" @click="releaseReview()">Release Reviews</button>
+              <button class="btn btn-outline-primary col-sm-5" @click="releaseReview()">Release Reviews</button>
               <span class="col"></span>
             </div>
           </div>
