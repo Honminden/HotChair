@@ -7,12 +7,12 @@
         <InnerNav :parent="this" class="mb-3"/>
         <div class="accordion" id="accordion">
         <div v-for="submission in submissionList" :key="submission.title" class="card  border-light">
-          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#Sub'+submission.title.replace(/ /g, '-')"
+          <button class="btn btn-light text-left card-header"  data-toggle="collapse" :data-target="'#Sub'+submission.title.replace(/[ :]/g, '-')"
                     @click="toggle(submission)">
             {{ submission.title }}
             <i class="fa fa-angle-down float-right"> </i>
           </button>
-          <div :id="'Sub' + submission.title.replace(/ /g, '-')" class="collapse" data-parent="#accordion">
+          <div :id="'Sub' + submission.title.replace(/[ :]/g, '-')" class="collapse" data-parent="#accordion">
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 thingsleft">
@@ -32,7 +32,7 @@
                           {{ submission.fileName }}
                           <hr/>
                           <button class="btn btn-info rounded-pill" data-toggle="modal"
-                                  :data-target="'#preview'+submission.title.replace(/ /g, '-')">
+                                  :data-target="'#preview'+submission.title.replace(/[ :]/g, '-')">
                           Preview<i class="fa fa-eye ml-1"></i>
                           </button>
                         </td>
@@ -70,16 +70,38 @@
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
                       <button class="btn btn-success col-sm-3" data-toggle="modal"
-                                :data-target="'#update'+submission.title.replace(/ /g, '-')">Update</button>
+                                :data-target="'#update'+submission.title.replace(/[ :]/g, '-')">Update</button>
                       <span class="col"></span>
                     </div>
                   </div>
                 </div>
               </div>
+              <div class="row" v-if="status === 'review over'">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Reviewer</th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Confidence</th>
+                      <th scope="col">Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(review, index) in reviewsOf(submission)" :key="index">
+                      <th scope="row">{{ index + 1 }}</th>
+                      <td>{{ review.rating }}</td>
+                      <td>{{ review.confidence }}</td>
+                      <td>
+                        <textarea class="form-control" rows="10" v-model="review.text" disabled></textarea>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <!--          preview-->
-          <div class="modal fade" :id="'preview'+submission.title.replace(/ /g, '-')" tabindex="-1">
+          <div class="modal fade" :id="'preview'+submission.title.replace(/[ :]/g, '-')" tabindex="-1">
             <div class="modal-dialog modal-lg">
               <div class="modal-content"  style="height: 90vh">
                 <div class="modal-header">
@@ -96,7 +118,7 @@
           </div>
 
           <!--          update-->
-          <div class="modal fade" :id="'update'+submission.title.replace(/ /g, '-')" tabindex="-1">
+          <div class="modal fade" :id="'update'+submission.title.replace(/[ :]/g, '-')" tabindex="-1">
             <div class="modal-dialog modal-lg">
               <div class="modal-content"  style="height: 90vh">
                 <div class="modal-header">
@@ -299,6 +321,7 @@ export default {
       topicAlert: new Alert(),
       validation: (new Validation).validateSubmission(emptyForm, []),
       submissionList: [],
+      reviews: [],
       subForm: emptyForm,
       file: null,
       progress: {
@@ -699,12 +722,48 @@ export default {
         callback(callbacks);
       }
     },
+    getReviews () {
+      this.$axios.get('/review', {
+        params: {
+          conference: this.fullName,
+          author: this.user.getUserInfo().username
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('get reviews error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.reviews = res.data.submissions;
+        }
+      });
+    },
+    reviewsOf (submission) {
+      let reviews = [];
+      for (let idx in this.reviews)
+      {
+        let review = this.reviews[idx];
+        if ((submission.conference === review.conference) && 
+          (submission.author === review.author) && 
+          (submission.title === review.title))
+        {
+          reviews.push(review);
+        }
+      }
+      return reviews;
+    }
   },
 
   mounted () {
     document.title += ` - ${this.fullName}`;
     this.getSubmission();
     this.getConfTopics();
+    this.getReviews();
   }
 }
 
