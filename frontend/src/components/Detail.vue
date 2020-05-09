@@ -50,13 +50,37 @@
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'open')">
               <span class="col"></span>
-              <button class="btn btn-outline-secondary col-sm-5" @click="startReview()">Start Reviewing</button>
+              <button class="btn btn-outline-secondary col-sm-5" data-toggle="modal" data-target="#modal-review">Start Reviewing</button>
               <span class="col"></span>
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'reviewing')">
               <span class="col"></span>
               <button class="btn btn-outline-primary col-sm-5" @click="releaseReview()">Release Reviews</button>
               <span class="col"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal-review" tabindex="-1" >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Choose Distribution Mode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <button class="col m-4 p-4 btn btn-outline-danger" @click="startReview('relative')" data-dismiss="modal">
+                    <h5>Relative</h5>
+                    <p>PC Members will be assigned to relative submissions with regard to topics.</p>
+                  </button>
+                  <button class="col m-4 p-4 btn btn-outline-info" @click="startReview('average')" data-dismiss="modal">
+                    <h5>Average</h5>
+                    <p>PC Members will be assigned to submissions averagely with no regard to topics.</p>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -142,13 +166,27 @@ export default {
           this.alert.popDanger('status put error');
         });
     },
-    startReview () {
+    startReview (mode) {
       this.putStatus('reviewing', res => {
-          this.alert.popSuccess('start reviewing success');
+          this.$axios.post('/distribution', {
+            conference: this.fullName,
+            username: this.user.getUserInfo().username,
+            mode: mode
+          })
+          .catch(
+            error =>
+            {
+              this.alert.popDanger('distribution error');
+            }
+          )
+          .then(res =>
+          {
+            this.alert.popSuccess('Start reviewing success.');
+          });
         }, error => {
           if (error.response.status === 403)
           {
-            this.alert.popDanger('Not allowed to start reviewing. Check if you have at least 2 PC Members.');
+            this.alert.popDanger('Not allowed to start reviewing. Try to get enough PC Members.');
           }
           else
           {
