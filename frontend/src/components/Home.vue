@@ -12,6 +12,12 @@
           </p>
           <router-link to="list" class="col-sm-4 btn btn-outline-primary btn-lg">Get started</router-link><br/>
           <p style="margin-top: 20px;">©404NotFound fjy saq xyb ytq</p>
+          <hr/>
+          <small class="mt-6">
+            <h6><i class="fa fa-user-secret mr-2"></i>administrator account(test)</h6>
+            <p>Username: admin</p>
+            <p>Password: password</p>
+          </small>
         </div>
         <div class="col-sm-5">
           <img src="../assets/background/icon.png" width="120%">
