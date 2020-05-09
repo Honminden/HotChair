@@ -24,7 +24,8 @@
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
                             <td><button class="btn btn-info" data-toggle="modal" 
-                                      :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()">Preview</button></td>
+                                      :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()" 
+                                      @click="getSrc(distribution)">Preview</button></td>
                             <td><button class="btn btn-success" data-toggle="modal" 
                                       :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
@@ -37,8 +38,12 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-<!--                                    这里src改成实际的文件链接-->
-                                    <iframe :src="src" frameborder="0" style="width: 100%; height: 100%"></iframe>
+                                    <a :href="src" :download="distribution.fileName">
+                                      <i class="fa fa-download mr-2"></i>Download
+                                    </a>
+                                    <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
+                                      pdf plugin not supported
+                                    </object>
                                   </div>
                                 </div>
                               </div>
@@ -162,8 +167,9 @@
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
                             <td><button class="btn btn-info" data-toggle="modal" 
-                                      :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')">Preview</button></td>
-                            <div class="modal fade" :id="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
+                                      :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')" 
+                                      @click="getSrc(distribution)">Preview</button></td>
+                            <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
                                   <div class="modal-header">
@@ -173,8 +179,12 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-<!--                                    这里src改成实际的文件链接-->
-                                    <iframe :src="src" frameborder="0" style="width: 100%; height: 100%"></iframe>
+                                    <a :href="src" :download="distribution.fileName">
+                                      <i class="fa fa-download mr-2"></i>Download
+                                    </a>
+                                    <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
+                                      pdf plugin not supported
+                                    </object>
                                   </div>
                                 </div>
                               </div>
@@ -294,6 +304,30 @@
               }, 1500);
             }
           });
+      },
+      getSrc (distribution) {
+        this.$axios.get('/file', {
+          responseType: 'blob',
+          params: {
+            username: this.user.getUserInfo().username,
+            category: 'paper', 
+            directory: `${distribution.conference}/${distribution.author}/${distribution.title}`
+          }
+        })
+        .catch(
+          error =>
+          {
+            this.alert.popDanger('get file error');
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            let blob = new Blob([res.data], {type: 'application/pdf'});
+            this.src = URL.createObjectURL(blob);
+          }
+        });
       }
     },
     mounted () {

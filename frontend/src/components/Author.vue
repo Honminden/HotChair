@@ -111,7 +111,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <iframe :src="src" frameborder="0" style="width: 100%; height: 100%"></iframe>
+                  <a :href="src" :download="submission.fileName"><i class="fa fa-download mr-2"></i>Download</a>
+                  <object :data="src" type="application/pdf" style="width: 100%; height: 100%">pdf plugin not supported</object>
                 </div>
               </div>
             </div>
@@ -437,7 +438,8 @@ export default {
         title: submission.title,
         abs: submission.abs,
         fileName: ''
-      }
+      };
+      this.getSrc(submission);
     },
     getAuthors (submission) {
       this.$axios.get('/author', {
@@ -756,6 +758,30 @@ export default {
         }
       }
       return reviews;
+    },
+    getSrc (submission) {
+      this.$axios.get('/file', {
+        responseType: 'blob',
+        params: {
+          username: this.user.getUserInfo().username,
+          category: 'paper', 
+          directory: `${submission.conference}/${submission.author}/${submission.title}`
+        }
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('get file error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          let blob = new Blob([res.data], {type: 'application/pdf'});
+          this.src = URL.createObjectURL(blob);
+        }
+      });
     }
   },
 
