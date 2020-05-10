@@ -14,7 +14,7 @@
           <p style="margin-top: 20px;">©404NotFound fjy saq xyb ytq</p>
           <hr/>
           <small class="mt-6">
-            <h6><i class="fa fa-user-secret mr-2"></i>administrator account(test)</h6>
+            <h4><i class="fa fa-user-secret mr-2"></i>administrator account(test)</h4>
             <p>Username: admin</p>
             <p>Password: password</p>
           </small>
