@@ -322,8 +322,19 @@
           }
           if (Object.keys(topics).length > 0)
           {
-            this.topicAlert.popSuccess("Valid.");
-            return true;
+            if (this.file !== null)
+            {
+              this.topicAlert.popSuccess("Valid.");
+              return true;
+            }
+            else
+            {
+              let alert = new Alert();
+              this.validAlerts['fileName'] = [];
+              this.validAlerts['fileName'].push(alert);
+              alert.popWarning('File cannot be empty.');
+              return false;
+            }
           }
           else
           {

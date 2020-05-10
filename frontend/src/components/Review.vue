@@ -307,10 +307,7 @@
             if(res && res.status === 200)
             {
               this.alert.popSuccess('review submitted');
-              setTimeout(() =>
-              {
-                this.$router.go();
-              }, 1500);
+              this.$router.go();
             }
           });
       },
