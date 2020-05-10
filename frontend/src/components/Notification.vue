@@ -195,7 +195,7 @@
       },
       putStatus(conference, inviter, status)
       {
-        if (!(status === 'rejected') && !this.validate())
+        if ((status === 'accepted') && !this.validate())
         {
           return;
         }
@@ -215,35 +215,7 @@
           {
             if(res && res.status === 200)
             {
-              let topics = [];
-              for (let topic in this.topics)
-              {
-                if (this.topics[topic])
-                {
-                  topics.push(topic);
-                }
-              }
-              this.$axios.post('/pcmember-topic', 
-              {
-                username: this.user.getUserInfo().username,
-                conference: conference,
-                topics: topics
-              })
-              .catch(
-                error =>
-                {
-                  if (error.response.status === 403)
-                  {
-                    this.alert.popDanger('topics upload error');
-                  }
-                  else
-                  {
-                    this.alert.popDanger('upload error');
-                  }
-                }
-              )
-              .then(res =>
-              {
+              let onSuccess = res => {
                 if(res && res.status === 200)
                 {
                   this.alert.popSuccess('invitation handling success');
@@ -252,7 +224,45 @@
                     this.$router.go();
                   }, 1500);
                 }
-              });
+              };
+              if (status === 'accepted')
+              {
+                let topics = [];
+                for (let topic in this.topics)
+                {
+                  if (this.topics[topic])
+                  {
+                    topics.push(topic);
+                  }
+                }
+                this.$axios.post('/pcmember-topic', 
+                {
+                  username: this.user.getUserInfo().username,
+                  conference: conference,
+                  topics: topics
+                })
+                .catch(
+                  error =>
+                  {
+                    if (error.response.status === 403)
+                    {
+                      this.alert.popDanger('topics upload error');
+                    }
+                    else
+                    {
+                      this.alert.popDanger('upload error');
+                    }
+                  }
+                )
+                .then(res =>
+                {
+                  onSuccess(res);
+                });
+              }
+              else
+              {
+                onSuccess(res);
+              }
             }
           });
       }
