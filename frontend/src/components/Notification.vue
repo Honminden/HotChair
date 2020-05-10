@@ -195,7 +195,7 @@
       },
       putStatus(conference, inviter, status)
       {
-        if (!this.validate())
+        if (!(status === 'rejected') || !this.validate())
         {
           return;
         }
