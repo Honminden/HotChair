@@ -17,15 +17,22 @@
                           <tr>
                             <th scope="col" class="title">Title</th>
                             <th scope="col" class="abs">Abstract</th>
-                            <th scope="col">File</th>
+                            <th scope="col" style="width: 180px">File</th>
                             <th scope="col"></th>
                           </tr>
                           <tr v-for="distribution in uhddDistributions" :key="distribution.title">
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
-                            <td><button class="btn btn-info" data-toggle="modal"
+                            <td>
+                              <div class="row">
+                              <button class="btn btn-info rounded-left" data-toggle="modal"
                                       :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
-                                      @click="getSrc(distribution)">Preview</button></td>
+                                      @click="getSrc(distribution)">Preview</button>
+                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded-right">
+                                  Download
+                                </a>
+                              </div>
+                            </td>
                             <td><button class="btn btn-success" data-toggle="modal"
                                       :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
@@ -38,9 +45,6 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-<!--                                    <a :href="src" :download="distribution.fileName">-->
-<!--                                      <i class="fa fa-download mr-2"></i>Download-->
-<!--                                    </a>-->
                                     <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
                                       pdf plugin not supported
                                     </object>
@@ -166,9 +170,14 @@
                           <tr v-for="distribution in hddDistributions" :key="distribution.title">
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
-                            <td><button class="btn btn-info" data-toggle="modal"
+                            <td>
+                              <div class="row">
+                              <button class="btn btn-info rounded-left" data-toggle="modal"
                                       :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
-                                      @click="getSrc(distribution)">Preview</button></td>
+                                      @click="getSrc(distribution)">Preview</button>
+                                <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded-right text-light">Download</a>
+                              </div>
+                            </td>
                             <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -345,7 +354,7 @@
     width: 200px;
   }
   .abs{
-    width: 500px;
+    width: 400px;
   }
 
 </style>

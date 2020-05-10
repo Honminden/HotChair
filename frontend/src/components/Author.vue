@@ -35,6 +35,7 @@
                                   :data-target="'#preview'+submission.title.replace(/[ :]/g, '-')">
                           Preview<i class="fa fa-eye ml-1"></i>
                           </button>
+                          <a :href="src" :download="submission.fileName" class="btn rounded-pill btn-primary mt-1">Download<i class="fa fa-download ml-1"></i></a>
                         </td>
                       </tr>
                       </tbody>
@@ -111,7 +112,6 @@
                   </button>
                 </div>
                 <div class="modal-body">
-<!--                  <a :href="src" :download="submission.fileName"><i class="fa fa-download mr-2"></i>Download</a>-->
                   <object :data="src" type="application/pdf" style="width: 100%; height: 100%">pdf plugin not supported</object>
                 </div>
               </div>
