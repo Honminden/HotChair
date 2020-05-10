@@ -35,6 +35,7 @@
                                   :data-target="'#preview'+submission.title.replace(/[ :]/g, '-')">
                           Preview<i class="fa fa-eye ml-1"></i>
                           </button>
+                          <a :href="src" :download="submission.fileName" class="btn rounded-pill btn-primary mt-1">Download<i class="fa fa-download ml-1"></i></a>
                         </td>
                       </tr>
                       </tbody>
@@ -111,7 +112,6 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <a :href="src" :download="submission.fileName"><i class="fa fa-download mr-2"></i>Download</a>
                   <object :data="src" type="application/pdf" style="width: 100%; height: 100%">pdf plugin not supported</object>
                 </div>
               </div>
@@ -330,7 +330,8 @@ export default {
         value: 0
       },
       // pdf预览链接
-      src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
+      // src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
+      src: '',
       title: '',
       confTopics: [],
       topics: [],
@@ -750,8 +751,8 @@ export default {
       for (let idx in this.reviews)
       {
         let review = this.reviews[idx];
-        if ((submission.conference === review.conference) && 
-          (submission.author === review.author) && 
+        if ((submission.conference === review.conference) &&
+          (submission.author === review.author) &&
           (submission.title === review.title))
         {
           reviews.push(review);
@@ -764,7 +765,7 @@ export default {
         responseType: 'blob',
         params: {
           username: this.user.getUserInfo().username,
-          category: 'paper', 
+          category: 'paper',
           directory: `${submission.conference}/${submission.author}/${submission.title}`
         }
       })

@@ -17,16 +17,23 @@
                           <tr>
                             <th scope="col" class="title">Title</th>
                             <th scope="col" class="abs">Abstract</th>
-                            <th scope="col">File</th>
+                            <th scope="col" style="width: 180px">File</th>
                             <th scope="col"></th>
                           </tr>
                           <tr v-for="distribution in uhddDistributions" :key="distribution.title">
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
-                            <td><button class="btn btn-info" data-toggle="modal" 
-                                      :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()" 
-                                      @click="getSrc(distribution)">Preview</button></td>
-                            <td><button class="btn btn-success" data-toggle="modal" 
+                            <td>
+                              <div class="row">
+                              <button class="btn btn-info rounded-left" data-toggle="modal"
+                                      :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
+                                      @click="getSrc(distribution)">Preview</button>
+                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded-right">
+                                  Download
+                                </a>
+                              </div>
+                            </td>
+                            <td><button class="btn btn-success" data-toggle="modal"
                                       :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
@@ -38,9 +45,6 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <a :href="src" :download="distribution.fileName">
-                                      <i class="fa fa-download mr-2"></i>Download
-                                    </a>
                                     <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
                                       pdf plugin not supported
                                     </object>
@@ -64,7 +68,7 @@
                                       <div class="col">
                                       <h6 >Reject</h6>
                                         <div class="custom-control custom-radio">
-                                          <input type="radio" id="reject" name="rating" class="custom-control-input" 
+                                          <input type="radio" id="reject" name="rating" class="custom-control-input"
                                                       value="-2" v-model="rating">
                                           <label class="custom-control-label" for="reject">-2</label>
                                         </div>
@@ -72,7 +76,7 @@
                                       <div class="col">
                                       <h6>Weak Reject</h6>
                                         <div class="custom-control custom-radio">
-                                          <input type="radio" id="weakReject" name="rating" class="custom-control-input" 
+                                          <input type="radio" id="weakReject" name="rating" class="custom-control-input"
                                                       value="-1" v-model="rating">
                                           <label class="custom-control-label" for="weakReject">-1</label>
                                         </div>
@@ -80,7 +84,7 @@
                                       <div class="col">
                                       <h6>Weak Accept</h6>
                                         <div class="custom-control custom-radio">
-                                          <input type="radio" id="weakAccept" name="rating" class="custom-control-input" 
+                                          <input type="radio" id="weakAccept" name="rating" class="custom-control-input"
                                                       value="1" v-model="rating">
                                           <label class="custom-control-label" for="weakAccept">1</label>
                                         </div>
@@ -88,7 +92,7 @@
                                       <div class="col">
                                       <h6>Accept</h6>
                                         <div class="custom-control custom-radio">
-                                          <input type="radio" id="accept" name="rating" class="custom-control-input" 
+                                          <input type="radio" id="accept" name="rating" class="custom-control-input"
                                                       value="2" v-model="rating">
                                           <label class="custom-control-label" for="accept">2</label>
                                         </div>
@@ -100,28 +104,28 @@
                                       <div class="row">
                                         <div class="col">
                                           <div class="custom-control custom-radio">
-                                            <input type="radio" id="veryLow" name="confidence" class="custom-control-input" 
+                                            <input type="radio" id="veryLow" name="confidence" class="custom-control-input"
                                                       value="very low" v-model="confidence">
                                             <label class="custom-control-label" for="veryLow">very low</label>
                                           </div>
                                         </div>
                                         <div class="col">
                                           <div class="custom-control custom-radio">
-                                            <input type="radio" id="low" name="confidence" class="custom-control-input" 
+                                            <input type="radio" id="low" name="confidence" class="custom-control-input"
                                                       value="low" v-model="confidence">
                                             <label class="custom-control-label" for="low">low</label>
                                           </div>
                                         </div>
                                           <div class="col">
                                             <div class="custom-control custom-radio">
-                                            <input type="radio" id="high" name="confidence" class="custom-control-input" 
+                                            <input type="radio" id="high" name="confidence" class="custom-control-input"
                                                       value="high" v-model="confidence">
                                             <label class="custom-control-label" for="high">high</label>
                                           </div>
                                           </div>
                                         <div class="col">
                                           <div class="custom-control custom-radio">
-                                            <input type="radio" id="veryHigh" name="confidence" class="custom-control-input" 
+                                            <input type="radio" id="veryHigh" name="confidence" class="custom-control-input"
                                                       value="very high" v-model="confidence">
                                             <label class="custom-control-label" for="veryHigh">very high</label>
                                           </div>
@@ -129,14 +133,14 @@
                                       </div>
                                       <h3 class="mt-2">Remark</h3>
                                       <div class="form-group row col-sm-8">
-                                        <textarea class="form-control" id="remark" rows="8" maxlength="800" 
+                                        <textarea class="form-control" id="remark" rows="8" maxlength="800"
                                                   placeholder="up tp 800 characters" v-model='text'></textarea>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button class="btn btn-primary" 
+                                    <button class="btn btn-primary"
                                               @click.prevent="postReview(distribution)">
                                       Confirm
                                     </button>
@@ -166,9 +170,14 @@
                           <tr v-for="distribution in hddDistributions" :key="distribution.title">
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
-                            <td><button class="btn btn-info" data-toggle="modal" 
-                                      :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')" 
-                                      @click="getSrc(distribution)">Preview</button></td>
+                            <td>
+                              <div class="row">
+                              <button class="btn btn-info rounded-left" data-toggle="modal"
+                                      :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
+                                      @click="getSrc(distribution)">Preview</button>
+                                <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded-right text-light">Download</a>
+                              </div>
+                            </td>
                             <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -221,8 +230,8 @@
         confidence: '',
         text: '',
         // for display
-        src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
-
+        // src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
+        src: ''
       }
 
     },
@@ -270,7 +279,7 @@
       },
       postReview (distribution) {
         console.log(distribution)
-        this.$axios.post('/review', 
+        this.$axios.post('/review',
           {
             conference: this.fullName,
             author: distribution.author,
@@ -310,7 +319,7 @@
           responseType: 'blob',
           params: {
             username: this.user.getUserInfo().username,
-            category: 'paper', 
+            category: 'paper',
             directory: `${distribution.conference}/${distribution.author}/${distribution.title}`
           }
         })
@@ -345,7 +354,7 @@
     width: 200px;
   }
   .abs{
-    width: 500px;
+    width: 400px;
   }
 
 </style>
