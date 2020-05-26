@@ -16,7 +16,65 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 thingsleft">
+<!--                  评审结果-->
+                  <div v-if="status === 'review over'">
+                    <h3 class="text-center"><i class="fa fa-files-o mr-3"></i>Review</h3>
+                    <div class="col-sm-10 container">
+                      <div class="row ">
+                        <h5 class="col">result: <span>rejected</span></h5>
+                        <button class="btn btn-danger rounded-pill col-sm-2 mb-2"
+                           data-toggle="modal" data-target="#rebuttal">
+                        <i class="fa fa-share mr-1"></i>rebut</button>
+                        <div class="modal fade" id="rebuttal" tabindex="-1">
+                          <div class="modal-dialog modal-md">
+                            <div class="modal-content"  style="height: 500px">
+                              <div class="modal-header">
+                                <h4 class="modal-title"><i class="fa fa-pencil-square-o mr-3"></i>Rebuttal</h4>
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <span>&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body col-sm-11 container">
+                                <div class="form-group">
+                                  <textarea class="form-control" id="remark" rows="15" v-model='text'></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary">
+                                  Confirm
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <table class="table table-hover container col-sm-10" style="table-layout: fixed">
+                      <thead>
+                      <tr>
+                        <th scope="col">Reviewer</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Confidence</th>
+                        <th scope="col" width="200px">Remark</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="(review, index) in reviewsOf(submission)" :key="index">
+                        <th scope="row">{{ index + 1 }}</th>
+                        <td>{{ review.rating }}</td>
+                        <td>{{ review.confidence }}</td>
+                        <td>
+                          <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <div>
+ 
+<!--                  文件-->
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
                     <table class="table table-hover container col-sm-10" style="table-layout: fixed">
                       <tbody>
@@ -40,8 +98,7 @@
                       </tr>
                       </tbody>
                     </table>
-                  </div>
-                  <div>
+<!--                  作者-->
                   <h3 class="text-center"><i class="fa fa-mortar-board mr-3"></i>Authors</h3><table class="table table-hover container col-sm-10" >
                   <tbody>
                   <tr>
@@ -60,44 +117,22 @@
                   </tr>
                   </tbody>
                 </table>
-                  </div>
                 </div>
+<!--                topics-->
                 <div class="col-sm-4">
-                  <div>
                     <h3 class="text-center"><i class="fa fa-comments-o mr-3"></i>Topics</h3>
                     <ul class="topics">
                       <li v-for="topic in topics" :key="topic">{{ topic }}</li>
                     </ul>
                     <div class="row mt-5" v-if="(role === 'author') && (status === 'open')">
                       <span class="col"></span>
-                      <button class="btn btn-success col-sm-3" data-toggle="modal"
-                                :data-target="'#update'+submission.title.replace(/[ :]/g, '-')">Update</button>
+                      <button class="btn btn-success rounded-pill col-sm-3" data-toggle="modal"
+                              :data-target="'#update'+submission.title.replace(/[ :]/g, '-')">
+                        Update<i class="fa fa-upload ml-1"></i></button>
                       <span class="col"></span>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="row" v-if="status === 'review over'">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Reviewer</th>
-                      <th scope="col">Rating</th>
-                      <th scope="col">Confidence</th>
-                      <th scope="col">Remark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(review, index) in reviewsOf(submission)" :key="index">
-                      <th scope="row">{{ index + 1 }}</th>
-                      <td>{{ review.rating }}</td>
-                      <td>{{ review.confidence }}</td>
-                      <td>
-                        <textarea class="form-control" rows="10" v-model="review.text" disabled></textarea>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+
               </div>
             </div>
           </div>
@@ -128,6 +163,7 @@
                     <span>&times;</span>
                   </button>
                 </div>
+
                 <div class="modal-body" style="overflow-y: scroll">
                   <form class="col-sm-8 container">
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
@@ -172,8 +208,6 @@
                         </div>
                       </div>
                     </div>
-
-
                     <div>
                       <div class="mt-5">
                         <h3 class="text-center"><i class="fa fa-mortar-board mr-3"></i>Authors</h3>
