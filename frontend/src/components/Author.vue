@@ -73,7 +73,7 @@
                     </table>
                   </div>
                   <div>
- 
+
 <!--                  文件-->
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
                     <table class="table table-hover container col-sm-10" style="table-layout: fixed">
@@ -117,6 +117,7 @@
                   </tr>
                   </tbody>
                 </table>
+                </div>
                 </div>
 <!--                topics-->
                 <div class="col-sm-4">

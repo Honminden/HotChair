@@ -33,7 +33,7 @@
                                 </a>
                               </div>
                             </td>
-                            <td><button class="btn btn-success" data-toggle="modal"
+                            <td><button class="btn btn-success rounded" data-toggle="modal"
                                       :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
