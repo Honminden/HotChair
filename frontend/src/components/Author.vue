@@ -13,8 +13,8 @@
             <i class="fa fa-angle-down float-right"> </i>
           </button>
           <div :id="'Sub' + submission.title.replace(/[ :]/g, '-')" class="collapse" data-parent="#accordion">
-            <div class="card-body">
-              <div class="row">
+            <div class="card-body row">
+
                 <div class="col-sm-8 thingsleft">
 <!--                  评审结果-->
                   <div v-if="status === 'review over'">
@@ -36,7 +36,7 @@
                               </div>
                               <div class="modal-body col-sm-11 container">
                                 <div class="form-group">
-                                  <textarea class="form-control" id="remark" rows="15" v-model='text'></textarea>
+                                  <textarea class="form-control" id="rebut" rows="15" v-model='text'></textarea>
                                 </div>
                               </div>
                               <div class="modal-footer">
@@ -134,7 +134,6 @@
                     </div>
                 </div>
 
-              </div>
             </div>
           </div>
           <!--          preview-->
@@ -364,8 +363,6 @@ export default {
         show: false,
         value: 0
       },
-      // pdf预览链接
-      // src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
       src: '',
       title: '',
       confTopics: [],
@@ -850,4 +847,8 @@ export default {
     max-height: 400px;
     overflow-y: scroll;
   }
+  textarea{
+    resize: none;
+  }
+
 </style>
