@@ -1,17 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
-import Conference from '@/components/Conference'
-import UserInfo from '@/components/UserInfo'
-import List from '@/components/List'
-import Notification from '@/components/Notification'
-import Submission from '@/components/Submission'
-import Invitation from '@/components/Invitation'
-import Detail from '@/components/Detail'
-import Author from "@/components/Author"
-import Review from "../components/Review";
+import Home from '../components/Home'
+import Login from '../components/Login'
+import Register from '../components/Register'
+import Conference from '../components/Conference'
+import UserInfo from '../components/UserInfo'
+import List from '../components/List'
+import Notification from '../components/Notification'
+import Submission from '../components/Submission'
+import Invitation from '../components/Invitation'
+import Detail from '../components/Detail'
+import Author from '../components/Author'
+import Review from '../components/Review'
+import Forum from '../components/Forum'
 
 import store from '../store'
 
@@ -140,6 +141,16 @@ export const router = new Router({
       component: Review,
       meta: {
         title: "Review",
+        requireAuth: true // 需要登录权限
+      },
+      props: confProps
+    },
+    {
+      path: '/forum',
+      name: 'Forum',
+      component: Forum,
+      meta: {
+        title: "Forum",
         requireAuth: true // 需要登录权限
       },
       props: confProps
