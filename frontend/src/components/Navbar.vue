@@ -55,6 +55,11 @@
           </li>
         </ul>
       </div>
+      <!--          admin信息-->
+      <div class="float-right mr-3" title="Username: admin Password: password">
+        <button class="btn btn-primary"><i class="fa fa-user-secret mr-2"></i>admin(hover here)</button>
+      </div>
+
     </header>
     <div class="modal fade" id="logout" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
