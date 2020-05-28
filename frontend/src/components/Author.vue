@@ -133,7 +133,7 @@
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
                     <div class="form-group row">
                       <label for="title">Title<small class="ml-2">(up to 50 characters)</small></label>
-                      <input type="text" class="form-control" id="title" maxlength="50" v-model="subForm.title"
+                      <input type="text" class="form-control" id="title" maxlength="50" v-model="subUtil.subForm.title"
                                 @input="validate('title')">
                       <div v-for="validAlert in validAlerts.title" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
@@ -141,7 +141,7 @@
                     </div>
                     <div class="form-group row">
                       <label for="abstract">Abstract<small class="ml-2">(up to 800 characters)</small></label>
-                      <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subForm.abs"
+                      <textarea class="form-control" id="abstract" rows="10" maxlength="800" v-model="subUtil.subForm.abs"
                                 @input="validate('abs')"></textarea>
                       <div v-for="validAlert in validAlerts.abs" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
@@ -150,8 +150,8 @@
                     <div class="form-group row">
                       <label for="file">File<small class="ml-2">(up to 10 MB)</small></label>
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="file" @change="updateFile($event)">
-                        <label class="custom-file-label" for="file">{{ subForm.fileName }}</label>
+                        <input type="file" class="custom-file-input" id="file" @change="subUtil.updateFile($event)">
+                        <label class="custom-file-label" for="file">{{ subUtil.subForm.fileName }}</label>
                       </div>
                       <div v-for="validAlert in validAlerts.fileName" :class="validAlert.type" :key="validAlert.content">
                         <i :class="validAlert.icon"></i>{{ validAlert.content }}
@@ -190,22 +190,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(author, index) in newAuthors" :key="index">
+                        <tr v-for="(author, index) in subUtil.authors" :key="index">
                           <th scope="row">{{ index + 1 }}</th>
                           <td>{{ author.fullName }}</td>
                           <td>{{ author.organization }}</td>
                           <td>{{ author.region }}</td>
                           <td>{{ author.email }}</td>
                           <td>
-                    <span class="text-primary" style="cursor: pointer" title="move up" @click.prevent="moveUpAuthor(author)">
-                      <i class="fa fa-arrow-circle-up"></i>
-                    </span>
-                            <span class="text-primary" style="cursor: pointer" title="move down" @click.prevent="moveDownAuthor(author)">
-                      <i class="fa fa-arrow-circle-down"></i>
-                    </span>
-                            <span class="text-danger" style="cursor: pointer" title="remove" @click.prevent="removeAuthor(author)">
-                      <i class="fa fa-close"></i>
-                    </span>
+                            <span class="text-primary" style="cursor: pointer" title="move up" 
+                                      @click.prevent="subUtil.moveUpAuthor(author)">
+                              <i class="fa fa-arrow-circle-up"></i>
+                            </span>
+                            <span class="text-primary" style="cursor: pointer" title="move down" 
+                                      @click.prevent="subUtil.moveDownAuthor(author)">
+                              <i class="fa fa-arrow-circle-down"></i>
+                            </span>
+                            <span class="text-danger" style="cursor: pointer" title="remove" 
+                                      @click.prevent="subUtil.removeAuthor(author)">
+                              <i class="fa fa-close"></i>
+                            </span>
                           </td>
                         </tr>
                         </tbody>
@@ -215,37 +218,41 @@
                           <div class="form-group col-sm-6">
                             <label for="name" class="col-form-label">Name</label>
                             <input id="name" class="form-control"
-                                   type="text" auto-complete="off" placeholder="username" v-model="newAuthor.fullName">
+                                   type="text" auto-complete="off" placeholder="username" 
+                                   v-model="subUtil.newAuthor.fullName">
                           </div>
                           <div class="form-group col-sm-6">
                             <label for="organization" class="col-form-label">Organization</label>
                             <input id="organization" class="form-control"
-                                   type="organization" auto-complete="off" placeholder="organization" v-model="newAuthor.organization">
+                                   type="organization" auto-complete="off" placeholder="organization" 
+                                   v-model="subUtil.newAuthor.organization">
                           </div>
                         </div>
                         <div class="row">
                           <div class="form-group col-sm-6">
                             <label for="region" class="col-form-label">Region</label>
                             <input type="text" id="region" class="form-control"
-                                   auto-complete="off" placeholder="region/country" v-model="newAuthor.region">
+                                   auto-complete="off" placeholder="region/country" 
+                                   v-model="subUtil.newAuthor.region">
                           </div>
                           <div class="form-group col-sm-6">
                             <label for="email" class="col-form-label">Email</label>
                             <input id="email" class="form-control"
-                                   type="email" auto-complete="off" placeholder="email" v-model="newAuthor.email">
+                                   type="email" auto-complete="off" placeholder="email" 
+                                   v-model="subUtil.newAuthor.email">
                           </div>
                         </div>
                       </div>
                       <div class="row mt-2">
                         <span class="col"></span>
-                        <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="addAuthor()">
+                        <button class="col-sm-4 btn btn-outline-primary rounded-pill" @click.prevent="subUtil.addAuthor()">
                           Add author<i class="fa fa-plus ml-1"></i>
                         </button>
                         <span class="col"></span>
                       </div>
                       <div class="row mt-2">
                         <span class="col"></span>
-                        <button class="col-sm-5 btn btn-outline-info rounded-pill" @click.prevent="addSelf()">
+                        <button class="col-sm-5 btn btn-outline-info rounded-pill" @click.prevent="subUtil.addSelf()">
                           Add yourself as author<i class="fa fa-plus ml-1"></i>
                         </button>
                         <span class="col"></span>
@@ -264,7 +271,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button class="btn btn-primary" @click.prevent="submit()">Confirm</button>
+                  <button class="btn btn-primary" @click.prevent="subUtil.submitPut()">Confirm</button>
                 </div>
               </div>
             </div>
@@ -283,24 +290,12 @@ import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import Validation from './Form/Validation'
 import ValidUtil from './Form/ValidUtil'
+import SubUtil from './Submission/SubUtil'
 import User from './User/User'
 import LeftNav from "./LeftNav";
 import Detail from "./Detail";
 
-const emptyForm =
-{
-  title: '',
-  abs: '',
-  fileName: ''
-}
-
-const emptyAuthor =
-{
-  fullName: '',
-  organization: '',
-  region: '',
-  email: ''
-}
+const emptyForm = (new SubUtil(null, null, null, this)).getEmptyForm();
 
 export default {
   name: 'Author',
@@ -322,10 +317,9 @@ export default {
       },
       topicAlert: new Alert(),
       validation: (new Validation).validateSubmission(emptyForm, []),
+      subUtil: new SubUtil(null, null, null, this),
       submissionList: [],
       reviews: [],
-      subForm: emptyForm,
-      file: null,
       progress: {
         show: false,
         value: 0
@@ -337,9 +331,7 @@ export default {
       confTopics: [],
       topics: [],
       newTopics: {},
-      authors: [],
-      newAuthors: [],
-      newAuthor: emptyAuthor
+      authors: []
     }
 
   },
@@ -352,64 +344,6 @@ export default {
     'InnerNav': InnerNav
   },
   methods: {
-    updateFile (event) {
-      let files = event.target.files;
-      if (files && files[0])
-      {
-        this.subForm.fileName = files[0].name;
-        this.file = files[0];
-      }
-      this.validate('fileName');
-    },
-    addAuthor () {
-      for (let field in this.newAuthor)
-      {
-        if (this.newAuthor[field] === '')
-        {
-          return;
-        }
-      }
-      if (this.newAuthors.findIndex(author => (author.fullName === this.newAuthor.fullName)) === -1)
-      {
-        this.newAuthors.push(Object.assign({}, this.newAuthor));
-      }
-      this.newAuthor = emptyAuthor;
-      this.validate('authors');
-    },
-    addSelf () {
-      this.newAuthor =
-      {
-        fullName: this.user.getUserInfo().username,
-        organization: this.user.getUserInfo().organization,
-        region: this.user.getUserInfo().region,
-        email: this.user.getUserInfo().email
-      };
-      this.addAuthor();
-    },
-    removeAuthor (author) {
-      this.newAuthors.splice(this.newAuthors.indexOf(author), 1);
-      this.validate('authors');
-    },
-    moveUpAuthor (author) {
-      let index = this.newAuthors.indexOf(author);
-      if (index > 0)
-      {
-        let above = this.newAuthors[index - 1];
-        this.newAuthors[index - 1] = author;
-        this.newAuthors[index] = above;
-      }
-      this.$forceUpdate();
-    },
-    moveDownAuthor (author) {
-      let index = this.newAuthors.indexOf(author);
-      if (index !== -1 && index < this.newAuthors.length - 1)
-      {
-        let below = this.newAuthors[index + 1];
-        this.newAuthors[index + 1] = author;
-        this.newAuthors[index] = below;
-      }
-      this.$forceUpdate();
-    },
     getSubmission () {
       this.$axios.get('/submission', {
         params: {
@@ -436,7 +370,7 @@ export default {
       this.getAuthors(submission);
       this.getSubTopics(submission);
       this.title = submission.title;
-      this.subForm = {
+      this.subUtil.subForm = {
         title: submission.title,
         abs: submission.abs,
         fileName: ''
@@ -511,18 +445,20 @@ export default {
           {
             let topic = this.confTopics[i];
             this.newTopics[topic] = (this.topics.indexOf(topic) >= 0);
+
+            this.subUtil = new SubUtil(this.alert, this.progress, this.newTopics, this);
           }
         }
       });
     },
     validate (field) {
       this.triggered[field] = true;
-      this.validation = (new Validation()).validateSubmission(this.subForm, this.newAuthors);
+      this.validation = (new Validation()).validateSubmission(this.subUtil.subForm, this.subUtil.authors);
       if (field === undefined)
       {
         return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) & 
           (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert) & 
-          (new ValidUtil()).validateFile(this.file, this.validAlerts));
+          (new ValidUtil()).validateFile(this.subUtil.file, this.validAlerts));
       }
       else if (field === 'topics')
       {
@@ -532,167 +468,6 @@ export default {
       else
       {
         return (new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field);
-      }
-    },
-    putSubmission (callbacks) {
-      this.$axios.put('/submission', {
-        author: this.user.getUserInfo().username,
-        conference: this.fullName,
-        oldTitle: this.title,
-        newTitle: this.subForm.title,
-        abs: this.subForm.abs,
-        fileName: this.subForm.fileName
-      })
-        .catch(
-          error =>
-          {
-            if (error.response.status === 403)
-            {
-              this.alert.popDanger('you are not allowed to submit this paper');
-            }
-            else
-            {
-              this.alert.popDanger('submission error');
-            }
-          }
-        )
-        .then(res =>
-        {
-          if (res && res.status === 200)
-          {
-            let callback = callbacks.pop();
-            callback(callbacks);
-          }
-        });
-    },
-    putTopic (callbacks) {
-      let topics = [];
-      for (let topic in this.newTopics)
-      {
-        if (this.newTopics[topic])
-        {
-          topics.push(topic);
-        }
-      }
-      this.$axios.put('/submission-topic',
-      {
-        conference: this.fullName,
-        author: this.user.getUserInfo().username,
-        title: this.subForm.title,
-        topics: topics
-      })
-      .catch(
-        error =>
-        {
-          if (error.response.status === 403)
-          {
-            this.alert.popDanger('invalid topics');
-          }
-          else
-          {
-            this.alert.popDanger('topics upload error');
-          }
-        }
-      )
-      .then(res =>
-      {
-        if(res && res.status === 200)
-        {
-          let callback = callbacks.pop();
-          callback(callbacks);
-        }
-      });
-    },
-    putAuthor (callbacks) {
-      let authors = [];
-      for (let i = 0; i < this.newAuthors.length; i++)
-      {
-        let author = Object.assign({}, this.newAuthors[i]);
-        author.order = i + 1; // start from 1
-        authors.push(author);
-      }
-      this.$axios.put('/author',
-      {
-        conference: this.fullName,
-        username: this.user.getUserInfo().username,
-        title: this.subForm.title,
-        authors: authors
-      })
-      .catch(
-        error =>
-        {
-          if (error.response.status === 403)
-          {
-            this.alert.popDanger('invalid authors');
-          }
-          else
-          {
-            this.alert.popDanger('authors upload error');
-          }
-        }
-      )
-      .then(res =>
-      {
-        if(res && res.status === 200)
-        {
-          let callback = callbacks.pop();
-          callback(callbacks);
-        }
-      });
-    },
-    putFile () {
-      let progress = this.progress;
-      progress.show = true;
-      let formData = new FormData();
-      formData.append('username', this.user.getUserInfo().username);
-      formData.append('category', 'paper');
-      formData.append('directory', `${this.fullName}/${this.user.getUserInfo().username}/${this.subForm.title}`);
-      formData.append('file', this.file);
-
-      this.$axios.put('/file', formData, {
-        onUploadProgress (event) {
-          progress.value = Math.round((event.loaded * 100) / event.total);
-        }
-      })
-        .catch(
-          error =>
-          {
-            if (error.response.status === 403)
-            {
-              this.alert.popDanger('you are not allowed to upload this file');
-            }
-            else
-            {
-              this.alert.popDanger('file upload error');
-            }
-          }
-        )
-        .then(res =>
-        {
-          if(res && res.status === 200)
-          {
-            this.alert.popSuccess('paper submitted');
-            setTimeout(() =>
-            {
-              this.$router.go();
-            }, 1500);
-          }
-        });
-    },
-    submit () {
-      for (let field of Object.keys(this.triggered))
-      {
-        this.triggered[field] = true;
-      }
-      if (this.validate())
-      {
-        let callbacks = [];
-        callbacks.push(this.putFile);
-        callbacks.push(this.putAuthor);
-        callbacks.push(this.putTopic);
-        callbacks.push(this.putSubmission);
-        let callback = callbacks.pop();
-        callback(callbacks);
       }
     },
     getReviews () {
