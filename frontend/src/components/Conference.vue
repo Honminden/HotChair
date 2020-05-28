@@ -108,6 +108,7 @@
 import Navbar from './Navbar'
 import Alert from './Message/Alert'
 import Validation from './Form/Validation'
+import ValidUtil from './Form/ValidUtil'
 import User from './User/User'
 import LeftNav from "./LeftNav";
 
@@ -169,39 +170,15 @@ export default {
       this.validate('topics');
     },
     validate (field) {
-      this.triggered[field] = true;
       this.validation = (new Validation).validateConference(this.confForm, this.topics);
-      /* update validation alerts */
-      for (let field of Object.keys(this.validAlerts))
-      {
-        if (this.triggered[field])
-        {
-          this.validAlerts[field] = [];
-          if (this.validation[field].isValid)
-          {
-            let validAlert = new Alert();
-            validAlert.popSuccess("Valid input.");
-            this.validAlerts[field].push(validAlert);
-          }
-          else
-          {
-            for (let message of this.validation[field].messages)
-            {
-              let validAlert = new Alert();
-              validAlert.popWarning(message);
-              this.validAlerts[field].push(validAlert);
-            }
-          }
-        }
-      }
+      return (new ValidUtil).validateField(this.triggered, this.validation, this.validAlerts, field);
     },
     submit () {
       for (let field of Object.keys(this.triggered))
       {
         this.triggered[field] = true;
       }
-      this.validate();
-      if (Object.values(this.validation).every(field => (field.isValid === true)))
+      if (this.validate())
       {
         this.$axios.post('/conference', {
           username: (new User()).getUserInfo().username,

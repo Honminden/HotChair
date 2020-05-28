@@ -90,6 +90,7 @@ import Navbar from './Navbar'
 import Alert from './Message/Alert'
 import regionData from '../assets/data/region.json'
 import Validation from './Form/Validation'
+import ValidUtil from './Form/ValidUtil'
 import Carousel from "./Carousel";
 const regions = Object.values(regionData);
 
@@ -138,39 +139,15 @@ export default {
   methods: {
     validate (field)
     {
-      this.triggered[field] = true;
       this.validation = (new Validation).validateRegister(this.registerForm);
-      /* update validation alerts */
-      for (let field of Object.keys(this.validAlerts))
-      {
-        if (this.triggered[field])
-        {
-          this.validAlerts[field] = [];
-          if (this.validation[field].isValid)
-          {
-            let validAlert = new Alert();
-            validAlert.popSuccess("Valid input.");
-            this.validAlerts[field].push(validAlert);
-          }
-          else
-          {
-            for (let message of this.validation[field].messages)
-            {
-              let validAlert = new Alert();
-              validAlert.popWarning(message);
-              this.validAlerts[field].push(validAlert);
-            }
-          }
-        }
-      }
+      return (new ValidUtil).validateField(this.triggered, this.validation, this.validAlerts, field);
     },
     register () {
       for (let field of Object.keys(this.triggered))
       {
         this.triggered[field] = true;
       }
-      this.validate();
-      if (Object.values(this.validation).every(field => (field.isValid === true)))
+      if (this.validate())
       {
         this.$axios.post('/register', this.registerForm)
         .catch(
