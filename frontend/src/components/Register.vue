@@ -139,8 +139,8 @@ export default {
   methods: {
     validate (field)
     {
-      this.validation = (new Validation).validateRegister(this.registerForm);
-      return (new ValidUtil).validateField(this.triggered, this.validation, this.validAlerts, field);
+      this.validation = (new Validation()).validateRegister(this.registerForm);
+      return (new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field);
     },
     register () {
       for (let field of Object.keys(this.triggered))

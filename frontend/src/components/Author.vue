@@ -163,7 +163,7 @@
                         <div v-for="topic in Object.keys(newTopics)" :key="topic">
                           <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" :id="'T' + topic" v-model="newTopics[topic]"
-                                      @change='validate()'>
+                                      @change="validate('topics')">
                             <label class="custom-control-label" :for="'T' + topic">{{ topic }}</label>
                           </div>
                         </div>
@@ -282,6 +282,7 @@ import Navbar from './Navbar'
 import InnerNav from './InnerNav'
 import Alert from './Message/Alert'
 import Validation from './Form/Validation'
+import ValidUtil from './Form/ValidUtil'
 import User from './User/User'
 import LeftNav from "./LeftNav";
 import Detail from "./Detail";
@@ -516,62 +517,21 @@ export default {
     },
     validate (field) {
       this.triggered[field] = true;
-      this.validation = (new Validation).validateSubmission(this.subForm, this.newAuthors);
-      /* update validation alerts */
-      for (let field of Object.keys(this.validAlerts))
-      {
-        if (this.triggered[field])
-        {
-          this.validAlerts[field] = [];
-          if (this.validation[field].isValid)
-          {
-            let validAlert = new Alert();
-            validAlert.popSuccess("Valid.");
-            this.validAlerts[field].push(validAlert);
-          }
-          else
-          {
-            for (let message of this.validation[field].messages)
-            {
-              let validAlert = new Alert();
-              validAlert.popWarning(message);
-              this.validAlerts[field].push(validAlert);
-            }
-          }
-        }
-      }
-
+      this.validation = (new Validation()).validateSubmission(this.subForm, this.newAuthors);
       if (field === undefined)
       {
-        let topics = [];
-        for (let topic in this.newTopics)
-        {
-          if (this.newTopics[topic])
-          {
-            topics.push(topic);
-          }
-        }
-        if (Object.keys(topics).length > 0)
-        {
-          if (this.file !== null)
-          {
-            this.topicAlert.popSuccess("Valid.");
-            return true;
-          }
-          else
-          {
-            let alert = new Alert();
-            this.validAlerts['fileName'] = [];
-            this.validAlerts['fileName'].push(alert);
-            alert.popWarning('File cannot be empty.');
-            return false;
-          }
-        }
-        else
-        {
-          this.topicAlert.popWarning('Choose at least one topic.');
-          return false;
-        }
+        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) & 
+          (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert) & 
+          (new ValidUtil()).validateFile(this.file, this.validAlerts));
+      }
+      else if (field === 'topics')
+      {
+        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) & 
+          (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert))
+      }
+      else
+      {
+        return (new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field);
       }
     },
     putSubmission (callbacks) {
@@ -724,8 +684,7 @@ export default {
       {
         this.triggered[field] = true;
       }
-      this.validate();
-      if (Object.values(this.validation).every(field => (field.isValid === true)))
+      if (this.validate())
       {
         let callbacks = [];
         callbacks.push(this.putFile);

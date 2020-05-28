@@ -170,8 +170,8 @@ export default {
       this.validate('topics');
     },
     validate (field) {
-      this.validation = (new Validation).validateConference(this.confForm, this.topics);
-      return (new ValidUtil).validateField(this.triggered, this.validation, this.validAlerts, field);
+      this.validation = (new Validation()).validateConference(this.confForm, this.topics);
+      return (new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field);
     },
     submit () {
       for (let field of Object.keys(this.triggered))
