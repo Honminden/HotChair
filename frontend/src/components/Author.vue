@@ -367,12 +367,19 @@ export default {
       });
     },
     toggle (submission) {
-      this.getAuthors(submission);
-      this.getSubTopics(submission);
+      this.loadInfo(submission);
       this.title = submission.title;
       this.getSrc(submission);
     },
-    getAuthors (submission) {
+    loadInfo (submission) {
+      let callbacks = [];
+      callbacks.push(this.updateSubUtil);
+      callbacks.push(this.getSubTopics);
+      callbacks.push(this.getAuthors);
+      let callback = callbacks.pop();
+      callback(submission, callbacks);
+    },
+    getAuthors (submission, callbacks) {
       this.$axios.get('/author', {
         params: {
           conference: this.fullName,
@@ -392,6 +399,9 @@ export default {
         {
           this.authors = res.data.authors;
           this.subUtil.authors = this.authors.slice();
+          
+          let callback = callbacks.pop();
+          callback(submission, callbacks);
         }
       });
     },
@@ -416,7 +426,7 @@ export default {
         }
       });
     },
-    getSubTopics (submission) {
+    getSubTopics (submission, callbacks) {
       this.$axios.get('/submission-topic', {
         params: {
           conference: this.fullName,
@@ -440,16 +450,21 @@ export default {
           {
             let topic = this.confTopics[i];
             this.newTopics[topic] = (this.topics.indexOf(topic) >= 0);
-
-            this.subUtil = new SubUtil(this.alert, this.progress, this.newTopics, this);
-            this.subUtil.subForm = {
-              title: submission.title,
-              abs: submission.abs,
-              fileName: ''
-            };
           }
+          
+          let callback = callbacks.pop();
+          callback(submission, callbacks);
         }
       });
+    },
+    updateSubUtil (submission) {
+      this.subUtil = new SubUtil(this.alert, this.progress, this.newTopics, this);
+      this.subUtil.subForm = {
+        title: submission.title,
+        abs: submission.abs,
+        fileName: ''
+      };
+      this.subUtil.authors = this.authors.slice();
     },
     validate (field) {
       this.triggered[field] = true;
