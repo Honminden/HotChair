@@ -370,11 +370,6 @@ export default {
       this.getAuthors(submission);
       this.getSubTopics(submission);
       this.title = submission.title;
-      this.subUtil.subForm = {
-        title: submission.title,
-        abs: submission.abs,
-        fileName: ''
-      };
       this.getSrc(submission);
     },
     getAuthors (submission) {
@@ -396,7 +391,7 @@ export default {
         if(res && res.status === 200)
         {
           this.authors = res.data.authors;
-          this.newAuthors = this.authors.slice();
+          this.subUtil.authors = this.authors.slice();
         }
       });
     },
@@ -447,6 +442,11 @@ export default {
             this.newTopics[topic] = (this.topics.indexOf(topic) >= 0);
 
             this.subUtil = new SubUtil(this.alert, this.progress, this.newTopics, this);
+            this.subUtil.subForm = {
+              title: submission.title,
+              abs: submission.abs,
+              fileName: ''
+            };
           }
         }
       });
