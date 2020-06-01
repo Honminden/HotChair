@@ -33,7 +33,9 @@
                                 </a>
                               </div>
                             </td>
-                            <td><button class="btn btn-success" data-toggle="modal"
+                            <td>
+<!--                              preview-->
+                              <button class="btn btn-success rounded" data-toggle="modal"
                                       :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
@@ -52,6 +54,7 @@
                                 </div>
                               </div>
                             </div>
+<!--                            review-->
                             <div class="modal fade" :id="'review'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -66,7 +69,7 @@
                                     <div class="form-group">
                                     <div class="row">
                                       <div class="col">
-                                      <h6 >Reject</h6>
+                                      <h6>Reject</h6>
                                         <div class="custom-control custom-radio">
                                           <input type="radio" id="reject" name="rating" class="custom-control-input"
                                                       value="-2" v-model="rating">
@@ -178,6 +181,7 @@
                                 <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded-right text-light">Download</a>
                               </div>
                             </td>
+<!--                            preview-->
                             <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -216,8 +220,8 @@
   import InnerNav from './InnerNav'
   import Alert from './Message/Alert'
   import User from './User/User'
-  import LeftNav from "./LeftNav";
-  import Detail from "./Detail";
+  import LeftNav from './LeftNav';
+  import Detail from './Detail';
   export default {
     name: 'Review',
     data () {
@@ -229,8 +233,6 @@
         rating: '',
         confidence: '',
         text: '',
-        // for display
-        // src: 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf',
         src: ''
       }
 
@@ -353,5 +355,7 @@
   .abs{
     width: 400px;
   }
-
+  textarea{
+    resize: none;
+  }
 </style>

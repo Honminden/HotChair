@@ -36,13 +36,10 @@
           <div v-show="alert.isVisible" :class="alert.type">
             <i :class="alert.icon"></i>{{ alert.content }}
           </div>
-          <hr/>
-          <div class="row">
-            <small class="mt-6">
-              <h4><i class="fa fa-user-secret mr-2"></i>administrator account(test)</h4>
-              <p>Username: admin</p>
-              <p>Password: password</p>
-            </small>
+
+          <!--          admin信息-->
+          <div title="Username: admin Password: password">
+            <button class="btn btn-outline-primary rounded-pill"><i class="fa fa-user-secret mr-2"></i>admin(hover here)</button>
           </div>
 
         </form>

@@ -9,37 +9,51 @@
       <span class="col"></span>
     </div>
     <ul class="nav nav-tabs ml-4">
+<!--      会议列表-->
       <li class="nav-item">
         <router-link class="nav-link" to="list">
           <i class="fa fa-arrow-left mx-2"></i>List of Conferences
         </router-link>
       </li>
+<!--      会议详情-->
       <li class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('detail', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/detail') != -1 }]">
           Detail
         </router-link>
       </li>
+<!--      新投稿-->
       <li v-if="(parent.role !== '') && (parent.role !== 'chair') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('submission', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/submission') != -1 }]">
           New Submission
         </router-link>
       </li>
-      <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing') || 
+<!--      投稿页-->
+      <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing') ||
                 (parent.status === 'review over'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
           Author Page
         </router-link>
       </li>
+<!--      审核页-->
       <li v-if="((parent.role === 'chair') || (parent.role === 'PCmember')) && (parent.status === 'reviewing')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('review', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/review') != -1 }]">
          Review Paper
         </router-link>
       </li>
+<!--      邀请-->
       <li v-if="parent.role === 'chair'" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
           Invitation
         </router-link>
       </li>
+<!--      论坛-->
+      <li v-if="((parent.role === 'chair') || (parent.role === 'PCmember'))
+             && (parent.status === 'review over')" class="nav-item">
+        <router-link class="nav-link" :to="confDetail.getURI('forum', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/forum') != -1 }]">
+          Forum
+        </router-link>
+      </li>
+<!--      选择身份-->
       <li class="nav-item">
         <button class="nav-link btn btn-outline-primary" data-toggle="modal" data-target="#modal">
           <span v-if="parent.role === ''"><strong>Choose Your Role</strong></span>
@@ -47,6 +61,7 @@
         </button>
       </li>
     </ul>
+<!--    身份选择框-->
     <div class="modal fade" id="modal" tabindex="-1" >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
