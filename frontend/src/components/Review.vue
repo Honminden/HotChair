@@ -280,7 +280,6 @@
         });
       },
       postReview (distribution) {
-        console.log(distribution)
         this.$axios.post('/review',
           {
             conference: this.fullName,
