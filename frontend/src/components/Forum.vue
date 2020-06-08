@@ -5,15 +5,16 @@
     <LeftNav :parent="this"/>
     <div class="container col-sm-10" style="margin-top: 15px">
       <InnerNav :parent="this" class="mb-3"/>
-      <div v-for="distribution in distributions" :key="distribution.order" class="accordion">
+      <div id="accordion" class="accordion">
+      <div v-for="distribution in distributions" :key="distribution.order">
         <div class="card border-light">
           <button class="btn btn-light card-header text-left" data-toggle="collapse" 
-                    :data-target="'#discuss'+distribution.title.replace(/[ :]/g, '-').replace()" @click="toggle(distribution)">
+                    :data-target="'#discuss'+distribution.title.replace(/[ :]/g, '-')" @click="toggle(distribution)">
             {{ distribution.title }}
             <i class="fa fa-bars float-right"> </i>
 
           </button>
-          <div :id="'discuss'+distribution.title.replace(/[ :]/g, '-')" class="collapse">
+          <div :id="'discuss'+distribution.title.replace(/[ :]/g, '-')" class="collapse" data-parent="#accordion">
             <div class="card-body row">
               <div class="col-sm-8">
                 <div class="discuss">
@@ -44,7 +45,8 @@
               </div>
 
               <div class="col-sm-4 reply">
-                <h3><i class="fa fa-mail-forward mr-3"></i>Reply</h3>
+                <h3 v-if="floors.length <= 0"><i class="fa fa-plus-square mr-3"></i>New Thread</h3>
+                <h3 v-else><i class="fa fa-mail-forward mr-3"></i>Reply</h3>
 
                   <hr>
                 <div class="form-group">
@@ -52,10 +54,13 @@
                 </div>
 
                 <div class="row mr-3 float-right">
+                  <!--
                   <button class="btn btn-danger rounded-left" data-toggle="modal" data-target="#revise">Revise</button>
+                  -->
                   <button class="btn btn-info  rounded-right" @click.prevent="postDiscussion(distribution)">Reply</button>
 
                   <!--                  revise-->
+                  <!--
                   <div class="modal fade" id="revise" tabindex="-1">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content"  style="height: 90vh">
@@ -144,18 +149,20 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                          <button class="btn btn-primary">
+                          <button class="btn btn-primary" 
+                                    @click.prevent="putReview(distribution)">
                             Confirm
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
-
+                  -->
                 </div>
              </div>
             </div>
           </div>
+      </div>
       </div>
     </div>
   </div>
@@ -287,7 +294,40 @@
               }
             });
         }
-      },
+      }/*,
+      putReview (distribution) {
+        this.$axios.post('/review',
+          {
+            conference: this.fullName,
+            author: distribution.author,
+            title: distribution.title,
+            username: this.user.getUserInfo().username,
+            rating: this.rating,
+            confidence: this.confidence,
+            text: this.text
+          })
+          .catch(
+            error =>
+            {
+              if (error.response.status === 403)
+              {
+                this.alert.popDanger('review submission error');
+              }
+              else
+              {
+                this.alert.popDanger('submission error');
+              }
+            }
+          )
+          .then(res =>
+          {
+            if(res && res.status === 200)
+            {
+              this.alert.popSuccess('review submitted');
+              this.$router.go();
+            }
+          });
+      }*/,
       mounted () {
         document.title += ` - ${this.fullName}`;
         this.getDistributions();

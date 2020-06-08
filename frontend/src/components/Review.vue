@@ -17,7 +17,7 @@
                           <tr>
                             <th scope="col" class="title">Title</th>
                             <th scope="col" class="abs">Abstract</th>
-                            <th scope="col" style="width: 180px">File</th>
+                            <th scope="col" style="width: 50px">File</th>
                             <th scope="col"></th>
                           </tr>
                           <tr v-for="distribution in uhddDistributions" :key="distribution.title">
@@ -25,12 +25,20 @@
                             <td><p>{{ distribution.abs }}</p></td>
                             <td>
                               <div class="row">
-                              <button class="btn btn-info rounded-left" data-toggle="modal"
-                                      :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
-                                      @click="getSrc(distribution)">Preview</button>
-                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded-right">
+                                <button class="btn btn-info rounded" data-toggle="modal"
+                                        :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
+                                        @click="getSrc(distribution)">Preview</button>
+                                
+                              </div>
+                              <div class="row">
+                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded">
                                   Download
                                 </a>
+                              </div>
+                              <div class="row">
+                                <ReviewModal :buttionClass="'btn btn-success rounded'" :buttonName="'Review'" 
+                                          :distribution="distribution" :reviewUtil="reviewUtil" 
+                                          :func="'post'"></ReviewModal>
                               </div>
                             </td>
                             <td>
@@ -55,6 +63,7 @@
                               </div>
                             </div>
 <!--                            review-->
+<!--
                             <div class="modal fade" :id="'review'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -72,7 +81,7 @@
                                       <h6>Reject</h6>
                                         <div class="custom-control custom-radio">
                                           <input type="radio" id="reject" name="rating" class="custom-control-input"
-                                                      value="-2" v-model="rating">
+                                                      value="-2" v-model="reviewUtil.rating">
                                           <label class="custom-control-label" for="reject">-2</label>
                                         </div>
                                       </div>
@@ -80,7 +89,7 @@
                                       <h6>Weak Reject</h6>
                                         <div class="custom-control custom-radio">
                                           <input type="radio" id="weakReject" name="rating" class="custom-control-input"
-                                                      value="-1" v-model="rating">
+                                                      value="-1" v-model="reviewUtil.rating">
                                           <label class="custom-control-label" for="weakReject">-1</label>
                                         </div>
                                       </div>
@@ -88,7 +97,7 @@
                                       <h6>Weak Accept</h6>
                                         <div class="custom-control custom-radio">
                                           <input type="radio" id="weakAccept" name="rating" class="custom-control-input"
-                                                      value="1" v-model="rating">
+                                                      value="1" v-model="reviewUtil.rating">
                                           <label class="custom-control-label" for="weakAccept">1</label>
                                         </div>
                                       </div>
@@ -96,7 +105,7 @@
                                       <h6>Accept</h6>
                                         <div class="custom-control custom-radio">
                                           <input type="radio" id="accept" name="rating" class="custom-control-input"
-                                                      value="2" v-model="rating">
+                                                      value="2" v-model="reviewUtil.rating">
                                           <label class="custom-control-label" for="accept">2</label>
                                         </div>
                                       </div>
@@ -108,28 +117,28 @@
                                         <div class="col">
                                           <div class="custom-control custom-radio">
                                             <input type="radio" id="veryLow" name="confidence" class="custom-control-input"
-                                                      value="very low" v-model="confidence">
+                                                      value="very low" v-model="reviewUtil.confidence">
                                             <label class="custom-control-label" for="veryLow">very low</label>
                                           </div>
                                         </div>
                                         <div class="col">
                                           <div class="custom-control custom-radio">
                                             <input type="radio" id="low" name="confidence" class="custom-control-input"
-                                                      value="low" v-model="confidence">
+                                                      value="low" v-model="reviewUtil.confidence">
                                             <label class="custom-control-label" for="low">low</label>
                                           </div>
                                         </div>
                                           <div class="col">
                                             <div class="custom-control custom-radio">
                                             <input type="radio" id="high" name="confidence" class="custom-control-input"
-                                                      value="high" v-model="confidence">
+                                                      value="high" v-model="reviewUtil.confidence">
                                             <label class="custom-control-label" for="high">high</label>
                                           </div>
                                           </div>
                                         <div class="col">
                                           <div class="custom-control custom-radio">
                                             <input type="radio" id="veryHigh" name="confidence" class="custom-control-input"
-                                                      value="very high" v-model="confidence">
+                                                      value="very high" v-model="reviewUtil.confidence">
                                             <label class="custom-control-label" for="veryHigh">very high</label>
                                           </div>
                                         </div>
@@ -137,20 +146,21 @@
                                       <h3 class="mt-2">Remark</h3>
                                       <div class="form-group row col-sm-8">
                                         <textarea class="form-control" id="remark" rows="8" maxlength="800"
-                                                  placeholder="up tp 800 characters" v-model='text'></textarea>
+                                                  placeholder="up tp 800 characters" v-model='reviewUtil.text'></textarea>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <button class="btn btn-primary"
-                                              @click.prevent="postReview(distribution)">
+                                              @click.prevent="reviewUtil.postReview(distribution)">
                                       Confirm
                                     </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
+                            -->
                           </tr>
                           </tbody>
                         </table>
@@ -163,48 +173,82 @@
             </button>
             <div id="handled" class="collapse" data-parent="#accordion">
               <div class="card-body">
-                        <table class="table table-hover container col-sm-11">
-                          <tbody>
-                          <tr>
-                            <th scope="col" class="title">Title</th>
-                            <th scope="col" class="abs">Abstract</th>
-                            <th scope="col">File</th>
-                          </tr>
-                          <tr v-for="distribution in hddDistributions" :key="distribution.title">
-                            <td><h4>{{ distribution.title }}</h4></td>
-                            <td><p>{{ distribution.abs }}</p></td>
-                            <td>
-                              <div class="row">
-                              <button class="btn btn-info rounded-left" data-toggle="modal"
-                                      :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
-                                      @click="getSrc(distribution)">Preview</button>
-                                <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded-right text-light">Download</a>
-                              </div>
-                            </td>
+                <table class="table table-hover container col-sm-11">
+                  <tbody>
+                    <tr>
+                      <th scope="col" class="title">Title</th>
+                      <th scope="col" class="abs">Abstract</th>
+                      <th scope="col">File</th>
+                      <th scope="col" colspan="4">Result</th>
+                    </tr>
+                    <tr v-for="distribution in hddDistributions" :key="distribution.title">
+                      <td><h4>{{ distribution.title }}</h4></td>
+                      <td><p>{{ distribution.abs }}</p></td>
+                      <td>
+                        <div class="row">
+                          <button class="btn btn-info rounded" data-toggle="modal"
+                                    :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
+                                    @click="getSrc(distribution)">Preview</button>
+                        </div>
+                        <div class="row">
+                          <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded text-light">Download</a>
+                        </div>
+                        <div class="row">
+                          <ReviewModal :buttonClass="'btn btn-warning rounded'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil" 
+                                    :func="'put'"></ReviewModal>
+                        </div>
+                      </td>
+                      <td colspan="4">
+                        
+                          <table class="table table-hover container" style="table-layout: fixed">
+                            <thead>
+                            <tr>
+                              <th scope="col">Reviewer</th>
+                              <th scope="col">Rating</th>
+                              <th scope="col">Confidence</th>
+                              <th scope="col" width="200px">Remark</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(review, index) in reviewUtil.reviewsOf(distribution)" :key="index">
+                              <th scope="row">
+                                {{ index + 1 }}
+                                <span v-if="review.username === user.getUserInfo().username">(You)</span>
+                              </th>
+                              <td>{{ review.rating }}</td>
+                              <td>{{ review.confidence }}</td>
+                              <td>
+                                <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                      </td>
 <!--                            preview-->
-                            <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
-                              <div class="modal-dialog modal-lg">
-                                <div class="modal-content"  style="height: 90vh">
-                                  <div class="modal-header">
-                                    <h4 class="modal-title"><i class="fa fa-file-pdf-o mr-3"></i>Preview</h4>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                      <span>&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <a :href="src" :download="distribution.fileName">
-                                      <i class="fa fa-download mr-2"></i>Download
-                                    </a>
-                                    <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
-                                      pdf plugin not supported
-                                    </object>
-                                  </div>
-                                </div>
-                              </div>
+                      <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content"  style="height: 90vh">
+                            <div class="modal-header">
+                              <h4 class="modal-title"><i class="fa fa-file-pdf-o mr-3"></i>Preview</h4>
+                              <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                              </button>
                             </div>
-                          </tr>
-                          </tbody>
-                        </table>
+                            <div class="modal-body">
+                              <a :href="src" :download="distribution.fileName">
+                                <i class="fa fa-download mr-2"></i>Download
+                              </a>
+                              <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
+                                pdf plugin not supported
+                              </object>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -218,7 +262,9 @@
 <script>
   import Navbar from './Navbar'
   import InnerNav from './InnerNav'
+  import ReviewModal from './ReviewModal'
   import Alert from './Message/Alert'
+  import ReviewUtil from './Review/ReviewUtil'
   import User from './User/User'
   import LeftNav from './LeftNav';
   import Detail from './Detail';
@@ -228,6 +274,7 @@
       return {
         user: new User(),
         alert: new Alert(),
+        reviewUtil: new ReviewUtil(this),
         hddDistributions: [], // handled
         uhddDistributions: [], // unhandled
         rating: '',
@@ -243,7 +290,8 @@
         Detail,
         LeftNav,
         'Navbar': Navbar,
-        'InnerNav': InnerNav
+        'InnerNav': InnerNav,
+        'ReviewModal': ReviewModal
       },
     methods: {
       getDistributions () {
@@ -279,39 +327,6 @@
           }
         });
       },
-      postReview (distribution) {
-        this.$axios.post('/review',
-          {
-            conference: this.fullName,
-            author: distribution.author,
-            title: distribution.title,
-            username: this.user.getUserInfo().username,
-            rating: this.rating,
-            confidence: this.confidence,
-            text: this.text
-          })
-          .catch(
-            error =>
-            {
-              if (error.response.status === 403)
-              {
-                this.alert.popDanger('review submission error');
-              }
-              else
-              {
-                this.alert.popDanger('submission error');
-              }
-            }
-          )
-          .then(res =>
-          {
-            if(res && res.status === 200)
-            {
-              this.alert.popSuccess('review submitted');
-              this.$router.go();
-            }
-          });
-      },
       getSrc (distribution) {
         this.$axios.get('/file', {
           responseType: 'blob',
@@ -340,6 +355,7 @@
     mounted () {
       document.title += ` - ${this.fullName}`;
       this.getDistributions();
+      this.reviewUtil.getReviews();
     }
   }
 

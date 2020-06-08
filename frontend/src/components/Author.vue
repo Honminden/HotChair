@@ -61,7 +61,7 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(review, index) in reviewsOf(submission)" :key="index">
+                      <tr v-for="(review, index) in reviewUtil.reviewsOf(submission)" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ review.rating }}</td>
                         <td>{{ review.confidence }}</td>
@@ -325,6 +325,7 @@ import Alert from './Message/Alert'
 import Validation from './Form/Validation'
 import ValidUtil from './Form/ValidUtil'
 import SubUtil from './Submission/SubUtil'
+import ReviewUtil from './Review/ReviewUtil'
 import User from './User/User'
 import LeftNav from "./LeftNav";
 import Detail from "./Detail";
@@ -352,8 +353,8 @@ export default {
       topicAlert: new Alert(),
       validation: (new Validation).validateSubmission(emptyForm, []),
       subUtil: new SubUtil(null, null, null, this),
+      reviewUtil: new ReviewUtil(this),
       submissionList: [],
-      reviews: [],
       progress: {
         show: false,
         value: 0
@@ -517,41 +518,6 @@ export default {
         return (new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field);
       }
     },
-    getReviews () {
-      this.$axios.get('/review', {
-        params: {
-          conference: this.fullName,
-          author: this.user.getUserInfo().username
-        }
-      })
-      .catch(
-        error =>
-        {
-          this.alert.popDanger('get reviews error');
-        }
-      )
-      .then(res =>
-      {
-        if(res && res.status === 200)
-        {
-          this.reviews = res.data.submissions;
-        }
-      });
-    },
-    reviewsOf (submission) {
-      let reviews = [];
-      for (let idx in this.reviews)
-      {
-        let review = this.reviews[idx];
-        if ((submission.conference === review.conference) &&
-          (submission.author === review.author) &&
-          (submission.title === review.title))
-        {
-          reviews.push(review);
-        }
-      }
-      return reviews;
-    },
     getSrc (submission) {
       this.$axios.get('/file', {
         responseType: 'blob',
@@ -582,7 +548,7 @@ export default {
     document.title += ` - ${this.fullName}`;
     this.getSubmission();
     this.getConfTopics();
-    this.getReviews();
+    this.reviewUtil.getReviews();
   }
 }
 
