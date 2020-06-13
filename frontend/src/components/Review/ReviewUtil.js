@@ -5,6 +5,7 @@ export default class ReviewUtil
     constructor(conf)
     {
         this.reviews = [];
+        this.acceptances = [];
         this.conf = conf;
         this.rating = '';
         this.confidence = '';
@@ -150,5 +151,43 @@ export default class ReviewUtil
         }
 
         return review;
+    }
+
+    getAcceptances()
+    {
+        axios.get('/acceptance', {
+            params: {
+                conference: this.conf.fullName
+            }
+        })
+        .catch(
+            error =>
+            {
+                this.alert.popDanger('get acceptances error');
+            }
+        )
+        .then(res =>
+        {
+            if(res && res.status === 200)
+            {
+                this.acceptances = res.data.acceptances;
+            }
+        });
+    }
+
+    acceptanceOf(submission)
+    {
+        let ac = '';
+        for (let idx in this.acceptances)
+        {
+            let acceptance = this.acceptances[idx];
+            if ((submission.conference === acceptance.conference) &&
+                (submission.author === acceptance.author) &&
+                (submission.title === acceptance.title))
+            {
+                ac = acceptance.acceptance;
+            }
+        }
+        return ac;
     }
 }

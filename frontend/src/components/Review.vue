@@ -5,7 +5,8 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this" class="mb-3"/>
-        <span v-if="(uhddDistributions.length <= 0) && (status === 'reviewing')" class="badge badge-warning">
+        <span v-if="(uhddDistributions.length <= 0) && ((status === 'reviewing') || (status === 'review over'))" 
+                  class="badge badge-warning">
           You need to revise or confirm in Handled Paper Review.
         </span>
         <div class="accordion" id="accordion">
@@ -182,6 +183,7 @@
                       <th scope="col" class="title">Title</th>
                       <th scope="col" class="abs">Abstract</th>
                       <th scope="col">File</th>
+                      <th v-if="status === 'review over'">Rebuttal</th>
                       <th scope="col" colspan="4">Result</th>
                     </tr>
                     <tr v-for="distribution in hddDistributions" :key="distribution.title">
@@ -197,14 +199,26 @@
                           <a :href="src" :download="distribution.fileName" 
                                     class="btn btn-primary rounded text-light m-2">Download</a>
                         </div>
-                        <div class="row">
-                          <div v-if="reviewUtil.findMyReview(distribution).rating[0] === 'a'">
+                        <div v-if="canRevise(distribution)['discussion'] && 
+                                  canRevise(distribution)['acceptance']" class="row">
+                          <div v-if="((status === 'reviewing') && 
+                                    (reviewUtil.findMyReview(distribution).rating[0] === 'a')) || 
+                                    ((status === 'review over') && 
+                                    (reviewUtil.findMyReview(distribution).rating[0] === 'b'))">
                             <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil" 
                                       :func="'put'"></ReviewModal>
                             <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil" 
                                       :func="'no'"></ReviewModal>
                           </div>
                         </div>
+                        <div v-else-if="canRevise(distribution)['acceptance']" class="row">
+                          <span>Open a thread for this submission first.</span>
+                        </div>
+                      </td>
+                      <td v-if="status === 'review over'">
+                        <p>
+                          {{ rebuttalOf(distribution) }}
+                        </p>
                       </td>
                       <td colspan="4">
                         
@@ -285,6 +299,7 @@
         reviewUtil: new ReviewUtil(this),
         hddDistributions: [], // handled
         uhddDistributions: [], // unhandled
+        discussions: [],
         rating: '',
         confidence: '',
         text: '',
@@ -358,12 +373,84 @@
             this.src = URL.createObjectURL(blob);
           }
         });
+      },
+      getRebuttals () {
+        this.$axios.get('/rebuttal', {
+          params: {
+            conference: this.fullName
+          }
+        })
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.rebuttals = res.data.rebuttals;
+          }
+        });
+      },
+      rebuttalOf (submission) {
+        let rb = '';
+        for (let idx in this.rebuttals)
+        {
+          let rebuttal = this.rebuttals[idx];
+          if ((submission.conference === rebuttal.conference) &&
+            (submission.author === rebuttal.author) &&
+            (submission.title === rebuttal.title))
+          {
+            rb = rebuttal.text;
+          }
+        }
+        return rb;
+      },
+      getDiscussions () {
+        this.$axios.get('/discussion', {
+          params: {
+            username: this.user.getUserInfo().username,
+            conference: this.fullName
+          }
+        })
+        .catch(
+          error =>
+          {
+            this.alert.popDanger('fetch discussions error');
+          }
+        )
+        .then(res =>
+        {
+          if(res && res.status === 200)
+          {
+            this.discussions = res.data.discussions;
+          }
+        });
+      },
+      canRevise (submission) {
+        let discussions = [];
+        for (let idx in this.discussions)
+        {
+            let discussion = this.discussions[idx];
+            if ((submission.conference === discussion.conference) &&
+                (submission.author === discussion.author) &&
+                (submission.title === discussion.title))
+            {
+                discussions.push(discussion);
+            }
+        }
+        
+        let ac = this.reviewUtil.acceptanceOf(submission);
+        
+        return {discussion: (discussions.length > 0), acceptance: (ac === 'rejected')};
       }
     },
     mounted () {
       document.title += ` - ${this.fullName}`;
       this.getDistributions();
       this.reviewUtil.getReviews();
+      if ((this.status === 'review over') || (this.status === 'final'))
+      {
+        this.reviewUtil.getAcceptances();
+      }
+      this.getRebuttals();
+      this.getDiscussions();
     }
   }
 

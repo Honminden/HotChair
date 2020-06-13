@@ -20,12 +20,21 @@
                   <div v-if="status === 'review over'">
                     <h3 class="text-center"><i class="fa fa-files-o mr-3"></i>Review</h3>
                     <div class="col-sm-10 container">
+                      <div class="row">
+                        <h5>result: <span>{{ reviewUtil.acceptanceOf(submission) }}</span></h5>
+                      </div>
+                      <div v-if="reviewUtil.acceptanceOf(submission) === 'rejected'" class="row">
+                        <div v-if="rebuttalOf(submission) === ''">
+                          <button class="btn btn-danger rounded-pill mb-2"
+                            data-toggle="modal" :data-target="'#Rebuttal' + submission.title.replace(/[ :]/g, '-')">
+                          <i class="fa fa-share mr-1"></i>rebut</button>
+                        </div>
+                        <div v-else>
+                          <span>Rebuttal Submitted</span>
+                        </div>
+                      </div>
                       <div class="row ">
-                        <h5 class="col">result: <span>rejected</span></h5>
-                        <button class="btn btn-danger rounded-pill col-sm-2 mb-2"
-                           data-toggle="modal" data-target="#rebuttal">
-                        <i class="fa fa-share mr-1"></i>rebut</button>
-                        <div class="modal fade" id="rebuttal" tabindex="-1">
+                        <div class="modal fade" :id="'Rebuttal' + submission.title.replace(/[ :]/g, '-')" tabindex="-1">
                           <div class="modal-dialog modal-md">
                             <div class="modal-content"  style="height: 500px">
                               <div class="modal-header">
@@ -36,12 +45,12 @@
                               </div>
                               <div class="modal-body col-sm-11 container">
                                 <div class="form-group">
-                                  <textarea class="form-control" id="rebut" rows="15" v-model='text'></textarea>
+                                  <textarea class="form-control" id="rebut" rows="10" maxlength="800" v-model='newRebuttal'></textarea>
                                 </div>
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary" @click.prevent="postRebuttal(submission)">
                                   Confirm
                                 </button>
                               </div>
@@ -63,7 +72,7 @@
                       <tbody>
                       <tr v-for="(review, index) in reviewUtil.reviewsOf(submission)" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ review.rating }}</td>
+                        <td>{{ review.rating.substring(1) }}</td>
                         <td>{{ review.confidence }}</td>
                         <td>
                           <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>
@@ -364,7 +373,9 @@ export default {
       confTopics: [],
       topics: [],
       newTopics: {},
-      authors: []
+      authors: [],
+      rebuttals: [],
+      newRebuttal: ''
     }
 
   },
@@ -403,6 +414,7 @@ export default {
       this.loadInfo(submission);
       this.title = submission.title;
       this.getSrc(submission);
+      this.rebuttal = '';
     },
     loadInfo (submission) {
       let callbacks = [];
@@ -541,6 +553,55 @@ export default {
           this.src = URL.createObjectURL(blob);
         }
       });
+    },
+    postRebuttal (submission) {
+      this.$axios.post('/rebuttal', {
+          conference: this.fullName,
+          author: this.user.getUserInfo().username,
+          title: submission.title,
+          text: this.newRebuttal
+      })
+      .catch(
+        error =>
+        {
+          this.alert.popDanger('rebuttal submission error');
+        }
+      )
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.$router.go();
+        }
+      });
+    },
+    getRebuttals () {
+      this.$axios.get('/rebuttal', {
+        params: {
+          conference: this.fullName
+        }
+      })
+      .then(res =>
+      {
+        if(res && res.status === 200)
+        {
+          this.rebuttals = res.data.rebuttals;
+        }
+      });
+    },
+    rebuttalOf (submission) {
+      let rb = '';
+      for (let idx in this.rebuttals)
+      {
+        let rebuttal = this.rebuttals[idx];
+        if ((submission.conference === rebuttal.conference) &&
+          (submission.author === rebuttal.author) &&
+          (submission.title === rebuttal.title))
+        {
+          rb = rebuttal.text;
+        }
+      }
+      return rb;
     }
   },
 
@@ -549,6 +610,11 @@ export default {
     this.getSubmission();
     this.getConfTopics();
     this.reviewUtil.getReviews();
+    if ((this.status === 'review over') || (this.status === 'final'))
+    {
+      this.reviewUtil.getAcceptances();
+    }
+    this.getRebuttals();
   }
 }
 
