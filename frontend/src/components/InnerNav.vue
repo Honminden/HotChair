@@ -42,7 +42,7 @@
         </router-link>
       </li>
 <!--      邀请-->
-      <li v-if="parent.role === 'chair'" class="nav-item">
+      <li v-if="(parent.role === 'chair') && (parent.status === 'open')" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('invitation', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/invitation') != -1 }]">
           Invitation
         </router-link>
