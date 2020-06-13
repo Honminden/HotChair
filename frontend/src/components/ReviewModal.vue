@@ -11,7 +11,7 @@
               <span>&times;</span>
             </button>
           </div>
-          <div class="modal-body col-sm-11 container">
+          <div v-if="(func === 'post') || (func === 'put')" class="modal-body col-sm-11 container">
             <h3>Rating</h3>
             <div class="form-group">
             <div class="row">
@@ -88,6 +88,11 @@
               </div>
             </div>
           </div>
+          <div v-else-if="func === 'no'" class="modal-body">
+            <p>
+              Make no change to your review?
+            </p>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button v-if="func === 'post'" class="btn btn-primary"
@@ -99,7 +104,7 @@
               Confirm
             </button>
             <button v-if="func === 'no'" class="btn btn-primary"
-                      @click.prevent="reviewUtil.postReview(distribution)">
+                      @click.prevent="reviewUtil.confirmReview(distribution)">
               Confirm
             </button>
           </div>

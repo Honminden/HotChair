@@ -200,7 +200,7 @@ export default {
         }, error => {
           if (error.response.status === 403)
           {
-            this.alert.popDanger('Not allowed to release reviews. Maybe some PC Member has not reviewed some submissions.');
+            this.alert.popDanger('Not allowed to release reviews. Some reviews are not made or confirmed.');
           }
           else
           {

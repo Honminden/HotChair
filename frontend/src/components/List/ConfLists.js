@@ -75,7 +75,11 @@ export default class ConfLists
                 break;
             case ("review over"):
                 badge.class = "badge badge-primary";
-                badge.content = "review over";
+                badge.content = "first review release";
+                break;
+            case ("final"):
+                badge.class = "badge badge-primary";
+                badge.content = "second review release";
                 break;
             case ("open"):
             default:

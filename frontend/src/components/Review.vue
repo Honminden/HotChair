@@ -5,6 +5,9 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this" class="mb-3"/>
+        <span v-if="(uhddDistributions.length <= 0) && (status === 'reviewing')" class="badge badge-warning">
+          You need to revise or confirm in Handled Paper Review.
+        </span>
         <div class="accordion" id="accordion">
           <div class="card border-light">
             <button class="btn btn-light card-header text-left" data-toggle="collapse" data-target="#unhandled">
@@ -36,15 +39,15 @@
                                 </a>
                               </div>
                               <div class="row">
-                                <ReviewModal :buttionClass="'btn btn-success rounded'" :buttonName="'Review'" 
+                                <ReviewModal :buttonClass="'btn btn-success rounded'" :buttonName="'Review'" 
                                           :distribution="distribution" :reviewUtil="reviewUtil" 
                                           :func="'post'"></ReviewModal>
                               </div>
                             </td>
                             <td>
 <!--                              preview-->
-                              <button class="btn btn-success rounded" data-toggle="modal"
-                                      :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button></td>
+                              <!--<button class="btn btn-success rounded" data-toggle="modal"
+                                      :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button>--></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -186,16 +189,21 @@
                       <td><p>{{ distribution.abs }}</p></td>
                       <td>
                         <div class="row">
-                          <button class="btn btn-info rounded" data-toggle="modal"
+                          <button class="btn btn-info rounded m-2" data-toggle="modal"
                                     :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
                                     @click="getSrc(distribution)">Preview</button>
                         </div>
                         <div class="row">
-                          <a :href="src" :download="distribution.fileName" class="btn btn-primary rounded text-light">Download</a>
+                          <a :href="src" :download="distribution.fileName" 
+                                    class="btn btn-primary rounded text-light m-2">Download</a>
                         </div>
                         <div class="row">
-                          <ReviewModal :buttonClass="'btn btn-warning rounded'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil" 
-                                    :func="'put'"></ReviewModal>
+                          <div v-if="reviewUtil.findMyReview(distribution).rating[0] === 'a'">
+                            <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil" 
+                                      :func="'put'"></ReviewModal>
+                            <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil" 
+                                      :func="'no'"></ReviewModal>
+                          </div>
                         </div>
                       </td>
                       <td colspan="4">
@@ -215,7 +223,7 @@
                                 {{ index + 1 }}
                                 <span v-if="review.username === user.getUserInfo().username">(You)</span>
                               </th>
-                              <td>{{ review.rating }}</td>
+                              <td>{{ review.rating.substring(1) }}</td>
                               <td>{{ review.confidence }}</td>
                               <td>
                                 <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>

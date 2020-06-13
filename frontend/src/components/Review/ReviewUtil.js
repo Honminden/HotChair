@@ -49,13 +49,18 @@ export default class ReviewUtil
     }
 
     postReview (distribution) {
+        let rating = this.rating;
+        if (this.conf.status === 'reviewing')
+        {
+            rating = 'a' + this.rating;
+        }
         axios.post('/review',
             {
                 conference: this.conf.fullName,
                 author: distribution.author,
                 title: distribution.title,
                 username: this.conf.user.getUserInfo().username,
-                rating: this.rating,
+                rating: rating,
                 confidence: this.confidence,
                 text: this.text
             })
@@ -83,13 +88,22 @@ export default class ReviewUtil
     }
 
     putReview (distribution) {
+        let rating = this.rating;
+        if (this.conf.status === 'reviewing')
+        {
+            rating = 'b' + this.rating;
+        }
+        else if (this.conf.status === 'review over')
+        {
+            rating = 'c' + this.rating;
+        }
         axios.put('/review', 
             {
                 conference: this.conf.fullName,
                 author: distribution.author,
                 title: distribution.title,
                 username: this.conf.user.getUserInfo().username,
-                rating: this.rating,
+                rating: rating,
                 confidence: this.confidence,
                 text: this.text
             })
@@ -114,5 +128,27 @@ export default class ReviewUtil
                 this.conf.$router.go();
             }
         });
+    }
+
+    confirmReview (distribution) {
+        this.rating = '0';
+        this.confidence = '/';
+        this.text = '/';
+        this.putReview(distribution);
+    }
+
+    findMyReview(distribution)
+    {
+        let reviews = this.reviewsOf(distribution);
+        let review = {rating: 'x/'};
+        for (let i = 0; i < reviews.length; i++)
+        {
+            if (reviews[i].username === this.conf.user.getUserInfo().username)
+            {
+                review = reviews[i];
+            }
+        }
+
+        return review;
     }
 }

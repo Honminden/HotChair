@@ -29,13 +29,14 @@
       </li>
 <!--      投稿页-->
       <li v-if="(parent.role === 'author') && ((parent.status === 'open') || (parent.status === 'reviewing') ||
-                (parent.status === 'review over'))" class="nav-item">
+                (parent.status === 'review over') || (parent.status === 'final'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('author', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/author') != -1 }]">
           Author Page
         </router-link>
       </li>
 <!--      审核页-->
-      <li v-if="((parent.role === 'chair') || (parent.role === 'PCmember')) && ((parent.status === 'reviewing') || (parent.status === 'review over'))" class="nav-item">
+      <li v-if="((parent.role === 'chair') || (parent.role === 'PCmember')) && ((parent.status === 'reviewing') || 
+                (parent.status === 'review over') || (parent.status === 'final'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('review', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/review') != -1 }]">
          Review Paper
         </router-link>
@@ -48,7 +49,7 @@
       </li>
 <!--      论坛-->
       <li v-if="((parent.role === 'chair') || (parent.role === 'PCmember'))
-             && (parent.status === 'review over')" class="nav-item">
+             && ((parent.status === 'reviewing') || (parent.status === 'review over'))" class="nav-item">
         <router-link class="nav-link" :to="confDetail.getURI('forum', this.parent, parent.role)" :class="[{ 'active':href.indexOf('/forum') != -1 }]">
           Forum
         </router-link>
