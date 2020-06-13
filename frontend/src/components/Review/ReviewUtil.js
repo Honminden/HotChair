@@ -83,7 +83,9 @@ export default class ReviewUtil
             if(res && res.status === 200)
             {
                 this.conf.alert.popSuccess('review submitted');
-                this.conf.$router.go();
+                setTimeout(() => {
+                    this.conf.$router.go();
+                }, 1500);
             }
         });
     }
@@ -126,7 +128,9 @@ export default class ReviewUtil
             if(res && res.status === 200)
             {
                 this.conf.alert.popSuccess('review submitted');
-                this.conf.$router.go();
+                setTimeout(() => {
+                    this.conf.$router.go();
+                }, 1500);
             }
         });
     }

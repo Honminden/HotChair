@@ -199,8 +199,8 @@
                           <a :href="src" :download="distribution.fileName" 
                                     class="btn btn-primary rounded text-light m-2">Download</a>
                         </div>
-                        <div v-if="canRevise(distribution)['discussion'] && 
-                                  canRevise(distribution)['acceptance']" class="row">
+                        <div v-if="(status === 'reviewing') || (canRevise(distribution)['discussion'] && 
+                                  canRevise(distribution)['rebuttal'])" class="row">
                           <div v-if="((status === 'reviewing') && 
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'a')) || 
                                     ((status === 'review over') && 
@@ -211,7 +211,7 @@
                                       :func="'no'"></ReviewModal>
                           </div>
                         </div>
-                        <div v-else-if="canRevise(distribution)['acceptance']" class="row">
+                        <div v-else-if="canRevise(distribution)['rebuttal']" class="row">
                           <span>Open a thread for this submission first.</span>
                         </div>
                       </td>
@@ -436,9 +436,9 @@
             }
         }
         
-        let ac = this.reviewUtil.acceptanceOf(submission);
+        let rb = this.rebuttalOf(submission);
         
-        return {discussion: (discussions.length > 0), acceptance: (ac === 'rejected')};
+        return {discussion: (discussions.length > 0), rebuttal: (rb !== '')};
       }
     },
     mounted () {

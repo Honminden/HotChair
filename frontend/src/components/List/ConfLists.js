@@ -46,7 +46,7 @@ export default class ConfLists
     isPassed(status)
     {
         return ((status === "passed") || (status === "open") || (status === "reviewing") || 
-            (status === "review over"));
+            (status === "review over") || (status === "final"));
     }
 
     getBadge(status)
@@ -78,7 +78,7 @@ export default class ConfLists
                 badge.content = "first review release";
                 break;
             case ("final"):
-                badge.class = "badge badge-primary";
+                badge.class = "badge badge-dark";
                 badge.content = "second review release";
                 break;
             case ("open"):

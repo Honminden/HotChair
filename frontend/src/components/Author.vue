@@ -17,13 +17,13 @@
 
                 <div class="col-sm-8 thingsleft">
 <!--                  评审结果-->
-                  <div v-if="status === 'review over'">
+                  <div v-if="(status === 'review over') || (status === 'final')">
                     <h3 class="text-center"><i class="fa fa-files-o mr-3"></i>Review</h3>
                     <div class="col-sm-10 container">
                       <div class="row">
                         <h5>result: <span>{{ reviewUtil.acceptanceOf(submission) }}</span></h5>
                       </div>
-                      <div v-if="reviewUtil.acceptanceOf(submission) === 'rejected'" class="row">
+                      <div v-if="(status === 'review over') && (reviewUtil.acceptanceOf(submission) === 'rejected')" class="row">
                         <div v-if="rebuttalOf(submission) === ''">
                           <button class="btn btn-danger rounded-pill mb-2"
                             data-toggle="modal" :data-target="'#Rebuttal' + submission.title.replace(/[ :]/g, '-')">

@@ -55,7 +55,12 @@
             </div>
             <div class="row mt-5" v-if="(role === 'chair') && (status === 'reviewing')">
               <span class="col"></span>
-              <button class="btn btn-outline-primary col-sm-5" @click="releaseReview()">Release Reviews</button>
+              <button class="btn btn-outline-primary col-sm-5" @click="releaseReview()">Release Reviews(1st)</button>
+              <span class="col"></span>
+            </div>
+            <div class="row mt-5" v-if="(role === 'chair') && (status === 'review over')">
+              <span class="col"></span>
+              <button class="btn btn-outline-dark col-sm-5" @click="releaseFinal()">Release Reviews(2nd)</button>
               <span class="col"></span>
             </div>
           </div>
@@ -196,6 +201,20 @@ export default {
     },
     releaseReview () {
       this.putStatus('review over', res => {
+          this.alert.popSuccess('release reviews success');
+        }, error => {
+          if (error.response.status === 403)
+          {
+            this.alert.popDanger('Not allowed to release reviews. Some reviews are not made or confirmed.');
+          }
+          else
+          {
+            this.alert.popDanger('server error');
+          }
+        });
+    },
+    releaseFinal () {
+      this.putStatus('final', res => {
           this.alert.popSuccess('release reviews success');
         }, error => {
           if (error.response.status === 403)
