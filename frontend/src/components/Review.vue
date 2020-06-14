@@ -188,9 +188,6 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <a :href="src" :download="distribution.fileName">
-                                      <i class="fa fa-download mr-2"></i>Download
-                                    </a>
                                     <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
                                       pdf plugin not supported
                                     </object>
