@@ -203,7 +203,7 @@
                         </div>
                         <button class="btn btn-danger rounded m-2" data-toggle="modal"
                                 :data-target="'#result'+distribution.title.replace(/[ :]/g, '-')">Results</button>
-                        <div class="modal fade"  style="overflow-x: auto" :id="'result'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
+                        <div class="modal fade"   :id="'result'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                           <div class="modal-dialog modal-lg">
                             <div class="modal-content"  style="height: 90vh">
                               <div class="modal-header">
@@ -212,7 +212,7 @@
                                   <span>&times;</span>
                                 </button>
                               </div>
-                              <div class="modal-body">
+                              <div class="modal-body" style="overflow-y: scroll">
                                 <table class="table table-hover container" style="table-layout: fixed">
                                   <thead>
                                   <tr>
