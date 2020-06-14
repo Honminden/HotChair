@@ -205,9 +205,10 @@
           for (let index in Object.keys(this.discussions))
           {
             let discussion = this.discussions[index];
-            if ((discussion.conference === distribution.conference) && 
+            if ((this.role === 'chair') || 
+              ((discussion.conference === distribution.conference) && 
               (discussion.author === distribution.author) && 
-              (discussion.title === distribution.title))
+              (discussion.title === distribution.title)))
             {
               let floor = {
                 username: discussion.username,
@@ -220,6 +221,29 @@
           floors.sort((a, b) => (parseInt(a.order) - parseInt(b.order)));
           this.floors = floors;
           this.reply = '';
+        },
+        getSubmissions () {
+          // chair can see all submissions in forum
+          this.$axios.get('/submission', {
+            params: {
+              username: this.user.getUserInfo().username,
+              author: '*',
+              conference: this.fullName
+            }
+          })
+          .catch(
+            error =>
+            {
+              this.alert.popDanger('fetch distributions error');
+            }
+          )
+          .then(res =>
+          {
+            if(res && res.status === 200)
+            {
+              this.distributions = res.data.submissionList;
+            }
+          });
         },
         getDistributions () {
           this.$axios.get('/distribution', {
@@ -330,7 +354,14 @@
       }*/,
       mounted () {
         document.title += ` - ${this.fullName}`;
-        this.getDistributions();
+        if (this.role === 'chair')
+        {
+          this.getSubmissions();
+        }
+        else
+        {
+          this.getDistributions();
+        }
         this.getDiscussions();
       }
     }

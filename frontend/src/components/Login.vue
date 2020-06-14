@@ -39,7 +39,9 @@
 
           <!--          admin信息-->
           <div title="Username: admin Password: password">
-            <button class="btn btn-outline-primary rounded-pill"><i class="fa fa-user-secret mr-2"></i>admin(hover here)</button>
+            <button class="btn btn-outline-primary rounded-pill" @click.prevent="">
+              <i class="fa fa-user-secret mr-2"></i>admin(hover here)
+            </button>
           </div>
 
         </form>
