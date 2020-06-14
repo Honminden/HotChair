@@ -173,7 +173,7 @@
                   </button>
                 </div>
 
-                <div class="modal-body" style="overflow-y: scroll">
+                <div class="modal-body" style="overflow-y: auto">
                   <form class="col-sm-8 container">
                     <h3 class="text-center"><i class="fa fa-file-pdf-o mr-3"></i>File</h3>
                     <div class="form-group row">
@@ -240,15 +240,15 @@
                           <td>{{ author.region }}</td>
                           <td>{{ author.email }}</td>
                           <td>
-                            <span class="text-primary" style="cursor: pointer" title="move up" 
+                            <span class="text-primary" style="cursor: pointer" title="move up"
                                       @click.prevent="subUtil.moveUpAuthor(author)">
                               <i class="fa fa-arrow-circle-up"></i>
                             </span>
-                            <span class="text-primary" style="cursor: pointer" title="move down" 
+                            <span class="text-primary" style="cursor: pointer" title="move down"
                                       @click.prevent="subUtil.moveDownAuthor(author)">
                               <i class="fa fa-arrow-circle-down"></i>
                             </span>
-                            <span class="text-danger" style="cursor: pointer" title="remove" 
+                            <span class="text-danger" style="cursor: pointer" title="remove"
                                       @click.prevent="subUtil.removeAuthor(author)">
                               <i class="fa fa-close"></i>
                             </span>
@@ -261,13 +261,13 @@
                           <div class="form-group col-sm-6">
                             <label for="name" class="col-form-label">Name</label>
                             <input id="name" class="form-control"
-                                   type="text" auto-complete="off" placeholder="username" 
+                                   type="text" auto-complete="off" placeholder="username"
                                    v-model="subUtil.newAuthor.fullName">
                           </div>
                           <div class="form-group col-sm-6">
                             <label for="organization" class="col-form-label">Organization</label>
                             <input id="organization" class="form-control"
-                                   type="organization" auto-complete="off" placeholder="organization" 
+                                   type="organization" auto-complete="off" placeholder="organization"
                                    v-model="subUtil.newAuthor.organization">
                           </div>
                         </div>
@@ -275,13 +275,13 @@
                           <div class="form-group col-sm-6">
                             <label for="region" class="col-form-label">Region</label>
                             <input type="text" id="region" class="form-control"
-                                   auto-complete="off" placeholder="region/country" 
+                                   auto-complete="off" placeholder="region/country"
                                    v-model="subUtil.newAuthor.region">
                           </div>
                           <div class="form-group col-sm-6">
                             <label for="email" class="col-form-label">Email</label>
                             <input id="email" class="form-control"
-                                   type="email" auto-complete="off" placeholder="email" 
+                                   type="email" auto-complete="off" placeholder="email"
                                    v-model="subUtil.newAuthor.email">
                           </div>
                         </div>
@@ -444,7 +444,7 @@ export default {
         {
           this.authors = res.data.authors;
           this.subUtil.authors = this.authors.slice();
-          
+
           let callback = callbacks.pop();
           callback(submission, callbacks);
         }
@@ -496,7 +496,7 @@ export default {
             let topic = this.confTopics[i];
             this.newTopics[topic] = (this.topics.indexOf(topic) >= 0);
           }
-          
+
           let callback = callbacks.pop();
           callback(submission, callbacks);
         }
@@ -516,13 +516,13 @@ export default {
       this.validation = (new Validation()).validateSubmission(this.subUtil.subForm, this.subUtil.authors);
       if (field === undefined)
       {
-        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) & 
-          (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert) & 
+        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) &
+          (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert) &
           (new ValidUtil()).validateFile(this.subUtil.file, this.validAlerts));
       }
       else if (field === 'topics')
       {
-        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) & 
+        return ((new ValidUtil()).validateField(this.triggered, this.validation, this.validAlerts, field) &
           (new ValidUtil()).validateTopics(this.newTopics, this.topicAlert))
       }
       else

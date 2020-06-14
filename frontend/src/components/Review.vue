@@ -5,7 +5,7 @@
       <LeftNav :parent="this"/>
       <div class="container col-sm-10" style="margin-top: 15px">
         <InnerNav :parent="this" class="mb-3"/>
-        <span v-if="(uhddDistributions.length <= 0) && ((status === 'reviewing') || (status === 'review over'))" 
+        <span v-if="(uhddDistributions.length <= 0) && ((status === 'reviewing') || (status === 'review over'))"
                   class="badge badge-warning">
           You need to revise or confirm in Handled Paper Review.
         </span>
@@ -21,34 +21,23 @@
                           <tr>
                             <th scope="col" class="title">Title</th>
                             <th scope="col" class="abs">Abstract</th>
-                            <th scope="col" style="width: 50px">File</th>
-                            <th scope="col"></th>
+                            <th scope="col">Actions</th>
                           </tr>
                           <tr v-for="distribution in uhddDistributions" :key="distribution.title">
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
                             <td>
-                              <div class="row">
-                                <button class="btn btn-info rounded" data-toggle="modal"
+                                <button class="btn btn-info rounded  m-2" data-toggle="modal"
                                         :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
                                         @click="getSrc(distribution)">Preview</button>
-                                
-                              </div>
-                              <div class="row">
-                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded">
+
+                                <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded  m-2">
                                   Download
                                 </a>
-                              </div>
-                              <div class="row">
-                                <ReviewModal :buttonClass="'btn btn-success rounded'" :buttonName="'Review'" 
-                                          :distribution="distribution" :reviewUtil="reviewUtil" 
-                                          :func="'post'"></ReviewModal>
-                              </div>
+                                <ReviewModal :buttonClass="'btn btn-success rounded  m-2'" :buttonName="'Review'"
+                                             :distribution="distribution" :reviewUtil="reviewUtil"
+                                             :func="'post'"></ReviewModal>
                             </td>
-                            <td>
-<!--                              preview-->
-                              <!--<button class="btn btn-success rounded" data-toggle="modal"
-                                      :data-target="'#review'+distribution.title.replace(/[ :]/g, '-')">Review</button>--></td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content"  style="height: 90vh">
@@ -182,37 +171,74 @@
                     <tr>
                       <th scope="col" class="title">Title</th>
                       <th scope="col" class="abs">Abstract</th>
-                      <th scope="col">File</th>
-                      <th v-if="status === 'review over'">Rebuttal</th>
-                      <th scope="col" colspan="4">Result</th>
+                      <th scope="col">Actions</th>
+<!--                      <th v-if="status === 'review over'">Rebuttal</th>-->
+                      <th>Rebuttal</th>
                     </tr>
                     <tr v-for="distribution in hddDistributions" :key="distribution.title">
                       <td><h4>{{ distribution.title }}</h4></td>
                       <td><p>{{ distribution.abs }}</p></td>
                       <td>
-                        <div class="row">
                           <button class="btn btn-info rounded m-2" data-toggle="modal"
                                     :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
                                     @click="getSrc(distribution)">Preview</button>
-                        </div>
-                        <div class="row">
-                          <a :href="src" :download="distribution.fileName" 
+                          <a :href="src" :download="distribution.fileName"
                                     class="btn btn-primary rounded text-light m-2">Download</a>
-                        </div>
-                        <div v-if="(status === 'reviewing') || (canRevise(distribution)['discussion'] && 
-                                  canRevise(distribution)['rebuttal'])" class="row">
-                          <div v-if="((status === 'reviewing') && 
-                                    (reviewUtil.findMyReview(distribution).rating[0] === 'a')) || 
-                                    ((status === 'review over') && 
+                        <div v-if="(status === 'reviewing') || (canRevise(distribution)['discussion'] &&
+                                  canRevise(distribution)['rebuttal'])">
+                          <div v-if="((status === 'reviewing') &&
+                                    (reviewUtil.findMyReview(distribution).rating[0] === 'a')) ||
+                                    ((status === 'review over') &&
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'b'))">
-                            <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil" 
+                            <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'put'"></ReviewModal>
-                            <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil" 
+                            <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'no'"></ReviewModal>
                           </div>
+
                         </div>
+
                         <div v-else-if="canRevise(distribution)['rebuttal']" class="row">
                           <span>Open a thread for this submission first.</span>
+                        </div>
+                        <button class="btn btn-danger rounded m-2" data-toggle="modal"
+                                :data-target="'#result'+distribution.title.replace(/[ :]/g, '-')">Results</button>
+                        <div class="modal fade"   :id="'result'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content"  style="height: 90vh">
+                              <div class="modal-header">
+                                <h4 class="modal-title"><i class="fa fa-file-pdf-o mr-3"></i>Preview</h4>
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <span>&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body" style="overflow-y: scroll">
+                                <table class="table table-hover container" style="table-layout: fixed">
+                                  <thead>
+                                  <tr>
+                                    <th scope="col">Reviewer</th>
+                                    <th scope="col">Rating</th>
+                                    <th scope="col">Confidence</th>
+                                    <th scope="col" width="200px">Remark</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr v-for="(review, index) in reviewUtil.reviewsOf(distribution)" :key="index">
+                                    <th scope="row">
+                                      {{ index + 1 }}
+                                      <span v-if="review.username === user.getUserInfo().username">(You)</span>
+                                    </th>
+                                    <td>{{ review.rating.substring(1) }}</td>
+                                    <td>{{ review.confidence }}</td>
+                                    <td>
+                                      <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>
+                                    </td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </td>
                       <td v-if="status === 'review over'">
@@ -220,32 +246,7 @@
                           {{ rebuttalOf(distribution) }}
                         </p>
                       </td>
-                      <td colspan="4">
-                        
-                          <table class="table table-hover container" style="table-layout: fixed">
-                            <thead>
-                            <tr>
-                              <th scope="col">Reviewer</th>
-                              <th scope="col">Rating</th>
-                              <th scope="col">Confidence</th>
-                              <th scope="col" width="200px">Remark</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(review, index) in reviewUtil.reviewsOf(distribution)" :key="index">
-                              <th scope="row">
-                                {{ index + 1 }}
-                                <span v-if="review.username === user.getUserInfo().username">(You)</span>
-                              </th>
-                              <td>{{ review.rating.substring(1) }}</td>
-                              <td>{{ review.confidence }}</td>
-                              <td>
-                                <textarea class="form-control" rows="6" v-model="review.text" disabled></textarea>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
-                      </td>
+
 <!--                            preview-->
                       <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                         <div class="modal-dialog modal-lg">
@@ -257,9 +258,6 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <a :href="src" :download="distribution.fileName">
-                                <i class="fa fa-download mr-2"></i>Download
-                              </a>
                               <object :data="src" type="application/pdf" style="width: 100%; height: 100%">
                                 pdf plugin not supported
                               </object>
@@ -435,9 +433,9 @@
                 discussions.push(discussion);
             }
         }
-        
+
         let rb = this.rebuttalOf(submission);
-        
+
         return {discussion: (discussions.length > 0), rebuttal: (rb !== '')};
       }
     },
