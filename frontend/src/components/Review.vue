@@ -27,22 +27,16 @@
                             <td><h4>{{ distribution.title }}</h4></td>
                             <td><p>{{ distribution.abs }}</p></td>
                             <td>
-                              <div class="row">
                                 <button class="btn btn-info rounded  m-2" data-toggle="modal"
                                         :data-target="'#uhddpreview'+distribution.title.replace(/[ :]/g, '-').replace()"
                                         @click="getSrc(distribution)">Preview</button>
 
-                              </div>
-                              <div class="row">
                                 <a :href="src" :download="distribution.fileName"  class="btn btn-primary text-light rounded  m-2">
                                   Download
                                 </a>
-                              </div>
-                              <div class="row">
                                 <ReviewModal :buttonClass="'btn btn-success rounded  m-2'" :buttonName="'Review'"
                                              :distribution="distribution" :reviewUtil="reviewUtil"
                                              :func="'post'"></ReviewModal>
-                              </div>
                             </td>
                             <div class="modal fade" :id="'uhddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                               <div class="modal-dialog modal-lg">
@@ -191,22 +185,19 @@
                           <a :href="src" :download="distribution.fileName"
                                     class="btn btn-primary rounded text-light m-2">Download</a>
                         <div v-if="(status === 'reviewing') || (canRevise(distribution)['discussion'] &&
-                                  canRevise(distribution)['rebuttal'])" class="row">
+                                  canRevise(distribution)['rebuttal'])">
                           <div v-if="((status === 'reviewing') &&
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'a')) ||
                                     ((status === 'review over') &&
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'b'))">
-                            <div class="row">
                             <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'put'"></ReviewModal>
-                            </div>
-                            <div class="row">
                             <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'no'"></ReviewModal>
-                            </div>
                           </div>
 
                         </div>
+
                         <div v-else-if="canRevise(distribution)['rebuttal']" class="row">
                           <span>Open a thread for this submission first.</span>
                         </div>
