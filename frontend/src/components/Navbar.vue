@@ -106,10 +106,13 @@ export default {
       .catch(
         error =>
         {
-          console.log("token expired or invalid");
-          setTimeout(() => {
-            this.logout();
-          }, 1500);
+          if (this.$router.currentRoute.name !== 'Home')
+          {
+            console.log("token expired or invalid");
+            setTimeout(() => {
+              this.logout();
+            }, 1500);
+          }
         }
       );
     }

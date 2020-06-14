@@ -39,7 +39,7 @@ export const router = new Router({
       component: Home,
       meta: {
         title: "Home",
-        requireAuth: true // 需要登录权限
+        //requireAuth: true // 需要登录权限
       }
     },
     {
