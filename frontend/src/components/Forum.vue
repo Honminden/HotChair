@@ -8,7 +8,7 @@
       <div id="accordion" class="accordion">
       <div v-for="distribution in distributions" :key="distribution.order">
         <div class="card border-light">
-          <button class="btn btn-light card-header text-left" data-toggle="collapse" 
+          <button class="btn btn-light card-header text-left" data-toggle="collapse"
                     :data-target="'#discuss'+distribution.title.replace(/[ :]/g, '-')" @click="toggle(distribution)">
             {{ distribution.title }}
             <i class="fa fa-bars float-right"> </i>
@@ -57,7 +57,7 @@
                   <!--
                   <button class="btn btn-danger rounded-left" data-toggle="modal" data-target="#revise">Revise</button>
                   -->
-                  <button class="btn btn-info  rounded-right" @click.prevent="postDiscussion(distribution)">Reply</button>
+                  <button class="btn btn-info  rounded" @click.prevent="postDiscussion(distribution)">Reply</button>
 
                   <!--                  revise-->
                   <!--
@@ -149,7 +149,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                          <button class="btn btn-primary" 
+                          <button class="btn btn-primary"
                                     @click.prevent="putReview(distribution)">
                             Confirm
                           </button>
@@ -205,8 +205,8 @@
           for (let index in Object.keys(this.discussions))
           {
             let discussion = this.discussions[index];
-            if ((discussion.conference === distribution.conference) && 
-              (discussion.author === distribution.author) && 
+            if ((discussion.conference === distribution.conference) &&
+              (discussion.author === distribution.author) &&
               (discussion.title === distribution.title))
             {
               let floor = {
