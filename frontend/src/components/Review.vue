@@ -199,7 +199,7 @@
                         </div>
 
                         <div v-else-if="canRevise(distribution)['rebuttal']" class="row">
-                          <span>Open a thread for this submission first.</span>
+                          <h5>Open a thread for this submission in "Forum" first.</h5>
                         </div>
                         <button class="btn btn-danger rounded m-2" data-toggle="modal"
                                 :data-target="'#result'+distribution.title.replace(/[ :]/g, '-')">Results</button>
