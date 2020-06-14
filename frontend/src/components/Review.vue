@@ -196,10 +196,14 @@
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'a')) ||
                                     ((status === 'review over') &&
                                     (reviewUtil.findMyReview(distribution).rating[0] === 'b'))">
+                            <div class="row">
                             <ReviewModal :buttonClass="'btn btn-warning rounded m-2'" :buttonName="'Revise'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'put'"></ReviewModal>
+                            </div>
+                            <div class="row">
                             <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'no'"></ReviewModal>
+                            </div>
                           </div>
 
                         </div>
