@@ -178,22 +178,18 @@
                       <th scope="col" class="title">Title</th>
                       <th scope="col" class="abs">Abstract</th>
                       <th scope="col">Actions</th>
-                      <th v-if="status === 'review over'">Rebuttal</th>
-                      <th scope="col"></th>
+<!--                      <th v-if="status === 'review over'">Rebuttal</th>-->
+                      <th>Rebuttal</th>
                     </tr>
                     <tr v-for="distribution in hddDistributions" :key="distribution.title">
                       <td><h4>{{ distribution.title }}</h4></td>
                       <td><p>{{ distribution.abs }}</p></td>
                       <td>
-                        <div class="row">
                           <button class="btn btn-info rounded m-2" data-toggle="modal"
                                     :data-target="'#hddpreview'+distribution.title.replace(/[ :]/g, '-')"
                                     @click="getSrc(distribution)">Preview</button>
-                        </div>
-                        <div class="row">
                           <a :href="src" :download="distribution.fileName"
                                     class="btn btn-primary rounded text-light m-2">Download</a>
-                        </div>
                         <div v-if="(status === 'reviewing') || (canRevise(distribution)['discussion'] &&
                                   canRevise(distribution)['rebuttal'])" class="row">
                           <div v-if="((status === 'reviewing') &&
@@ -205,18 +201,11 @@
                             <ReviewModal :buttonClass="'btn btn-success rounded m-2'" :buttonName="'Confirm'" :distribution="distribution" :reviewUtil="reviewUtil"
                                       :func="'no'"></ReviewModal>
                           </div>
+
                         </div>
                         <div v-else-if="canRevise(distribution)['rebuttal']" class="row">
                           <span>Open a thread for this submission first.</span>
                         </div>
-                      </td>
-                      <td v-if="status === 'review over'">
-                        <p>
-                          {{ rebuttalOf(distribution) }}
-                        </p>
-                      </td>
-<!--                      result-->
-                      <td>
                         <button class="btn btn-danger rounded m-2" data-toggle="modal"
                                 :data-target="'#result'+distribution.title.replace(/[ :]/g, '-')">Results</button>
                         <div class="modal fade" :id="'result'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
@@ -257,6 +246,12 @@
                           </div>
                         </div>
                       </td>
+                      <td v-if="status === 'review over'">
+                        <p>
+                          {{ rebuttalOf(distribution) }}
+                        </p>
+                      </td>
+
 <!--                            preview-->
                       <div class="modal fade" :id="'hddpreview'+distribution.title.replace(/[ :]/g, '-')" tabindex="-1">
                         <div class="modal-dialog modal-lg">
